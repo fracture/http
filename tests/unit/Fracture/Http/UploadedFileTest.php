@@ -80,7 +80,7 @@
             $params = [
                 'name'      => 'simple.png',
                 'type'      => 'image/png',
-                'tmp_name'  => FIXTURE_PATH . '/files/simple.png',
+                'tmp_name'  => FIXTURE_PATH . '/file-simple.png',
                 'error'     => UPLOAD_ERR_OK,
                 'size'      => 74,
             ];
