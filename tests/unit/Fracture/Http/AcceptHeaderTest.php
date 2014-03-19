@@ -122,7 +122,7 @@
         /**
          * @dataProvider provide_Types_for_Computation
          * @covers Fracture\Http\AcceptHeader::getPreferred
-         * @covers Fracture\Http\AcceptHeader::getParsedList
+         * @covers Fracture\Http\AcceptHeader::extractData
          * @covers Fracture\Http\AcceptHeader::obtainEntryFromList
          * @covers Fracture\Http\AcceptHeader::isMatch
          * @covers Fracture\Http\AcceptHeader::replaceStars

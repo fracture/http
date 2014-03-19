@@ -27,11 +27,11 @@
 
             if ( strlen( $this->headerValue ) > 0 )
             {
-                $this->list = $this->getParsedList( $this->headerValue );
+                $this->list = $this->extractData( $this->headerValue );
             }
         }
 
-        public function getParsedList( $header )
+        public function extractData( $header )
         {
             $elements = preg_split( '#,\s?#', $header, -1, PREG_SPLIT_NO_EMPTY );
             $elements = $this->obtainGroupedElements( $elements );
@@ -133,7 +133,7 @@
 
         public function getPreferred( $options )
         {
-            $options = $this->getParsedList( $options );
+            $options = $this->extractData( $options );
 
             foreach ( $this->list as $item )
             {

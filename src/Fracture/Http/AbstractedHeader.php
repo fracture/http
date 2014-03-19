@@ -6,7 +6,7 @@
     {
 
         public function setAlternativeValue( $headerValue );
-        public function getParsedList( $header );
+        public function extractData( $header );
         public function prepare();
 
     }
