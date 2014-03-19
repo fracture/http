@@ -6,7 +6,7 @@
             [
                 'name'      => 'simple.png',
                 'type'      => 'image/png',
-                'tmp_name'  => FIXTURE_PATH . '/simple.png',
+                'tmp_name'  => FIXTURE_PATH . '/file-simple.png',
                 'error'     => UPLOAD_ERR_OK,
                 'size'      => 74,
             ],
@@ -17,7 +17,7 @@
             [
                 'name'      => 'text.png',
                 'type'      => 'image/png',
-                'tmp_name'  => FIXTURE_PATH .  '/text.png',
+                'tmp_name'  => FIXTURE_PATH . '/file-text.png',
                 'error'     => UPLOAD_ERR_OK,
                 'size'      => 10,
             ],
@@ -28,7 +28,7 @@
             [
                 'name'      => 'no-extension',
                 'type'      => 'application/octet-stream',
-                'tmp_name'  => FIXTURE_PATH . '/tempname',
+                'tmp_name'  => FIXTURE_PATH . '/file-tempname',
                 'error'     => UPLOAD_ERR_OK,
                 'size'      => 75,
             ],
