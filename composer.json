@@ -1,0 +1,50 @@
+{
+    "name": "fracture/http",
+    "type": "library",
+    "homepage": "https://github.com/fracture/http",
+    "description": "HTTP abstraction library from Fracture PHP framework for use with composer",
+    "license": "BSD",
+
+    "authors": [
+        {
+        "name": "Mārtiņš Tereško",
+        "email": "martins.teresko@gmail.com",
+        "role": "Creator / Lead Developer"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.4.0"
+    },
+
+    "autoload": {
+        "psr-4": { "": "src/" }
+    },
+
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "sebastianbergmann/phpcov",
+                "version": "1.1.0",
+                "dist": {
+                    "url": "https://github.com/sebastianbergmann/phpcov/archive/1.1.0.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/sebastianbergmann/phpcov.git",
+                    "type": "git",
+                    "reference": "1.1.0"
+                },
+                "bin": [
+                    "phpcov.php"
+                ]
+            }
+        }
+    ],
+    "require-dev": {
+        "satooshi/php-coveralls": "dev-master",
+        "sebastianbergmann/phpcov": "1.1.0"
+    }
+
+}
