@@ -5,14 +5,14 @@
             'alpha' => [
                 'name'      => 'simple.png',
                 'type'      => 'image/png',
-                'tmp_name'  => FIXTURE_PATH . '/files/simple.png',
+                'tmp_name'  => FIXTURE_PATH . '/simple.png',
                 'error'     => 0,
                 'size'      => 74,
             ],
             'beta' => [
                 'name'      => 'no-extension',
                 'type'      => 'application/octet-stream'
-                'tmp_name'  => FIXTURE_PATH . '/files/tempname',          
+                'tmp_name'  => FIXTURE_PATH . '/tempname',
                 'error'     => 0,
                 'size'      => 75,
             ],
@@ -53,7 +53,7 @@
             'gamma' => [
                 'name'      => 'simple.png',
                 'type'      => 'image/png',
-                'tmp_name'  => FIXTURE_PATH . '/files/simple.png',          
+                'tmp_name'  => FIXTURE_PATH . '/simple.png',
                 'error'     => 0,
                 'size'      => 75,
             ],
@@ -63,7 +63,7 @@
             'alpha' => [
                 'name'      => ['text.png'],
                 'type'      => ['image/png'],
-                'tmp_name'  => [FIXTURE_PATH . '/files/text.png'],          
+                'tmp_name'  => [FIXTURE_PATH . '/text.png'],
                 'error'     => [0],
                 'size'      => [10],
             ],
@@ -73,7 +73,7 @@
             'alpha' => [
                 'name'      => ['tempname', 'simple.png'],
                 'type'      => ['application/octet-stream', 'image/png'],
-                'tmp_name'  => [FIXTURE_PATH . '/files/tempname', FIXTURE_PATH . '/files/simple.png'],
+                'tmp_name'  => [FIXTURE_PATH . '/tempname', FIXTURE_PATH . '/simple.png'],
                 'error'     => [0, 0],
                 'size'      => [75, 74],
             ],
@@ -83,23 +83,23 @@
             'alpha' => [
                 'name'      => [ 'simple.png', ''],
                 'type'      => ['image/png', ''],
-                'tmp_name'  => [FIXTURE_PATH . '/files/simple.png', ''],
+                'tmp_name'  => [FIXTURE_PATH . '/simple.png', ''],
                 'error'     => [0, 4],
                 'size'      => [74, 0],
             ],
             'beta' => [
                 'name'      => ['simple.png'],
                 'type'      => ['image/png'],
-                'tmp_name'  => [FIXTURE_PATH . '/files/simple.png'],
+                'tmp_name'  => [FIXTURE_PATH . '/simple.png'],
                 'error'     => [0],
                 'size'      => [74],
             ],
             'gamma' => [
                 'name'      => 'no-extension',
                 'type'      => 'application/octet-stream'
-                'tmp_name'  => FIXTURE_PATH . '/files/tempname',          
+                'tmp_name'  => FIXTURE_PATH . '/tempname',
                 'error'     => 0,
                 'size'      => 75,
-            ],            
+            ],
         ],
     ];

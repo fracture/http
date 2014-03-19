@@ -173,7 +173,7 @@
 
         public function  clean_URI_Provider()
         {
-            return include FIXTURE_PATH . '/http/uri-variations.php';
+            return include FIXTURE_PATH . '/uri-variations.php';
         }
 
 

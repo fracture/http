@@ -38,7 +38,7 @@
 
         public function simple_Type_Provider()
         {
-            return include FIXTURE_PATH . '/http/uploads-type.php';
+            return include FIXTURE_PATH . '/uploads-type.php';
         }
 
         /**
@@ -65,7 +65,7 @@
 
         public function simple_Validity_provider()
         {
-            return include FIXTURE_PATH . '/http/uploads-validity.php';
+            return include FIXTURE_PATH . '/uploads-validity.php';
         }
 
 

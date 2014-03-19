@@ -91,7 +91,7 @@
                 'alpha' => [
                     'name'      => 'simple.png',
                     'type'      => 'image/png',
-                    'tmp_name'  => FIXTURE_PATH . '/files/simple.png',
+                    'tmp_name'  => FIXTURE_PATH . '/file-simple.png',
                     'error'     => 0,
                     'size'      => 74,
                 ],
@@ -128,14 +128,14 @@
                 'alpha' => [
                     'name'      => 'simple.png',
                     'type'      => 'image/png',
-                    'tmp_name'  => FIXTURE_PATH . '/files/simple.png',
+                    'tmp_name'  => FIXTURE_PATH . '/file-simple.png',
                     'error'     => 0,
                     'size'      => 74,
                 ],
                 'beta' => [
                     'name'      => 'no-extension',
                     'type'      => 'application/octet-stream',
-                    'tmp_name'  => FIXTURE_PATH . '/files/tempname',
+                    'tmp_name'  => FIXTURE_PATH . '/file-tempname',
                     'error'     => 0,
                     'size'      => 75,
                 ],
@@ -175,7 +175,7 @@
                 'alpha' => [
                     'name'      => ['tempname', 'simple.png'],
                     'type'      => ['application/octet-stream', 'image/png'],
-                    'tmp_name'  => [FIXTURE_PATH . '/files/tempname', FIXTURE_PATH . '/files/simple.png'],
+                    'tmp_name'  => [FIXTURE_PATH . '/file-tempname', FIXTURE_PATH . '/file-simple.png'],
                     'error'     => [0, 0],
                     'size'      => [75, 74],
                 ],
