@@ -12,6 +12,18 @@
     {
 
 
+
+        /**
+         * @covers Fracture\Http\RequestBuilder::create
+         * @covers Fracture\Http\RequestBuilder::buildInstance
+         */
+        public function test_Simple_Usecase()
+        {
+            $builder = new RequestBuilder;
+            $instance = $builder->create( [] );
+            $this->assertInstanceOf( 'Fracture\Http\Request', $instance );
+        }
+
         /**
          * @covers Fracture\Http\RequestBuilder::create
          */

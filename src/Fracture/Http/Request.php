@@ -2,7 +2,7 @@
 
     namespace Fracture\Http;
 
-    class Request
+    class Request implements \Fracture\Routing\Routable
     {
 
         private $acceptHeader = null;
@@ -75,7 +75,7 @@
 
 
 
-        public function setParameters( $list )
+        public function setParameters(array $list)
         {
             $duplicates = array_intersect_key( $list,
                                                $this->parameters );
