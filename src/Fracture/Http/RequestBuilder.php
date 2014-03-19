@@ -41,7 +41,7 @@
         protected function buildInstance()
         {
             $fileBuilder = new UploadedFileBuilder;
-            $fileBagBuilder = new fileBagBuilder( $fileBuilder );
+            $fileBagBuilder = new FileBagBuilder( $fileBuilder );
 
             return new Request( $fileBagBuilder );
         }
