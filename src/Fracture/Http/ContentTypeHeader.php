@@ -7,7 +7,7 @@
 
         private $headerValue = '';
 
-        private $list = [];
+        private $item = [];
 
 
         public function __construct( $headerValue = '' )
@@ -24,53 +24,24 @@
 
         public function prepare()
         {
-            $this->list = [];
+            $this->item = [];
 
             if ( strlen( $this->headerValue ) > 0 )
             {
-                $this->list = $this->getParsedList( $this->headerValue );
+                $this->item = $this->extractData( $this->headerValue );
             }
         }
 
 
-        public function getParsedList( $header )
-        {
-            $elements = preg_split( '#,\s?#', $header, -1, PREG_SPLIT_NO_EMPTY );
-            $elements = $this->obtainGroupedElements( $elements );
-            return $elements;
-        }
-
-        public function contains( $type )
-        {
-            foreach ( $this->list as $item )
-            {
-                if ( $item['value'] === $type )
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private function obtainGroupedElements( $elements )
+        public function extractData( $headerValue )
         {
             $result = [];
+            $parts = preg_split( '#;\s?#', $headerValue, -1, PREG_SPLIT_NO_EMPTY );
 
-            foreach ( $elements as $item )
-            {
-                $item = $this->obtainAssessedItem( $item );
-                $result[] = $item;
+            if (count($parts) === 0) {
+                return [];
             }
 
-            return $result;
-        }
-
-
-        private function obtainAssessedItem( $item )
-        {
-            $result = [];
-            $parts = preg_split( '#;\s?#', $item, -1, PREG_SPLIT_NO_EMPTY );
             $result['value'] = array_shift( $parts );
 
             foreach ( $parts as $item )
@@ -82,4 +53,8 @@
             return $result;
         }
 
+        public function contains( $type )
+        {
+            return array_key_exists('value', $this->item) && $this->item['value'] === $type;
+        }
     }

@@ -14,15 +14,15 @@
 
         /**
          * @covers Fracture\Http\ContentTypeHeader::__construct
-         * @covers Fracture\Http\ContentTypeHeader::getParsedList
+         * @covers Fracture\Http\ContentTypeHeader::extractData
          */
         public function test_Empty_Instance()
         {
             $instance = new ContentTypeHeader;
-            $this->assertEquals( [], $instance->getParsedList( '' ) );
-            $this->assertEquals( [ 'application/json' ], $instance->getParsedList( 'application/json' ) );
-            $this->assertEquals( [ 'application/json', 'application/json;version=1' ], $instance->getParsedList( 'application/json, application/json;version=1' ) );
-            $this->assertEquals( [ 'text/html', '*/*' ], $instance->getParsedList( 'text/html,*/*' ) );
+            $this->assertEquals( [], $instance->extractData( '' ) );
+            $this->assertEquals( [ 'value' => 'application/json' ], $instance->extractData( 'application/json' ) );
+            $this->assertEquals( [ 'value' => 'application/json', 'version' => '1' ], $instance->extractData( 'application/json;version=1' ) );
+            $this->assertEquals( [ 'value' => 'text/html', 'charset' => 'utf-8' ], $instance->extractData( 'text/html; charset=utf-8' ) );
         }
 
 
@@ -33,7 +33,7 @@
          */
         public function test_Prepared_Result()
         {
-            $instance = new ContentTypeHeader('application/json, text/html, text/plain');
+            $instance = new ContentTypeHeader('text/html');
             $instance->prepare();
 
             $this->assertTrue($instance->contains('text/html'));
@@ -49,10 +49,9 @@
          */
         public function test_Prepared_Result_Ater_Manual_Alteration()
         {
-            $instance = new ContentTypeHeader('application/json, text/html, text/plain');
-            $instance->setALternativeValue('image/jpeg, image/png');
+            $instance = new ContentTypeHeader('application/json');
+            $instance->setALternativeValue('image/png');
             $instance->prepare();
-
 
             $this->assertTrue($instance->contains('image/png'));
             $this->assertFalse($instance->contains('text/html'));
