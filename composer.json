@@ -15,7 +15,7 @@
 
     "require": {
         "php": ">=5.4.0",
-        "fracture/routing": "~0.1.0"
+        "fracture/routing": "~0.2.0"
     },
 
     "autoload": {
