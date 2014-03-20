@@ -1,90 +1,83 @@
 <?php
 
-    namespace Fracture\Http;
+namespace Fracture\Http;
 
-    class FileBag implements \Iterator, \ArrayAccess
+class FileBag implements \Iterator, \ArrayAccess
+{
+
+    private $entries = [];
+
+    private $current = 0;
+
+
+
+
+    // implementing Iterator interface
+    public function current()
     {
-
-        private $entries = [];
-
-        private $current = 0;
-
-
-
-
-        // implementing Iterator interface
-        public function current()
-        {
-            return $this->entries[ $this->current ];
-        }
-
-
-        public function key()
-        {
-            return $this->current;
-        }
-
-
-        public function next()
-        {
-            $this->current += 1;
-        }
-
-
-        public function rewind()
-        {
-            $this->current = 0;
-        }
-
-
-        public function valid()
-        {
-            return isset( $this->entries[ $this->current ] );
-        }
-
-
-        // implementing ArrayAccess interface
-        public function  offsetExists( $offset )
-        {
-            return isset( $this->entries[ $offset ] );
-        }
-
-
-        public function offsetSet( $offset, $value )
-        {
-            // attempts to add invalid file in a filebag er ignored
-            if ( is_a( $value, 'Fracture\Http\UploadedFile') === true &&
-                 $value->isValid() === false )
-            {
-                return;
-            }
-
-            if ( is_null( $offset ) === true )
-            {
-                $this->entries[] = $value;
-            }
-            else
-            {
-                $this->entries[ $offset ] = $value;
-            }
-        }
-
-
-        public function offsetGet( $offset )
-        {
-            if ( array_key_exists( $offset, $this->entries ) )
-            {
-                return $this->entries[ $offset ];
-            }
-
-            return null;
-        }
-
-
-        public function offsetUnset( $offset )
-        {
-            unset( $this->entries[ $offset ] );
-        }
-
-
+        return $this->entries[$this->current];
     }
+
+
+    public function key()
+    {
+        return $this->current;
+    }
+
+
+    public function next()
+    {
+        $this->current += 1;
+    }
+
+
+    public function rewind()
+    {
+        $this->current = 0;
+    }
+
+
+    public function valid()
+    {
+        return isset($this->entries[$this->current]);
+    }
+
+
+    // implementing ArrayAccess interface
+    public function offsetExists($offset)
+    {
+        return isset($this->entries[$offset]);
+    }
+
+
+    public function offsetSet($offset, $value)
+    {
+        // attempts to add invalid file in a filebag er ignored
+        if (is_a($value, 'Fracture\Http\UploadedFile') === true &&
+            $value->isValid() === false) {
+            return;
+        }
+
+        if (is_null($offset) === true) {
+            $this->entries[] = $value;
+        } else {
+            $this->entries[$offset] = $value;
+        }
+    }
+
+
+    public function offsetGet($offset)
+    {
+        if (array_key_exists($offset, $this->entries)) {
+            return $this->entries[$offset];
+        }
+
+        return null;
+    }
+
+
+    public function offsetUnset($offset)
+    {
+        unset($this->entries[$offset]);
+    }
+}
