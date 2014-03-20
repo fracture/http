@@ -30,7 +30,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
      *
      * @covers Fracture\Http\Request::getResolvedMethod
      *
-     * @depends test_getMethod_for_Unprepared_Request
+     * @depends testMethodGetterForUnpreparedRequest
      */
     public function testMethodGetterForPreparedRequest()
     {
@@ -65,7 +65,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
      *
      * @covers Fracture\Http\Request::getResolvedMethod
      *
-     * @depends test_getMethod_for_Prepared_Request
+     * @depends testMethodGetterForPreparedRequest
      */
     public function testMethodGetterForPreparedRequestWithCustomMethodAndOverride()
     {

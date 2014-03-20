@@ -11,7 +11,7 @@ class UploadedFileBuilderTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * @dataProvider provide_Input
+     * @dataProvider provideInput
      *
      * @covers Fracture\Http\UploadedFileBuilder::create
      */
@@ -30,7 +30,7 @@ class UploadedFileBuilderTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * @dataProvider provide_Input
+     * @dataProvider provideInput
      *
      * @covers Fracture\Http\UploadedFileBuilder::create
      */
