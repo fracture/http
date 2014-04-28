@@ -18,6 +18,7 @@ class FileBagBuilder
      * Used for producinf a FileBag instance from standard $_FILES values
      *
      * @param array $list
+     * @return FileBag
      */
     public function create($list)
     {

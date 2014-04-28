@@ -10,8 +10,6 @@ class FileBag implements \Iterator, \ArrayAccess
     private $current = 0;
 
 
-
-
     // implementing Iterator interface
     public function current()
     {

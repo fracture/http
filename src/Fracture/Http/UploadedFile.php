@@ -12,6 +12,9 @@ class UploadedFile
     private $isValid = true;
 
 
+    /**
+     * @param array $params
+     */
     public function __construct($params)
     {
         $this->rawParams = $params;
@@ -34,6 +37,9 @@ class UploadedFile
     }
 
 
+    /**
+     * @param string $filename
+     */
     private function isDubious($filename)
     {
         return
@@ -49,6 +55,7 @@ class UploadedFile
      * using native PHP function
      *
      * @codeCoverageIgnore
+     * @param string $filename
      * @return bool
      */
     protected function seemsTampered($filename)
@@ -57,12 +64,18 @@ class UploadedFile
     }
 
 
+    /**
+     * @return bool
+     */
     public function isValid()
     {
         return  $this->isValid;
     }
 
 
+    /**
+     * @return bool
+     */
     public function hasProperExtension()
     {
         return $this->rawParams['type'] === $this->type;

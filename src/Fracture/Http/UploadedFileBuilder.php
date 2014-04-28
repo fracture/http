@@ -5,6 +5,10 @@ namespace Fracture\Http;
 class UploadedFileBuilder
 {
 
+    /**
+     * @param array $params
+     * @return UploadedFile
+     */
     public function create($params)
     {
         $instance = $this->buildInstance($params);
@@ -12,6 +16,7 @@ class UploadedFileBuilder
 
         return $instance;
     }
+
 
     protected function buildInstance($params)
     {
