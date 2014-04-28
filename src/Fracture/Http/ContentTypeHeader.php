@@ -5,19 +5,24 @@ namespace Fracture\Http;
 class ContentTypeHeader implements AbstractedHeader
 {
 
-
     private $headerValue = '';
 
     private $item = [];
 
 
+    /**
+     * @param string $headerValue
+     */
     public function __construct($headerValue = '')
     {
         $this->headerValue = $headerValue;
     }
 
 
-    public function setAlternativeValue($headerValue)
+    /**
+     * @param string $headerValue
+     */
+    public function setAlternativeValue($headerValue = '')
     {
         $this->headerValue = $headerValue;
     }
@@ -33,6 +38,10 @@ class ContentTypeHeader implements AbstractedHeader
     }
 
 
+    /**
+     * @param string $headerValue
+     * @return array
+     */
     public function extractData($headerValue)
     {
         $result = [];
@@ -52,6 +61,11 @@ class ContentTypeHeader implements AbstractedHeader
         return $result;
     }
 
+
+    /**
+     * @param string $type
+     * @return bool
+     */
     public function contains($type)
     {
         return array_key_exists('value', $this->item) && $this->item['value'] === $type;
