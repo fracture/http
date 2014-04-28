@@ -15,7 +15,10 @@ class RequestBuilder
     private $parsers = [];
 
 
-
+    /**
+     * @param array[] $params
+     * @return \Fracture\Routing\Routable
+     */
     public function create($params)
     {
         $params += $this->defaults;
@@ -32,6 +35,10 @@ class RequestBuilder
     }
 
 
+    /**
+     * @param string $type
+     * @param callback $parser
+     */
     public function addContentParser($type, $parser)
     {
         $this->parsers[$type] = $parser;
@@ -47,6 +54,9 @@ class RequestBuilder
     }
 
 
+    /**
+     * @param Request $instance
+     */
     protected function applyContentParsers($instance)
     {
         $data = [];
@@ -67,6 +77,10 @@ class RequestBuilder
     }
 
 
+    /**
+     * @param Request $instance
+     * @param array[] $params
+     */
     protected function applyParams($instance, $params)
     {
         $instance->setParameters($params['get']);
@@ -79,6 +93,10 @@ class RequestBuilder
     }
 
 
+    /**
+     * @param Request $instance
+     * @param array $params
+     */
     public function applyHeaders($instance, $params)
     {
         if (array_key_exists('HTTP_ACCEPT', $params)) {
@@ -97,6 +115,7 @@ class RequestBuilder
 
     /**
      * @codeCoverageIgnore
+     * @return bool
      */
     protected function isCLI()
     {

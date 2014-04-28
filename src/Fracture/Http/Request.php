@@ -6,6 +6,7 @@ class Request implements \Fracture\Routing\Routable
 {
 
     private $acceptHeader = null;
+
     private $contentTypeHeader = null;
 
     private $method = null;
@@ -59,7 +60,6 @@ class Request implements \Fracture\Routing\Routable
         }
 
         return $header;
-
     }
 
 
@@ -68,8 +68,6 @@ class Request implements \Fracture\Routing\Routable
         $this->method = $this->getResolvedMethod();
         $this->acceptHeader = $this->getResolvedAcceptHeader();
     }
-
-
 
 
     public function setParameters(array $list)
@@ -111,7 +109,6 @@ class Request implements \Fracture\Routing\Routable
     }
 
 
-
     public function setAcceptHeader(AbstractedHeader $header)
     {
         $this->acceptHeader = $header;
@@ -128,6 +125,7 @@ class Request implements \Fracture\Routing\Routable
     {
         $this->contentTypeHeader = $header;
     }
+
 
     public function getContentTypeHeader()
     {
@@ -206,7 +204,9 @@ class Request implements \Fracture\Routing\Routable
     }
 
 
-
+    /**
+     * @param string $address
+     */
     public function setAddress($address)
     {
         if (filter_var($address, FILTER_VALIDATE_IP) === false) {
