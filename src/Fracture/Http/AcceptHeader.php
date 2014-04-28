@@ -5,18 +5,24 @@ namespace Fracture\Http;
 class AcceptHeader implements AbstractedHeader
 {
 
-
     private $headerValue = '';
 
     private $list = [];
 
+
+    /**
+     * @param string $headerValue
+     */
     public function __construct($headerValue = '')
     {
         $this->headerValue = $headerValue;
     }
 
 
-    public function setAlternativeValue($headerValue)
+    /**
+     * @param string $headerValue
+     */
+    public function setAlternativeValue($headerValue = '')
     {
         $this->headerValue = $headerValue;
     }
@@ -31,23 +37,32 @@ class AcceptHeader implements AbstractedHeader
         }
     }
 
-    public function extractData($header)
+
+    /**
+     * @param string $headerValue
+     * @return array[]
+     */
+    public function extractData($headerValue)
     {
-        $elements = preg_split('#,\s?#', $header, -1, \PREG_SPLIT_NO_EMPTY);
+        $elements = preg_split('#,\s?#', $headerValue, -1, \PREG_SPLIT_NO_EMPTY);
         $elements = $this->obtainGroupedElements($elements);
         $keys = $this->obtainSortedQualityList($elements);
         return $this->obtainSortedElements($elements, $keys);
     }
 
 
-
+    /**
+     * @return array[]
+     */
     public function getPrioritizedList()
     {
         return  $this->list;
     }
 
 
-
+    /**
+     * @param array $elements
+     */
     private function obtainGroupedElements($elements)
     {
         $result = [];
@@ -67,6 +82,10 @@ class AcceptHeader implements AbstractedHeader
     }
 
 
+    /**
+     * @param string $item
+     * @return array
+     */
     private function obtainAssessedItem($item)
     {
         $result = [];
@@ -84,6 +103,10 @@ class AcceptHeader implements AbstractedHeader
     }
 
 
+    /**
+     * @param array[] $elements
+     * @return array[]
+     */
     private function obtainSortedQualityList($elements)
     {
         $keys = array_keys($elements);
@@ -97,6 +120,11 @@ class AcceptHeader implements AbstractedHeader
     }
 
 
+    /**
+     * @param array[] $elements
+     * @param array $keys
+     * @return array[]
+     */
     private function obtainSortedElements($elements, $keys)
     {
         $list = [];
@@ -112,6 +140,10 @@ class AcceptHeader implements AbstractedHeader
     }
 
 
+    /**
+     * @param string $type
+     * @return bool
+     */
     public function contains($type)
     {
         $expected = $this->obtainAssessedItem($type);
@@ -127,6 +159,10 @@ class AcceptHeader implements AbstractedHeader
     }
 
 
+    /**
+     * @param string $options
+     * @return null|string
+     */
     public function getPreferred($options)
     {
         $options = $this->extractData($options);
@@ -143,6 +179,10 @@ class AcceptHeader implements AbstractedHeader
     }
 
 
+    /**
+     * @param array $entry
+     * @return string
+     */
     public function getFormatedEntry($entry)
     {
         if (count($entry) === 1) {
@@ -159,6 +199,11 @@ class AcceptHeader implements AbstractedHeader
     }
 
 
+    /**
+     * @param array $needle
+     * @param array[] $haystack
+     * @return null|array
+     */
     private function obtainEntryFromList(array $needle, $haystack)
     {
         foreach ($haystack as $item) {
@@ -170,6 +215,12 @@ class AcceptHeader implements AbstractedHeader
         return null;
     }
 
+
+    /**
+     * @param string $left
+     * @param string $right
+     * @return bool
+     */
     private function isMatch(array $left, array $right)
     {
         if ($left == $right) {
@@ -179,9 +230,16 @@ class AcceptHeader implements AbstractedHeader
         $left['value'] = $this->replaceStars($left['value'], $right['value']);
         $right['value'] = $this->replaceStars($right['value'], $left['value']);
 
+        // compares two arrays with keys in different order
         return $left == $right;
     }
 
+
+    /**
+     * @param string $target
+     * @param string pattern
+     * @return string
+     */
     private function replaceStars($target, $pattern)
     {
         $target = explode('/', $target . '/*');
