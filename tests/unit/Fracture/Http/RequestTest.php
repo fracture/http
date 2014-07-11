@@ -276,7 +276,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetterAndSetterForAcceptHeader()
     {
         $request = new Request;
-        $header = $this->getMock('Fracture\Http\AcceptHeader');
+        $header = $this->getMock('Fracture\Http\Headers\Accept');
         $request->setAcceptHeader($header);
         $this->assertEquals($header, $request->getAcceptHeader());
     }
@@ -291,7 +291,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetterAndSetterForContentTypeHeader()
     {
         $request = new Request;
-        $header = $this->getMock('Fracture\Http\ContentTypeHeader');
+        $header = $this->getMock('Fracture\Http\Headers\ContentType');
         $request->setContentTypeHeader($header);
         $this->assertEquals($header, $request->getContentTypeHeader());
     }
@@ -306,7 +306,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetterAndSetterForAcceptHeaderWithManualAcceotValue()
     {
         $request = new Request;
-        $header = $this->getMock('Fracture\Http\AcceptHeader', ['prepare', 'setAlternativeValue']);
+        $header = $this->getMock('Fracture\Http\Headers\Accept', ['prepare', 'setAlternativeValue']);
 
         $header->expects($this->once())
                ->method('prepare');

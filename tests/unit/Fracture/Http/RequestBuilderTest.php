@@ -309,7 +309,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
         $builder = new RequestBuilder;
         $instance = $builder->create($input);
 
-        $this->assertInstanceOf('Fracture\Http\AcceptHeader', $instance->getAcceptHeader());
+        $this->assertInstanceOf('Fracture\Http\Headers\Accept', $instance->getAcceptHeader());
     }
 
 
@@ -333,6 +333,6 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
         $builder = new RequestBuilder;
         $instance = $builder->create($input);
 
-        $this->assertInstanceOf('Fracture\Http\ContentTypeHeader', $instance->getContentTypeHeader());
+        $this->assertInstanceOf('Fracture\Http\Headers\ContentType', $instance->getContentTypeHeader());
     }
 }
