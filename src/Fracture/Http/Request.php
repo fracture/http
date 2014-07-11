@@ -109,7 +109,7 @@ class Request implements \Fracture\Routing\Routable
     }
 
 
-    public function setAcceptHeader(AbstractedHeader $header)
+    public function setAcceptHeader(Headers\Abstracted $header)
     {
         $this->acceptHeader = $header;
     }
@@ -121,7 +121,7 @@ class Request implements \Fracture\Routing\Routable
     }
 
 
-    public function setContentTypeHeader(AbstractedHeader $header)
+    public function setContentTypeHeader(Headers\Abstracted $header)
     {
         $this->contentTypeHeader = $header;
     }

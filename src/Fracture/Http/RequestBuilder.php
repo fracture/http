@@ -100,13 +100,13 @@ class RequestBuilder
     public function applyHeaders($instance, $params)
     {
         if (array_key_exists('HTTP_ACCEPT', $params)) {
-            $header = new AcceptHeader($params['HTTP_ACCEPT']);
+            $header = new Headers\Accept($params['HTTP_ACCEPT']);
             $header->prepare();
             $instance->setAcceptHeader($header);
         }
 
         if (array_key_exists('CONTENT_TYPE', $params)) {
-            $header = new ContentTypeHeader($params['CONTENT_TYPE']);
+            $header = new Headers\ContentType($params['CONTENT_TYPE']);
             $header->prepare();
             $instance->setContentTypeHeader($header);
         }

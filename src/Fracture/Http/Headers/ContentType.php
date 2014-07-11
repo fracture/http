@@ -1,6 +1,6 @@
 <?php
 
-namespace Fracture\Http;
+namespace Fracture\Http\Headers;
 
 class ContentType implements Abstracted
 {
