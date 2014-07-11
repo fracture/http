@@ -2,7 +2,7 @@
 
 namespace Fracture\Http;
 
-class ContentTypeHeader implements AbstractedHeader
+class ContentType implements Abstracted
 {
 
     private $headerValue = '';

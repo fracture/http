@@ -1,8 +1,8 @@
 <?php
 
-namespace Fracture\Http;
+namespace Fracture\Http\Headers;
 
-interface AbstractedHeader
+interface Abstracted
 {
     public function setAlternativeValue($headerValue);
     public function extractData($header);

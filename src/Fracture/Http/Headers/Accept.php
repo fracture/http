@@ -1,8 +1,8 @@
 <?php
 
-namespace Fracture\Http;
+namespace Fracture\Http\Headers;
 
-class AcceptHeader implements AbstractedHeader
+class Accept implements Abstracted
 {
 
     private $headerValue = '';
