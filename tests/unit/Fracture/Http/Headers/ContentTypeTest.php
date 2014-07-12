@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Fracture\Http\HEaders;
+namespace Fracture\Http\Headers;
 
 use Exception;
 use ReflectionClass;
