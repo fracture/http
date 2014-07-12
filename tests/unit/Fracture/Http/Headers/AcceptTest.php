@@ -87,7 +87,7 @@ class AcceptTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\Headers\Accept::__construct
      * @covers Fracture\Http\Headers\Accept::prepare
-     * @covers Fracture\Http\Headers\Accept::setAlternativeValue
+     * @covers Fracture\Http\Headers\Accept::setValue
      * @covers Fracture\Http\Headers\Accept::getPrioritizedList
      *
      * @covers Fracture\Http\Headers\Accept::obtainGroupedElements
@@ -102,7 +102,7 @@ class AcceptTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals([['value' => 'text/plain']], $instance->getPrioritizedList());
 
-        $instance->setAlternativeValue('text/html');
+        $instance->setValue('text/html');
         $instance->prepare();
 
         $this->assertEquals([['value' => 'text/html']], $instance->getPrioritizedList());

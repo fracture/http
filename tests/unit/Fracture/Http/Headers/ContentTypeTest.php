@@ -53,12 +53,12 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Headers\ContentType::__construct
      * @covers Fracture\Http\Headers\ContentType::prepare
      * @covers Fracture\Http\Headers\ContentType::contains
-     * @covers Fracture\Http\Headers\ContentType::setALternativeValue
+     * @covers Fracture\Http\Headers\ContentType::setValue
      */
     public function testPreparedResultAterManualAlteration()
     {
         $instance = new ContentType('application/json');
-        $instance->setALternativeValue('image/png');
+        $instance->setValue('image/png');
         $instance->prepare();
 
         $this->assertTrue($instance->contains('image/png'));
