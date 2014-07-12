@@ -2,10 +2,8 @@
 
 namespace Fracture\Http\Headers;
 
-class Accept implements Abstracted
+class Accept extends Common
 {
-
-    private $headerValue = '';
 
     private $list = [];
 
@@ -14,15 +12,6 @@ class Accept implements Abstracted
      * @param string $headerValue
      */
     public function __construct($headerValue = '')
-    {
-        $this->headerValue = $headerValue;
-    }
-
-
-    /**
-     * @param string $headerValue
-     */
-    public function setAlternativeValue($headerValue = '')
     {
         $this->headerValue = $headerValue;
     }

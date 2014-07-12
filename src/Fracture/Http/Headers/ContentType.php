@@ -2,10 +2,8 @@
 
 namespace Fracture\Http\Headers;
 
-class ContentType implements Abstracted
+class ContentType extends Common
 {
-
-    private $headerValue = '';
 
     private $item = [];
 
@@ -14,15 +12,6 @@ class ContentType implements Abstracted
      * @param string $headerValue
      */
     public function __construct($headerValue = '')
-    {
-        $this->headerValue = $headerValue;
-    }
-
-
-    /**
-     * @param string $headerValue
-     */
-    public function setAlternativeValue($headerValue = '')
     {
         $this->headerValue = $headerValue;
     }
