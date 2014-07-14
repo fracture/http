@@ -1,0 +1,15 @@
+------WebKitFormBoundaryYcGNFkc4LJUBAHb5
+Content-Disposition: form-data; name="name[foo]"
+
+lorem ipsum
+------WebKitFormBoundaryYcGNFkc4LJUBAHb5
+Content-Disposition: form-data; name="name[bar]"
+
+sit dolor amet
+------WebKitFormBoundaryYcGNFkc4LJUBAHb5
+Content-Disposition: form-data; name="name[file]"; filename="_autorebase-000168-1.tar.bz2"
+Content-Type: application/octet-stream
+
+BZh91AY&SYp?���ĐB��X@�ߠ�0    ڊi���D�2P=@��B4����CA�h��ɠ2
+�F�443���]�S�d�S�����p!V�u3��mA�g���Y$`���/���^���$�/�'YK: �aI�ii����ޕb��@�+VE^�+$�����5O#4k�͙�X��H���.I�}d��)�B7���x�kb�|juZT�g�5IM2�A�ޮ(D~�3���f��a,vJe�NJ���;��a���S��k��`B    5*y��.0��wS��S)R��K�]��BA���
+------WebKitFormBoundaryYcGNFkc4LJUBAHb5--

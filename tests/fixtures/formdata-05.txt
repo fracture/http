@@ -1,0 +1,14 @@
+------WebKitFormBoundaryQqenDF2mUW3s6cAO
+Content-Disposition: form-data; name="file[]"; filename="file-simple.png"
+Content-Type: image/png
+
+�PNG
+
+���
+IHDR����������Ԛs���IDATWc������1�)��nO�����IEND�B`�
+------WebKitFormBoundaryQqenDF2mUW3s6cAO
+Content-Disposition: form-data; name="file[]"; filename="file-text.png"
+Content-Type: image/png
+
+lore ipsum
+------WebKitFormBoundaryQqenDF2mUW3s6cAO--
