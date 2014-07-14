@@ -31,6 +31,10 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
             ['value' => 'text/html', 'charset' => 'utf-8'],
             $instance->extractData('text/html; charset=utf-8')
         );
+        $this->assertEquals(
+            ['value' => 'multipart/form-data', 'boundary' => 'AaB03x'],
+            $instance->extractData('multipart/form-data; boundary=AaB03x')
+        );
     }
 
 
