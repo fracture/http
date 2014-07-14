@@ -21,7 +21,7 @@ class DataFormTest extends PHPUnit_Framework_TestCase
 
     public function testSingleInput()
     {
-        $input = file_get_contents(FIXTURE_PATH . '/data-form/input-01.txt');
+        $input = FIXTURE_PATH . '/data-form/input-01.txt';
         $boundry = 'WebKitFormBoundaryDPzbv2se5E43jOM4';
 
         $instance = new DataForm($input, $boundry);

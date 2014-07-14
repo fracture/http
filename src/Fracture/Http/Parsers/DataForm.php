@@ -6,17 +6,32 @@ class DataForm
 {
 
     private $input;
+    private $boundry;
+
     private $data = [];
 
-    public function __construct($input)
+    public function __construct($input, $boundry = null)
     {
         $this->input = $input;
+        $this->boundry = $boundry;
     }
 
 
     public function prepare()
     {
+        $file = new \SPLFileObject($this->input);
+        $first = true;
+        foreach ($file as $line) {
+            if ($first && strpos($line, $boundy)) {
+                $separator = $line;
+                $first = false;
+            }
 
+            if ($line === $separator) {
+
+            }
+//            var_Dump($line);
+        }
     }
 
 
