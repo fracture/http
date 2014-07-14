@@ -5,6 +5,8 @@ namespace Fracture\Http\Headers;
 class ContentType extends Common
 {
 
+    protected $fieldName = 'Content-Type';
+
     private $item = [];
 
 

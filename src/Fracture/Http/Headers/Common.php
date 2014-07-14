@@ -26,7 +26,7 @@ abstract class Common implements Abstracted
 
     public function getFormatedValue()
     {
-
+        return $this->headerValue;
     }
 
 }

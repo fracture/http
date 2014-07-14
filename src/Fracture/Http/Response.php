@@ -21,9 +21,9 @@ class Response
     }
 
 
-    public function addHeader($key, $value)
+    public function addHeader(Headers\Abstracted $header)
     {
-        $this->headers[$key] = $value;
+        $this->headers[$headers->getFieldName()] = $value;
     }
 
 
