@@ -12,7 +12,9 @@ class DataFormTest extends PHPUnit_Framework_TestCase
 
     public function testWithoutInputs()
     {
-        $instance = new DataForm('');
+        $input = FIXTURE_PATH . '/data-form/input-01.txt';
+
+        $instance = new DataForm($input);
         $instance->prepare();
 
         $this->assertNull($instance->getParameter('foobar'));

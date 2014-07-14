@@ -21,8 +21,10 @@ class DataForm
     {
         $file = new \SPLFileObject($this->input);
         $first = true;
+        $separator = '';
+
         foreach ($file as $line) {
-            if ($first && strpos($line, $boundy)) {
+            if ($first && strpos($line, $this->boundry)) {
                 $separator = $line;
                 $first = false;
             }
