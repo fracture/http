@@ -14,7 +14,7 @@ class DataFormTest extends PHPUnit_Framework_TestCase
     {
         $input = FIXTURE_PATH . '/data-form/input-01.txt';
 
-        $instance = new DataForm($input);
+        $instance = new DataForm(new \Fracture\Http\HeaderFactory, $input);
         $instance->prepare();
 
         $this->assertNull($instance->getParameter('foobar'));
@@ -26,7 +26,7 @@ class DataFormTest extends PHPUnit_Framework_TestCase
         $input = FIXTURE_PATH . '/data-form/input-01.txt';
         $boundry = 'WebKitFormBoundaryDPzbv2se5E43jOM4';
 
-        $instance = new DataForm($input, $boundry);
+        $instance = new DataForm(new \Fracture\Http\HeaderFactory, $input, $boundry);
         $instance->prepare();
 
         $this->assertSame('value', $instance->getParameter('parameter'));
