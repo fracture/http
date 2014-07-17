@@ -31,4 +31,29 @@ class DataFormTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('value', $instance->getParameter('parameter'));
     }
+
+
+    public function testMultipleInputs()
+    {
+        $input = FIXTURE_PATH . '/data-form/input-08.txt';
+        $boundry = 'WebKitFormBoundaryWYfoSzZ7Ie4Sqsef';
+
+        $instance = new DataForm(new \Fracture\Http\HeaderFactory, $input, $boundry);
+        $instance->prepare();
+
+        $this->assertSame('one', $instance->getParameter('one'));
+        $this->assertSame('22222', $instance->getParameter('two'));
+    }
+
+
+    public function testSingleFileUpload()
+    {
+        $input = FIXTURE_PATH . '/data-form/input-03.txt';
+        $boundry = 'WebKitFormBoundarysrP3vUDVYcT3Bhcs';
+
+        $instance = new DataForm(new \Fracture\Http\HeaderFactory, $input, $boundry);
+        $instance->prepare();
+
+        $this->assertSame('value', $instance->getParameter('parameter'));
+    }
 }
