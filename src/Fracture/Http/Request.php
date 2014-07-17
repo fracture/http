@@ -70,19 +70,17 @@ class Request implements \Fracture\Routing\Routable
     }
 
 
-    public function setParameters(array $list)
+    public function setParameters(array $list, $override = false)
     {
         $duplicates = array_intersect_key($list, $this->parameters);
 
         // checks of parameters with overlapping names
-        if (count($duplicates) > 0) {
+        if (false === $override && count($duplicates) > 0) {
             $message = implode("', '", array_keys($duplicates));
             $message = "You are trying to override following parameter(s): '$message'";
-
             trigger_error($message, \E_USER_WARNING);
         }
-
-        $this->parameters += $list;
+        $this->parameters = $list + $this->parameters;
     }
 
 
