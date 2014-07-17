@@ -55,11 +55,20 @@ class DataForm
 
         foreach ($file as $line) {
             if ($line === $boundry .  "--\r\n") {
+                if (null !== $name) {
+                    yield $name => trim($value, "\r\n");
+                    $value = null;
+                }
                 // .. then this is the last line
                 break;
             }
 
             if ($line === $boundry . "\r\n") {
+                if (null !== $name) {
+                    yield $name => trim($value, "\r\n");
+                    $value = null;
+                }
+
                 $this->stage = 'headers';
                 continue;
             }
@@ -78,7 +87,7 @@ class DataForm
                     break;
 
                 case 'body':
-                    yield $name => trim($line, "\r\n");
+                    $value .= $line;
                     break;
             }
         }
@@ -91,11 +100,6 @@ class DataForm
         return $this->factory->create($line);
     }
 
-
-    private function readBody($line)
-    {
-
-    }
 
     public function getParameter($name)
     {
