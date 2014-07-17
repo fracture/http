@@ -69,11 +69,16 @@ class RequestBuilder
 
         foreach ($this->parsers as $value => $parser) {
             if ($header->contains($value)) {
-                $data += call_user_func($parser);
+                $result = call_user_func($parser);
+                if (false === is_array($result)) {
+                    $message ="Parser for '$value' did not return a 'name => value' array of parameters";
+                    trigger_error($message, \E_USER_WARNING);
+                }
+                $data += $result;
             }
         }
 
-        $instance->setParameters($data);
+        $instance->setParameters($data, true);
     }
 
 

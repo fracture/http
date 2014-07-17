@@ -263,6 +263,80 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\RequestBuilder::applyContentParsers
      * @covers Fracture\Http\RequestBuilder::addContentParser
      */
+    public function testAppliedContentParsersOverridesPameters()
+    {
+        $input = [
+            'get'    => [
+                'foo' => 'bar',
+            ],
+            'server' => [
+                'REQUEST_METHOD' => 'delete',
+                'REMOTE_ADDR'    => '0.0.0.0',
+                'HTTP_ACCEPT'    => 'text/html',
+                'CONTENT_TYPE'   => 'application/json',
+            ],
+        ];
+
+        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
+
+        $builder->expects($this->once())
+                ->method('isCLI')
+                ->will($this->returnValue(false));
+
+
+        $builder->addContentParser('application/json', function () {
+            return ['foo' => 'different'];
+        });
+
+        $instance = $builder->create($input);
+        $this->assertEquals('different', $instance->getParameter('foo'));
+
+    }
+
+
+    /**
+     * @covers Fracture\Http\RequestBuilder::create
+     * @covers Fracture\Http\RequestBuilder::applyContentParsers
+     * @covers Fracture\Http\RequestBuilder::addContentParser
+     *
+     * @expectedException PHPUnit_Framework_Error_Warning
+     */
+    public function testAppliedContentParsersWithBadReturn()
+    {
+        $input = [
+            'get'    => [
+                'foo' => 'bar',
+            ],
+            'server' => [
+                'REQUEST_METHOD' => 'delete',
+                'REMOTE_ADDR'    => '0.0.0.0',
+                'HTTP_ACCEPT'    => 'text/html',
+                'CONTENT_TYPE'   => 'application/json',
+            ],
+        ];
+
+        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
+
+        $builder->expects($this->once())
+                ->method('isCLI')
+                ->will($this->returnValue(false));
+
+
+        $builder->addContentParser('application/json', function () {
+            return null;
+        });
+
+        $instance = $builder->create($input);
+        $this->assertEquals('bar', $instance->getParameter('foo'));
+
+    }
+
+
+    /**
+     * @covers Fracture\Http\RequestBuilder::create
+     * @covers Fracture\Http\RequestBuilder::applyContentParsers
+     * @covers Fracture\Http\RequestBuilder::addContentParser
+     */
     public function testAppliedContentParsersWithMissingHeader()
     {
         $input = [
