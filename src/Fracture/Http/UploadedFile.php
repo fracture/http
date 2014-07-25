@@ -104,6 +104,13 @@ class UploadedFile
     }
 
 
+    public function getExtension()
+    {
+        $info = new \SplFileInfo($this->getPath());
+        return $info->getExtension();
+    }
+
+
     public function getPath()
     {
         return $this->rawParams['tmp_name'];
