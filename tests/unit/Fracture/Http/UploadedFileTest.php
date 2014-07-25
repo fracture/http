@@ -66,6 +66,24 @@ class UploadedFileTest extends PHPUnit_Framework_TestCase
 
 
     /**
+     * @dataProvider provideUploadExtensions
+     *
+     * @covers Fracture\Http\UploadedFile::__construct
+     * @covers Fracture\Http\UploadedFile::getExtension
+     */
+    public function testUploadExtensions($params, $result)
+    {
+        $instance = new UploadedFile($params);
+        $this->assertEquals($result, $instance->getExtension());
+    }
+
+
+    public function provideUploadExtensions()
+    {
+        return include FIXTURE_PATH . '/uploads-extensions.php';
+    }
+
+    /**
      * @covers Fracture\Http\UploadedFile::__construct
      * @covers Fracture\Http\UploadedFile::getName
      * @covers Fracture\Http\UploadedFile::getMimeType
