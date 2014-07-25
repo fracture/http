@@ -6,7 +6,7 @@
             [
                 'name'      => 'simple.png',
                 'type'      => 'image/png',
-                'tmp_name'  => FIXTURE_PATH . '/files/simple.png',
+                'tmp_name'  => FIXTURE_PATH . '/files/iughyfiytwfefhawjbfig',
                 'error'     => UPLOAD_ERR_OK,
                 'size'      => 74,
             ],
@@ -17,7 +17,7 @@
             [
                 'name'      => 'something.fake',
                 'type'      => 'image/png',
-                'tmp_name'  => FIXTURE_PATH . '/files/something.fake',
+                'tmp_name'  => FIXTURE_PATH . '/files/fasfsafsafafasjfb',
                 'error'     => UPLOAD_ERR_OK,
                 'size'      => 10,
             ],

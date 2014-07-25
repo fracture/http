@@ -106,7 +106,7 @@ class UploadedFile
 
     public function getExtension()
     {
-        $info = new \SplFileInfo($this->getPath());
+        $info = new \SplFileInfo($this->getName());
         return $info->getExtension();
     }
 
