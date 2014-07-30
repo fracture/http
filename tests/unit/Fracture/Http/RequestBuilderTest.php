@@ -39,7 +39,9 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             'post'   => [],
             'server' => [],
             'files'  => [],
+            'cookies'=> [],
         ];
+
 
         $builder = $this->getMock('Fracture\Http\RequestBuilder', ['buildInstance', 'applyParams']);
 
@@ -149,6 +151,15 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
     public function testUnalteredInstance()
     {
         $input = [
+            'get'  => [],
+            'server' => [
+                'REQUEST_METHOD' => 'post',
+                'REMOTE_ADDR'    => '0.0.0.0',
+                'HTTP_ACCEPT'    => 'text/html',
+            ],
+        ];
+
+        $params = [
             'get'    => [],
             'post'   => [],
             'server' => [
@@ -157,13 +168,16 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
                 'HTTP_ACCEPT'    => 'text/html',
             ],
             'files'  => [],
+            'cookies'=> [],
         ];
+
+
 
         $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyParams']);
 
         $builder->expects($this->once())
                 ->method('applyParams')
-                ->with($this->isInstanceOf('\Fracture\Http\Request'), $this->equalTo($input));
+                ->with($this->isInstanceOf('\Fracture\Http\Request'), $this->equalTo($params));
 
         $instance = $builder->create($input);
     }
