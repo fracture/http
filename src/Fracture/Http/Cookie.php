@@ -36,4 +36,23 @@ class Cookie
     {
         return $this->value;
     }
+
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getParameters()
+    {
+        return [
+            'name' => $this->name,
+            'value' => $this->value,
+            'expires' => $this->expires,
+            'path' => $this->path,
+            'domain' => $this->domain,
+            'secure' => $this->secure,
+            'httpOnly' => $this->httpOnly,
+        ];
+    }
 }

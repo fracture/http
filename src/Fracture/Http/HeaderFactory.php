@@ -10,7 +10,7 @@ class HeaderFactory
         $parts = $this->splitEntry($header);
 
         if (false === $parts) {
-            return false;
+            return null;
         }
 
         list($name, $value) = $parts;
@@ -18,7 +18,7 @@ class HeaderFactory
         $class = '\Fracture\Http\Headers\\' . $name;
 
         if (false === class_exists($class)) {
-            return false;
+            return null;
         }
 
         $instance = new $class($value);
@@ -31,13 +31,13 @@ class HeaderFactory
     {
         $separator = strpos($header, ': ');
 
-        if ($separator) {
-            return [
-                substr($header, 0, $separator),
-                substr($header, $separator + 2),
-            ];
+        if (false === $separator) {
+            return false;
         }
 
-        return null;
+        return [
+            substr($header, 0, $separator),
+            substr($header, $separator + 2),
+        ];
     }
 }

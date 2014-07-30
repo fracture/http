@@ -10,13 +10,23 @@ use PHPUnit_Framework_TestCase;
 class HeaderFactoryTest extends PHPUnit_Framework_TestCase
 {
 
+
+
+
+
+    /**
+     * @covers Fracture\Http\HeaderFactory::splitEntry
+     */
     public function testSplittingBadValue()
     {
         $factory = new HeaderFactory;
-        $this->assertNull($factory->splitEntry('Random text'));
+        $this->assertFalse($factory->splitEntry('Random text'));
     }
 
 
+    /**
+     * @covers Fracture\Http\HeaderFactory::splitEntry
+     */
     public function testSimpleHeaderSplitting()
     {
         $factory = new HeaderFactory;
@@ -27,15 +37,31 @@ class HeaderFactoryTest extends PHPUnit_Framework_TestCase
     }
 
 
+
+    /**
+     * @covers Fracture\Http\HeaderFactory::create
+     */
+    public function testValuelessHeader()
+    {
+        $factory = new HeaderFactory;
+        $this->assertNull($factory->create('Muahahahaha'));
+    }
+
+
+    /**
+     * @covers Fracture\Http\HeaderFactory::create
+     */
     public function testMissingHeaderCreation()
     {
         $factory = new HeaderFactory;
-        $this->assertFalse($factory->create('Bad: cookie'));
+        $this->assertNull($factory->create('Bad: cookie'));
     }
 
 
     /**
      * @dataProvider provideInstantiatedHeader
+     *
+     * @covers Fracture\Http\HeaderFactory::create
      */
     public function testInstantiatedHeader($expected, $parameter)
     {
