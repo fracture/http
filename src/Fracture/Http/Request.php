@@ -13,7 +13,9 @@ class Request implements \Fracture\Routing\Routable
 
     private $parameters = [];
 
-    private $files = [];
+    private $files = null;
+
+    private $cookies = null;
 
     private $fileBagBuilder = null;
 
@@ -52,6 +54,8 @@ class Request implements \Fracture\Routing\Routable
     {
         $header = $this->acceptHeader;
 
+        // lets you override the accept header value,
+        // but probably will get removed in a foreseeable future
         if (array_key_exists('_accept', $this->parameters)) {
             $value = strtolower($this->parameters['_accept']);
             $header->setAlternativeValue($value);
@@ -151,14 +155,32 @@ class Request implements \Fracture\Routing\Routable
     }
 
 
-    private function sanitizeUri($uri)
+    public function addCookie($cookie)
     {
-        $uri = explode('?', $uri)[0];
-        // to remove './' at the start of $uri
-        $uri = '/' . $uri;
-        $uri = preg_replace(['#(/)+#', '#/(\./)+#'], '/', $uri);
-        $uri = trim($uri, '/');
-        return $uri;
+        $name = $cookie->getName();
+        $this->cookies[$name] = $cookie;
+    }
+
+
+    public function getCookie($name)
+    {
+        if (array_key_exists($name, $this->cookies)) {
+            return $this->cookies[$name];
+        }
+
+        return null;
+    }
+
+
+
+    protected function resolveUri($uri)
+    {
+        $parts = explode('/', $uri);
+        $segments = [];
+        foreach ($parts as $element) {
+            $segments = $this->adjustUriSegments($segments, $element);
+        }
+        return implode('/', $segments);
     }
 
 
@@ -177,22 +199,22 @@ class Request implements \Fracture\Routing\Routable
     }
 
 
-    protected function resolveUri($uri)
-    {
-        $parts = explode('/', $uri);
-        $segments = [];
-        foreach ($parts as $element) {
-            $segments = $this->adjustUriSegments($segments, $element);
-        }
-        return implode('/', $segments);
-    }
-
-
     public function setUri($uri)
     {
         $uri = $this->sanitizeUri($uri);
         $uri = $this->resolveUri($uri);
         $this->uri = '/' . $uri;
+    }
+
+
+    private function sanitizeUri($uri)
+    {
+        $uri = explode('?', $uri)[0];
+        // to remove './' at the start of $uri
+        $uri = '/' . $uri;
+        $uri = preg_replace(['#(/)+#', '#/(\./)+#'], '/', $uri);
+        $uri = trim($uri, '/');
+        return $uri;
     }
 
 

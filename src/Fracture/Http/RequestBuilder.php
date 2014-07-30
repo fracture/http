@@ -10,6 +10,7 @@ class RequestBuilder
         'post'   => [],
         'server' => [],
         'files'  => [],
+        'cookies'=> [],
     ];
 
     private $parsers = [];
@@ -91,9 +92,14 @@ class RequestBuilder
         $instance->setParameters($params['get']);
         $instance->setParameters($params['post']);
         $instance->setUploadedFiles($params['files']);
+
         if (!$this->isCLI()) {
             $instance->setMethod($params['server']['REQUEST_METHOD']);
             $instance->setAddress($params['server']['REMOTE_ADDR']);
+        }
+
+        foreach ($params['cookies'] as $name => $value) {
+            $instance->addCookie(new Cookie($name, $value));
         }
     }
 
