@@ -6,38 +6,67 @@ class Response
 {
 
 
-    private $headers = [
-        'Content-Type' => 'text/html',
-    ];
+    private $headers = [];
+    private $cookies = [];
 
-    private $body = '';
 
     private $code = 200;
+    private $body = '';
 
 
-    public function setBody($body)
+    public function setBody($content)
     {
-        $this->body = $body;
+        $this->body = $content;
+    }
+
+
+    public function appendBody($content)
+    {
+        $this->body = $this->body . $content;
+    }
+
+
+    public function getBOdy()
+    {
+        return  $this->body;
     }
 
 
     public function addHeader(Headers\Abstracted $header)
     {
-        $this->headers[$headers->getFieldName()] = $value;
+        $this->headers[$headers->getFieldName()] = $header;
+    }
+
+
+    public function addCookie(Cookie $cookie)
+    {
+        $this->cookies[$cookie->getName()] = $cookie;
+    }
+
+
+    public function getHeaders()
+    {
+        return $this->headers;
     }
 
 
     public function setStatusCode($code)
     {
-        $this->code = $code !== null ? $code : 200;
+        $code = (int)$code;
+
+        if ($code < 100 || $code > 599) {
+            throw new \InvalidArgumentException('Invalid response status code');
+        }
+
+        $this->code = $code;
     }
 
 
-    public function send()
+    public function getStatusCode()
     {
-        $this->sendHeaders();
-        $this->sendBody();
+        return $this->code;
     }
+
 
 
     public function sendHeaders()
@@ -48,8 +77,4 @@ class Response
         }
     }
 
-    public function sendBody()
-    {
-        echo $this->body;
-    }
 }

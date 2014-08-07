@@ -172,6 +172,11 @@ class Request implements \Fracture\Routing\Routable
     }
 
 
+    public function getAllCookies()
+    {
+        return $this->cookies;
+    }
+
 
     protected function resolveUri($uri)
     {
