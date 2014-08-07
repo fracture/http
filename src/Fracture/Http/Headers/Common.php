@@ -13,6 +13,15 @@ abstract class Common implements Abstracted
     /**
      * @param string $headerValue
      */
+    public function __construct($headerValue = '')
+    {
+        $this->headerValue = $headerValue;
+    }
+
+
+    /**
+     * @param string $headerValue
+     */
     public function setValue($headerValue = '')
     {
         $this->headerValue = $headerValue;
@@ -28,5 +37,4 @@ abstract class Common implements Abstracted
     {
         return $this->headerValue;
     }
-
 }

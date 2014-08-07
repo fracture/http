@@ -10,15 +10,6 @@ class ContentType extends Common
     private $item = [];
 
 
-    /**
-     * @param string $headerValue
-     */
-    public function __construct($headerValue = '')
-    {
-        $this->headerValue = $headerValue;
-    }
-
-
     public function prepare()
     {
         $this->item = [];
