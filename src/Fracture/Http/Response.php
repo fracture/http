@@ -26,7 +26,13 @@ class Response
     }
 
 
-    public function getBOdy()
+    public function prependBody($content)
+    {
+        $this->body = $content . $this->body;
+    }
+
+
+    public function getBody()
     {
         return  $this->body;
     }
