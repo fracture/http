@@ -5,7 +5,7 @@ namespace Fracture\Http\Headers;
 abstract class Common implements Abstracted
 {
 
-    protected $fieldName = 'Unspecified';
+    protected $headerName = 'Unspecified';
 
     protected $headerValue = '';
 
@@ -28,12 +28,12 @@ abstract class Common implements Abstracted
     }
 
 
-    public function getFieldName()
+    public function getName()
     {
-        return $this->fieldName;
+        return $this->headerName;
     }
 
-    public function getFormatedValue()
+    public function getValue()
     {
         return $this->headerValue;
     }

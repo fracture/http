@@ -8,6 +8,6 @@ interface Abstracted
     public function extractData($header);
     public function prepare();
 
-    public function getFieldName();
-    public function getFormatedValue();
+    public function getName();
+    public function getValue();
 }
