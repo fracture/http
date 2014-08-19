@@ -25,8 +25,6 @@ class CookieTest extends PHPUnit_Framework_TestCase
         $this->assertSame('value', $instance->getValue());
 
         $this->assertEquals([
-            'name' => 'name',
-            'value' => 'value',
             'expires' => null,
             'path' => '/',
             'domain' => '',

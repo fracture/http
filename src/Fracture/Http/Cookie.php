@@ -46,8 +46,6 @@ class Cookie
     public function getParameters()
     {
         return [
-            'name' => $this->name,
-            'value' => $this->value,
             'expires' => $this->expires,
             'path' => $this->path,
             'domain' => $this->domain,
