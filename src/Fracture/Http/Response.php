@@ -9,7 +9,6 @@ class Response
     private $headers = [];
     private $cookies = [];
 
-
     private $code = 200;
     private $body = '';
 
@@ -38,21 +37,29 @@ class Response
     }
 
 
-    public function addHeader(Headers\Abstracted $header)
-    {
-        $this->headers[$headers->getFieldName()] = $header;
-    }
-
-
     public function addCookie(Cookie $cookie)
     {
         $this->cookies[$cookie->getName()] = $cookie;
     }
 
 
+    public function addHeader(Headers\Abstracted $header)
+    {
+        $name = $header->getName();
+        $name = strtolower($name);
+        $this->headers[$name] = $header;
+    }
+
+
     public function getHeaders()
     {
-        return $this->headers;
+        $list = [];
+
+        foreach ($this->headers as $key => $object) {
+            $list[$key] = $object->getName() . ': ' . $object->getValue();
+        }
+
+        return $list;
     }
 
 
@@ -72,15 +79,4 @@ class Response
     {
         return $this->code;
     }
-
-
-
-    public function sendHeaders()
-    {
-        http_response_code($this->code);
-        foreach ($this->headers as $key => $value) {
-            header($key . ': ' . $value);
-        }
-    }
-
 }

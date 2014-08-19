@@ -34,7 +34,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     {
         $instance = new Response;
 
-        $instance ->setBody('sit');
+        $instance->setBody('sit');
         $this->assertSame('sit', $instance->getBody());
 
         $instance->appendBody(' dolor amet');
@@ -45,5 +45,59 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
         $instance->setBody(null);
         $this->assertNull($instance->getBody());
+    }
+
+
+    public function testSimpleHeader()
+    {
+        $header = $this->getMock('Fracture\Http\Headers\ContentType', ['getName', 'getValue']);
+        $header->expects($this->any())
+               ->method('getName')
+               ->will($this->returnValue('Alpha'));
+
+        $header->expects($this->any())
+               ->method('getValue')
+               ->will($this->returnValue('beta'));
+
+
+        $instance = new Response;
+        $instance->addHeader($header);
+
+        $this->assertEquals([
+            'alpha' => 'Alpha: beta',
+        ], $instance->getHeaders());
+    }
+
+
+    public function testReplaingHeaderInstance()
+    {
+        $original = $this->getMock('Fracture\Http\Headers\ContentType', ['getName', 'getValue']);
+        $original->expects($this->any())
+                 ->method('getName')
+                 ->will($this->returnValue('Alpha'));
+
+        $original->expects($this->any())
+                 ->method('getValue')
+                 ->will($this->returnValue('beta'));
+
+        $instance = new Response;
+        $instance->addHeader($original);
+
+
+        $replacement = $this->getMock('Fracture\Http\Headers\ContentType', ['getName', 'getValue']);
+        $replacement->expects($this->any())
+                    ->method('getName')
+                    ->will($this->returnValue('Alpha'));
+
+        $replacement->expects($this->any())
+                    ->method('getValue')
+                    ->will($this->returnValue('gamma'));
+
+        $instance->addHeader($replacement);
+
+        $this->assertEquals([
+            'alpha' => 'Alpha: gamma',
+        ], $instance->getHeaders());
+
     }
 }
