@@ -50,7 +50,7 @@ class CookieBuilderTest extends PHPUnit_Framework_TestCase
             'domain' => '',
             'secure' => false,
             'httpOnly' => true,
-        ], $cookie->getParameters());
+        ], $cookie->getOptions());
     }
 
 
@@ -71,7 +71,7 @@ class CookieBuilderTest extends PHPUnit_Framework_TestCase
             'domain' => '',
             'secure' => false,
             'httpOnly' => true,
-        ], $cookie->getParameters());
+        ], $cookie->getOptions());
 
         $instance->setParameter('secure', true);
 
@@ -82,6 +82,6 @@ class CookieBuilderTest extends PHPUnit_Framework_TestCase
             'domain' => '',
             'secure' => true,
             'httpOnly' => true,
-        ], $cookie->getParameters());
+        ], $cookie->getOptions());
     }
 }

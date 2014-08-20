@@ -7,7 +7,7 @@ class CookieBuilder
 
     private $defaults = [
         'expires'   => null,
-        'path'      => null,
+        'path'      => '/',
         'domain'    => '',
         'secure'    => false,
         'httpOnly'  => true,
@@ -23,8 +23,9 @@ class CookieBuilder
     public function create($name, $value, array $params = [])
     {
         $params = $params + $this->defaults;
-        $instance = new Cookie($name, $value,
-            $params['expires'], $params['path'], $params['domain'], $params['secure'], $params['httpOnly']);
+
+        $instance = new Cookie($name, $value);
+        $instance->setOptions($params);
 
         return $instance;
     }

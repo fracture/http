@@ -59,6 +59,11 @@ class Response
             $list[] = $header->getName() . ': ' . $header->getValue();
         }
 
+        foreach ($this->cookies as $cookie) {
+            $list [] = 'Set-Cookie: ' . $cookie->getHeaderValue();
+        }
+
+
         return $list;
     }
 

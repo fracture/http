@@ -30,6 +30,13 @@ class CookieTest extends PHPUnit_Framework_TestCase
             'domain' => '',
             'secure' => false,
             'httpOnly' => true,
-        ], $instance->getParameters());
+        ], $instance->getOptions());
+    }
+
+
+    public function testHeaderStringFormation()
+    {
+        $instance = new Cookie('name', 'value');
+        $this->assertSame('name=value; HttpOnly', $instance->getHeaderValue());
     }
 }

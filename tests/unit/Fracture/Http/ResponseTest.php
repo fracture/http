@@ -104,4 +104,23 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             'Alpha: gamma',
         ], $instance->getHeaders());
     }
+
+
+    public function testCookieAsHeader()
+    {
+        $cookie = $this->getMock('Fracture\Http\Cookie', ['getName', 'getHeaderValue'], [], '', false);
+        $cookie->expects($this->any())
+               ->method('getName')
+               ->will($this->returnValue('alpha'));
+        $cookie->expects($this->any())
+               ->method('getHeaderValue')
+               ->will($this->returnValue('alpha=omega; HttpOnly'));
+
+        $instance = new Response;
+        $instance->addCookie($cookie);
+
+        $this->assertEquals([
+            'Set-Cookie: alpha=omega; HttpOnly',
+        ], $instance->getHeaders());
+    }
 }
