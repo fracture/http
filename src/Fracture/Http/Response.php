@@ -55,8 +55,8 @@ class Response
     {
         $list = [];
 
-        foreach ($this->headers as $key => $object) {
-            $list[$key] = $object->getName() . ': ' . $object->getValue();
+        foreach ($this->headers as $header) {
+            $list[] = $header->getName() . ': ' . $header->getValue();
         }
 
         return $list;

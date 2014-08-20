@@ -64,13 +64,16 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $instance->addHeader($header);
 
         $this->assertEquals([
-            'alpha' => 'Alpha: beta',
+            'Alpha: beta',
         ], $instance->getHeaders());
     }
 
 
-    public function testReplaingHeaderInstance()
+    public function testReplacingHeaderInstance()
     {
+        $instance = new Response;
+
+
         $original = $this->getMock('Fracture\Http\Headers\ContentType', ['getName', 'getValue']);
         $original->expects($this->any())
                  ->method('getName')
@@ -80,7 +83,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
                  ->method('getValue')
                  ->will($this->returnValue('beta'));
 
-        $instance = new Response;
+
         $instance->addHeader($original);
 
 
@@ -93,11 +96,12 @@ class ResponseTest extends PHPUnit_Framework_TestCase
                     ->method('getValue')
                     ->will($this->returnValue('gamma'));
 
+
         $instance->addHeader($replacement);
 
-        $this->assertEquals([
-            'alpha' => 'Alpha: gamma',
-        ], $instance->getHeaders());
 
+        $this->assertEquals([
+            'Alpha: gamma',
+        ], $instance->getHeaders());
     }
 }
