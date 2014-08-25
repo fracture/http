@@ -43,6 +43,12 @@ class Response
     }
 
 
+    public function deleteCookie($name)
+    {
+        unset($this->cookies[$name]);
+    }
+
+
     public function addHeader(Headers\Abstracted $header)
     {
         $name = $header->getName();
