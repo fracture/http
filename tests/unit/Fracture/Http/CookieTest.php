@@ -15,7 +15,7 @@ class CookieTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Cookie::__construct
      * @covers Fracture\Http\Cookie::getName
      * @covers Fracture\Http\Cookie::getValue
-     * @covers Fracture\Http\Cookie::getParameters
+     * @covers Fracture\Http\Cookie::getOptions
      */
     public function testBasicCookie()
     {
@@ -34,6 +34,10 @@ class CookieTest extends PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * @covers Fracture\Http\Cookie::__construct
+     * @covers Fracture\Http\Cookie::getHeaderValue
+     */
     public function testHeaderStringFormation()
     {
         $instance = new Cookie('name', 'value');
