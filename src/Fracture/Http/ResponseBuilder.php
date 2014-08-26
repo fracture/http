@@ -16,7 +16,7 @@ class ResponseBuilder
 
     public function create()
     {
-        $instance = new Response(new CookieBuilder);
+        $instance = new Response;
         $cookies = $this->request->getAllCookies();
 
         foreach ($cookies as $cookie) {

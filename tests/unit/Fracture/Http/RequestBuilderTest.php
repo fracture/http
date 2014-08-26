@@ -64,7 +64,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyParams
      */
-    public function testMethodCallsOnInstance($request, $builder)
+    public function testMethodCallsOnInstance($builder, $request)
     {
 
         $request->expects($this->once())->method('setUploadedFiles');
@@ -93,7 +93,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyParams
      */
-    public function testMethodCallsOnInstanceForCLI($request, $builder)
+    public function testMethodCallsOnInstanceForCLI($builder)
     {
 
 
@@ -138,8 +138,8 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
                 ->will($this->returnValue($request));
 
         return [[
+            'builder' => $builder,
             'request' => $request,
-            'builder' => $builder
         ]];
     }
 
@@ -179,7 +179,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
                 ->method('applyParams')
                 ->with($this->isInstanceOf('\Fracture\Http\Request'), $this->equalTo($params));
 
-        $instance = $builder->create($input);
+        $builder->create($input);
     }
 
     /**
@@ -206,7 +206,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
                 ->method('applyContentParsers')
                 ->with($this->isInstanceOf('\Fracture\Http\Request'));
 
-        $instance = $builder->create($input);
+        $builder->create($input);
     }
 
 
@@ -233,7 +233,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
         $builder->expects($this->never())
                 ->method('applyContentParsers');
 
-        $instance = $builder->create($input);
+        $builder->create($input);
     }
 
 
