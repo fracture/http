@@ -19,7 +19,7 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
     {
         $instance = new ContentType;
         $instance->prepare();
-        $this->assertEquals([], $instance->getParsedData(''));
+        $this->assertEquals([], $instance->getParsedData());
     }
 
 
