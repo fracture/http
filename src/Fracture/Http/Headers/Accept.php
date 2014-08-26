@@ -7,24 +7,12 @@ class Accept extends Common
 
     protected $fieldName = 'Accept';
 
-    private $list = [];
-
-
-    public function prepare()
-    {
-        $this->list = [];
-
-        if (strlen($this->headerValue) > 0) {
-            $this->list = $this->extractData($this->headerValue);
-        }
-    }
-
 
     /**
      * @param string $headerValue
      * @return array[]
      */
-    public function extractData($headerValue)
+    protected function extractData($headerValue)
     {
         $elements = preg_split('#,\s?#', $headerValue, -1, \PREG_SPLIT_NO_EMPTY);
         $elements = $this->obtainGroupedElements($elements);

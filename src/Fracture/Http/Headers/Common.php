@@ -9,6 +9,8 @@ abstract class Common implements Abstracted
 
     protected $headerValue = '';
 
+    protected $list = [];
+
 
     /**
      * @param string $headerValue
@@ -36,5 +38,24 @@ abstract class Common implements Abstracted
     public function getValue()
     {
         return $this->headerValue;
+    }
+
+
+    public function prepare()
+    {
+        $this->list = [];
+
+        if (strlen($this->headerValue) > 0) {
+            $this->list = $this->extractData($this->headerValue);
+        }
+    }
+
+
+    abstract protected function extractData($headerValue);
+
+
+    public function getParsedData()
+    {
+        return $this->list;
     }
 }

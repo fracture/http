@@ -58,7 +58,7 @@ class Request implements \Fracture\Routing\Routable
         // but probably will get removed in a foreseeable future
         if (array_key_exists('_accept', $this->parameters)) {
             $value = strtolower($this->parameters['_accept']);
-            $header->setAlternativeValue($value);
+            $header->setValue($value);
             $header->prepare();
             unset( $this->parameters['_accept']);
         }

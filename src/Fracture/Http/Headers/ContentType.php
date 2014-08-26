@@ -7,24 +7,12 @@ class ContentType extends Common
 
     protected $fieldName = 'Content-Type';
 
-    private $item = [];
-
-
-    public function prepare()
-    {
-        $this->item = [];
-
-        if (strlen($this->headerValue) > 0) {
-            $this->item = $this->extractData($this->headerValue);
-        }
-    }
-
 
     /**
      * @param string $headerValue
      * @return array
      */
-    public function extractData($headerValue)
+    protected function extractData($headerValue)
     {
         $result = [];
         $parts = preg_split('#;\s?#', $headerValue, -1, \PREG_SPLIT_NO_EMPTY);
@@ -50,6 +38,6 @@ class ContentType extends Common
      */
     public function contains($type)
     {
-        return array_key_exists('value', $this->item) && $this->item['value'] === $type;
+        return array_key_exists('value', $this->list) && $this->list['value'] === $type;
     }
 }

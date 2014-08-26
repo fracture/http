@@ -13,28 +13,13 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Fracture\Http\Headers\ContentType::__construct
-     * @covers Fracture\Http\Headers\ContentType::extractData
+     * @covers Fracture\Http\Headers\ContentType::getParsedData
      */
     public function testEmptyInstance()
     {
         $instance = new ContentType;
-        $this->assertEquals([], $instance->extractData(''));
-        $this->assertEquals(
-            ['value' => 'application/json'],
-            $instance->extractData('application/json')
-        );
-        $this->assertEquals(
-            ['value' => 'application/json', 'version' => '1'],
-            $instance->extractData('application/json;version=1')
-        );
-        $this->assertEquals(
-            ['value' => 'text/html', 'charset' => 'utf-8'],
-            $instance->extractData('text/html; charset=utf-8')
-        );
-        $this->assertEquals(
-            ['value' => 'multipart/form-data', 'boundary' => 'AaB03x'],
-            $instance->extractData('multipart/form-data; boundary=AaB03x')
-        );
+        $instance->prepare();
+        $this->assertEquals([], $instance->getParsedData(''));
     }
 
 
@@ -67,5 +52,46 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($instance->contains('image/png'));
         $this->assertFalse($instance->contains('text/html'));
+    }
+
+
+    /**
+     * @dataProvider provideVariousInputs
+     *
+     * @covers Fracture\Http\Headers\ContentType::__construct
+     * @covers Fracture\Http\Headers\ContentType::setValue
+     * @covers Fracture\Http\Headers\ContentType::prepare
+     * @covers Fracture\Http\Headers\ContentType::getParsedData
+     */
+    public function testVariousInputs($expected, $parameter)
+    {
+        $instance = new ContentType;
+        $instance->setValue($parameter);
+        $instance->prepare();
+
+        $this->assertEquals($expected, $instance->getParsedData());
+    }
+
+
+    public function provideVariousInputs()
+    {
+        return [
+            [
+                'expected' => ['value' => 'application/json'],
+                'data' => 'application/json',
+            ],
+            [
+                'expected' => ['value' => 'application/json', 'version' => '1'],
+                'data' => 'application/json;version=1',
+            ],
+            [
+                'expected' => ['value' => 'text/html', 'charset' => 'utf-8'],
+                'data' => 'text/html; charset=utf-8',
+            ],
+            [
+                'expected' => ['value' => 'multipart/form-data', 'boundary' => 'AaB03x'],
+                'data' => 'multipart/form-data; boundary=AaB03x',
+            ],
+        ];
     }
 }

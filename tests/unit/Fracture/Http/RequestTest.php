@@ -306,13 +306,13 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetterAndSetterForAcceptHeaderWithManualAcceotValue()
     {
         $request = new Request;
-        $header = $this->getMock('Fracture\Http\Headers\Accept', ['prepare', 'setAlternativeValue']);
+        $header = $this->getMock('Fracture\Http\Headers\Accept', ['prepare', 'setValue']);
 
         $header->expects($this->once())
                ->method('prepare');
 
         $header->expects($this->once())
-               ->method('setAlternativeValue')
+               ->method('setValue')
                ->with($this->equalTo('application/json'));
 
 
