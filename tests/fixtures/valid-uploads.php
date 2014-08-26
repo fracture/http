@@ -96,7 +96,7 @@
             ],
             'gamma' => [
                 'name'      => 'no-extension',
-                'type'      => 'application/octet-stream'
+                'type'      => 'application/octet-stream',
                 'tmp_name'  => FIXTURE_PATH . '/files/tempname',
                 'error'     => 0,
                 'size'      => 75,
