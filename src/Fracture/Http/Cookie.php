@@ -25,16 +25,20 @@ class Cookie
 
     public function setOptions($options)
     {
-        if ($this->hasValidOptions($options)) {
-            $options = $this->cleanOptions($options);
-            $this->options = $options + $this->options;
+        if ($this->hasInvalidOptions($options)) {
+            $message = 'Valid array keys for cookie options are: \'expires\', \'path\', \'domain\', \'secure\' and \'httpOnly\'';
+            trigger_error($message, E_NOTICE);
         }
+        $options = $this->cleanOptions($options);
+        $this->options = $options + $this->options;
     }
 
 
-    private function hasValidOptions($options)
+    private function hasInvalidOptions($options)
     {
-        return true;
+        $keys = ['expires', 'path', 'domain', 'secure', 'httpOnly'];
+        $wrongKeys = array_diff(array_keys($options), $keys);
+        return count($wrongKeys) > 0;
     }
 
 
