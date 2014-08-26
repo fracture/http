@@ -20,4 +20,4 @@ it also provides object-oriented abstractions for the following functionality:
 
 Since the library is still in development, the recommended version to install would be "the latest". You can do it by running following command:
 
-composer require fracture/http:dev-master
+    composer require fracture/http:dev-master
