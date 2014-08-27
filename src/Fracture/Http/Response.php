@@ -43,7 +43,7 @@ class Response
     }
 
 
-    public function deleteCookie($name)
+    public function removeCookie($name)
     {
         unset($this->cookies[$name]);
     }

@@ -25,6 +25,32 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 
     /**
+     * @covers Fracture\Http\Response::getBody
+     * @covers Fracture\Http\Response::setStatusCode
+     * @covers Fracture\Http\Response::getStatusCode
+     */
+    public function testProperStatusCode()
+    {
+        $instance = new Response;
+        $instance->setStatusCode(404);
+        $this->assertSame(404, $instance->getStatusCode());
+    }
+
+
+    /**
+     * @expectedException InvalidArgumentException
+     *
+     * @covers Fracture\Http\Response::getBody
+     * @covers Fracture\Http\Response::setStatusCode
+     */
+    public function testBadStatusCode()
+    {
+        $instance = new Response;
+        $instance->setStatusCode(9999);
+    }
+
+
+    /**
      * @covers Fracture\Http\Response::setBody
      * @covers Fracture\Http\Response::appendBody
      * @covers Fracture\Http\Response::prependBody
@@ -48,6 +74,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * @covers Fracture\Http\Response::addHeader
+     * @covers Fracture\Http\Response::getHeaders
+     */
     public function testSimpleHeader()
     {
         $header = $this->getMock('Fracture\Http\Headers\ContentType', ['getName', 'getValue']);
@@ -69,11 +99,12 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * @covers Fracture\Http\Response::addHeader
+     * @covers Fracture\Http\Response::getHeaders
+     */
     public function testReplacingHeaderInstance()
     {
-        $instance = new Response;
-
-
         $original = $this->getMock('Fracture\Http\Headers\ContentType', ['getName', 'getValue']);
         $original->expects($this->any())
                  ->method('getName')
@@ -82,10 +113,6 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $original->expects($this->any())
                  ->method('getValue')
                  ->will($this->returnValue('beta'));
-
-
-        $instance->addHeader($original);
-
 
         $replacement = $this->getMock('Fracture\Http\Headers\ContentType', ['getName', 'getValue']);
         $replacement->expects($this->any())
@@ -97,6 +124,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
                     ->will($this->returnValue('gamma'));
 
 
+        $instance = new Response;
+        $instance->addHeader($original);
         $instance->addHeader($replacement);
 
 
@@ -106,6 +135,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * @covers Fracture\Http\Response::addCookie
+     * @covers Fracture\Http\Response::getHeaders
+     */
     public function testCookieAsHeader()
     {
         $cookie = $this->getMock('Fracture\Http\Cookie', ['getName', 'getHeaderValue'], [], '', false);
@@ -122,5 +155,26 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([
             'Set-Cookie: alpha=omega; HttpOnly',
         ], $instance->getHeaders());
+    }
+
+
+    /**
+     * @covers Fracture\Http\Response::addCookie
+     * @covers Fracture\Http\Response::removeCookie
+     * @covers Fracture\Http\Response::getHeaders
+     */
+    public function testHeaderAfterRemovingCookie()
+    {
+        $cookie = $this->getMock('Fracture\Http\Cookie', ['getName'], [], '', false);
+        $cookie->expects($this->any())
+               ->method('getName')
+               ->will($this->returnValue('alpha'));
+
+        $instance = new Response;
+        $instance->addCookie($cookie);
+
+        $instance->removeCookie('alpha');
+
+        $this->assertEquals([], $instance->getHeaders());
     }
 }
