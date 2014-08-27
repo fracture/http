@@ -423,4 +423,23 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Fracture\Http\Headers\ContentType', $instance->getContentTypeHeader());
     }
+
+
+    /**
+     * @covers Fracture\Http\RequestBuilder::create
+     * @covers Fracture\Http\RequestBuilder::applyParams
+     */
+    public function testWithCookieAddition()
+    {
+        $input = [
+            'cookies' => [
+                'name' => 'value'
+            ]
+        ];
+
+        $builder = new RequestBuilder;
+        $instance = $builder->create($input);
+
+        $this->assertInstanceOf('Fracture\Http\Cookie', $instance->getCookie('name'));
+    }
 }

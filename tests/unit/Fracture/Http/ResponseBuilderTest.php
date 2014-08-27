@@ -10,6 +10,10 @@ use PHPUnit_Framework_TestCase;
 class ResponseBuilderTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @covers Fracture\Http\ResponseBuilder::__construct
+     * @covers Fracture\Http\ResponseBuilder::create
+     */
     public function testResponseCreatedWithNoCookies()
     {
         $requestMock = $this->getMock('Fracture\Http\RequestBuilder', ['getAllCookies']);
@@ -24,6 +28,10 @@ class ResponseBuilderTest extends PHPUnit_Framework_TestCase
 
 
 
+    /**
+     * @covers Fracture\Http\ResponseBuilder::__construct
+     * @covers Fracture\Http\ResponseBuilder::create
+     */
     public function testResponseCreatedWithSomeCookies()
     {
         $cookieMock = $this->getMock('Fracture\Http\Cookie', ['getName'], [], '', false);
