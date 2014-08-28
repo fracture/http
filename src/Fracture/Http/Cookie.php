@@ -30,7 +30,7 @@ class Cookie
             trigger_error($message, E_NOTICE);
         }
         $options = $this->cleanOptions($options);
-        $this->options = $options + $this->options;
+        $this->options = $options;
     }
 
 
@@ -44,29 +44,19 @@ class Cookie
 
     private function cleanOptions($options)
     {
-        $results = [];
+        $options = $options + $this->options;
 
-        if (array_key_exists('expires', $options)) {
-            $results['expires'] = (int) $options['expires'];
+        $options['expires'] = (int) $options['expires'];
+
+        if ($options['path'] === null) {
+            $options['path'] = '/';
         }
 
-        if (array_key_exists('path', $options)) {
-            $results['path'] = $options['path'] ?: '/';
-        }
+        $options['domain'] = strtolower($options['domain']);
+        $options['secure'] = (bool) $options['secure'];
+        $options['httpOnly'] = (bool) $options['httpOnly'];
 
-        if (array_key_exists('domain', $options)) {
-            $results['domain'] = strtolower($options['domain']);
-        }
-
-        if (array_key_exists('secure', $options)) {
-            $results['secure'] = (bool) $options['secure'];
-        }
-
-        if (array_key_exists('httpOnly', $options)) {
-            $results['httpOnly'] = (bool) $options['httpOnly'];
-        }
-
-        return $results;
+        return $options;
     }
 
     public function setValue($value)

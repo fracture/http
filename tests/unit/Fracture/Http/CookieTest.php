@@ -65,6 +65,37 @@ class CookieTest extends PHPUnit_Framework_TestCase
 
 
     /**
+     * @covers Fracture\Http\Cookie::__construct
+     * @covers Fracture\Http\Cookie::hasInvalidOptions
+     * @covers Fracture\Http\Cookie::setOptions
+     * @covers Fracture\Http\Cookie::cleanOptions
+     * @covers Fracture\Http\Cookie::getOptions
+     */
+    public function testChangingCookieOptionsToBadValues()
+    {
+        $instance = new Cookie('name', 'value');
+        $instance->setOptions([
+            'expires' => 'aaaa',
+            'path' => null,
+            'domain' => 'FOO.BAR',
+            'secure' => 0,
+            'httpOnly' => 'true',
+        ]);
+
+
+        $this->assertEquals([
+            'expires' => 0,
+            'path' => '/',
+            'domain' => 'foo.bar',
+            'secure' => false,
+            'httpOnly' => true,
+        ], $instance->getOptions());
+    }
+
+
+
+
+    /**
      * @expectedException PHPUnit_Framework_Error_Warning
      *
      * @covers Fracture\Http\Cookie::__construct
