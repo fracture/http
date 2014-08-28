@@ -242,6 +242,8 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyContentParsers
      * @covers Fracture\Http\RequestBuilder::addContentParser
+     *
+     * @covers Fracture\Http\RequestBuilder::alterParameters
      */
     public function testAppliedContentParsers()
     {
@@ -276,6 +278,8 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyContentParsers
      * @covers Fracture\Http\RequestBuilder::addContentParser
+     *
+     * @covers Fracture\Http\RequestBuilder::alterParameters
      */
     public function testAppliedContentParsersOverridesPameters()
     {
@@ -312,6 +316,8 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyContentParsers
      * @covers Fracture\Http\RequestBuilder::addContentParser
+     *
+     * @covers Fracture\Http\RequestBuilder::alterParameters
      *
      * @expectedException PHPUnit_Framework_Error_Warning
      */
@@ -428,6 +434,8 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyParams
+     *
+     * @covers Fracture\Http\RequestBuilder::alterParameters
      */
     public function testWithCookieAddition()
     {

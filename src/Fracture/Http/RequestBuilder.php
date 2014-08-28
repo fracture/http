@@ -60,7 +60,7 @@ class RequestBuilder
      */
     protected function applyContentParsers($instance)
     {
-        $data = [];
+        $parameters = [];
 
         $header = $instance->getContentTypeHeader();
 
@@ -70,16 +70,25 @@ class RequestBuilder
 
         foreach ($this->parsers as $value => $parser) {
             if ($header->contains($value)) {
-                $result = call_user_func($parser);
-                if (false === is_array($result)) {
-                    $message ="Parser for '$value' did not return a 'name => value' array of parameters";
-                    trigger_error($message, \E_USER_WARNING);
-                }
-                $data += $result;
+                $parameters = $this->alterParameters($parameters, $parser, $value);
             }
         }
 
-        $instance->setParameters($data, true);
+        $instance->setParameters($parameters, true);
+    }
+
+
+    private function alterParameters($parameters, $parser, $value)
+    {
+        $result = call_user_func($parser);
+
+        if (false === is_array($result)) {
+            $message = "Parser for '$value' did not return a 'name => value' array of parameters";
+            trigger_error($message, \E_USER_WARNING);
+        }
+
+        $parameters += $result;
+        return $parameters;
     }
 
 
