@@ -27,6 +27,8 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Headers\ContentType::__construct
      * @covers Fracture\Http\Headers\ContentType::prepare
      * @covers Fracture\Http\Headers\ContentType::contains
+     *
+     * @covers Fracture\Http\Headers\ContentType::extractData
      */
     public function testPreparedResult()
     {
@@ -43,6 +45,8 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Headers\ContentType::prepare
      * @covers Fracture\Http\Headers\ContentType::contains
      * @covers Fracture\Http\Headers\ContentType::setValue
+     *
+     * @covers Fracture\Http\Headers\ContentType::extractData
      */
     public function testPreparedResultAterManualAlteration()
     {
@@ -62,6 +66,8 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Headers\ContentType::setValue
      * @covers Fracture\Http\Headers\ContentType::prepare
      * @covers Fracture\Http\Headers\ContentType::getParsedData
+     *
+     * @covers Fracture\Http\Headers\ContentType::extractData
      */
     public function testVariousInputs($expected, $parameter)
     {
@@ -91,6 +97,10 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
             [
                 'expected' => ['value' => 'multipart/form-data', 'boundary' => 'AaB03x'],
                 'data' => 'multipart/form-data; boundary=AaB03x',
+            ],
+            [
+                'expected' => [],
+                'data' => '; ',
             ],
         ];
     }

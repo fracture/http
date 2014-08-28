@@ -9,6 +9,14 @@ use PHPUnit_Framework_TestCase;
 
 class ContentDispositionTest extends PHPUnit_Framework_TestCase
 {
+
+    /**
+     * @covers Fracture\Http\Headers\ContentDisposition::__construct
+     * @covers Fracture\Http\Headers\ContentDisposition::prepare
+     * @covers Fracture\Http\Headers\ContentDisposition::getAttribute
+     *
+     * @covers Fracture\Http\Headers\ContentDisposition::extractData
+     */
     public function testParsingSimpleEntry()
     {
         $instance = new ContentDisposition('form-data; name="text"');
@@ -19,6 +27,13 @@ class ContentDispositionTest extends PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * @covers Fracture\Http\Headers\ContentDisposition::__construct
+     * @covers Fracture\Http\Headers\ContentDisposition::prepare
+     * @covers Fracture\Http\Headers\ContentDisposition::getAttribute
+     *
+     * @covers Fracture\Http\Headers\ContentDisposition::extractData
+     */
     public function testFileUploadEntry()
     {
         $instance = new ContentDisposition('form-data; name="file"; filename="file-simple.png"');
