@@ -13,10 +13,11 @@ class ResponseBuilderTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\ResponseBuilder::__construct
      * @covers Fracture\Http\ResponseBuilder::create
+     * @covers Fracture\Http\ResponseBuilder::applyCookies
      */
     public function testResponseCreatedWithNoCookies()
     {
-        $requestMock = $this->getMock('Fracture\Http\RequestBuilder', ['getAllCookies']);
+        $requestMock = $this->getMock('Fracture\Http\Request', ['getAllCookies']);
         $requestMock->expects($this->once())
                     ->method('getAllCookies')
                     ->will($this->returnValue([]));
@@ -31,6 +32,7 @@ class ResponseBuilderTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\ResponseBuilder::__construct
      * @covers Fracture\Http\ResponseBuilder::create
+     * @covers Fracture\Http\ResponseBuilder::applyCookies
      */
     public function testResponseCreatedWithSomeCookies()
     {
@@ -41,7 +43,7 @@ class ResponseBuilderTest extends PHPUnit_Framework_TestCase
 
 
 
-        $requestMock = $this->getMock('Fracture\Http\RequestBuilder', ['getAllCookies']);
+        $requestMock = $this->getMock('Fracture\Http\Request', ['getAllCookies']);
         $requestMock->expects($this->once())
                     ->method('getAllCookies')
                     ->will($this->returnValue(['name' => $cookieMock]));
@@ -49,6 +51,76 @@ class ResponseBuilderTest extends PHPUnit_Framework_TestCase
 
         $instance = new ResponseBuilder($requestMock);
         $this->assertInstanceOf('Fracture\Http\Response', $instance->create());
+    }
+
+
+    /**
+     * @covers Fracture\Http\ResponseBuilder::__construct
+     * @covers Fracture\Http\ResponseBuilder::create
+     * @covers Fracture\Http\ResponseBuilder::setAvailableContentTypes
+     *
+     * @covers Fracture\Http\ResponseBuilder::applyCookies
+     * @covers Fracture\Http\ResponseBuilder::attemptSettingContentType
+     */
+    public function testSimpleExpectedTypesWithMissingAcceptHeader()
+    {
+        $requestMock = $this->getMock('Fracture\Http\Request', ['getAllCookies', 'getAcceptHeader']);
+        $requestMock->expects($this->once())
+                    ->method('getAllCookies')
+                    ->will($this->returnValue([]));
+        $requestMock->expects($this->once())
+                    ->method('getAcceptHeader')
+                    ->will($this->returnValue(null));;
+
+
+
+        $instance = new ResponseBuilder($requestMock);
+        $instance->setAvailableContentTypes([
+            'text/xml',
+            'application/json',
+        ]);
+
+        $this->assertInstanceOf('Fracture\Http\Response', $instance->create());
+
+    }
+
+
+    /**
+     * @covers Fracture\Http\ResponseBuilder::__construct
+     * @covers Fracture\Http\ResponseBuilder::create
+     * @covers Fracture\Http\ResponseBuilder::setAvailableContentTypes
+     *
+     * @covers Fracture\Http\ResponseBuilder::applyCookies
+     * @covers Fracture\Http\ResponseBuilder::attemptSettingContentType
+     * @covers Fracture\Http\ResponseBuilder::applyContentTypeHeader
+     */
+    public function testSimpleExpectedTypes()
+    {
+
+        $headerMock = $this->getMock('Fracture\Http\Headers\Accept', ['contains']);
+
+        $headerMock->expects($this->exactly(2))
+                   ->method('contains')
+                   ->will($this->onConsecutiveCalls(false, true));
+
+        $requestMock = $this->getMock('Fracture\Http\Request', ['getAllCookies', 'getAcceptHeader']);
+        $requestMock->expects($this->once())
+                    ->method('getAllCookies')
+                    ->will($this->returnValue([]));
+        $requestMock->expects($this->once())
+                    ->method('getAcceptHeader')
+                    ->will($this->returnValue($headerMock));;
+
+
+
+        $instance = new ResponseBuilder($requestMock);
+        $instance->setAvailableContentTypes([
+            'text/xml',
+            'application/json',
+        ]);
+
+        $this->assertInstanceOf('Fracture\Http\Response', $instance->create());
+
     }
 
 }
