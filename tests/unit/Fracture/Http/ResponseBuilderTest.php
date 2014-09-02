@@ -28,7 +28,6 @@ class ResponseBuilderTest extends PHPUnit_Framework_TestCase
     }
 
 
-
     /**
      * @covers Fracture\Http\ResponseBuilder::__construct
      * @covers Fracture\Http\ResponseBuilder::create

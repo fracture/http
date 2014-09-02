@@ -15,7 +15,7 @@ class Request implements \Fracture\Routing\Routable
 
     private $files = null;
 
-    private $cookies = null;
+    private $cookies = [];
 
     private $fileBagBuilder = null;
 
