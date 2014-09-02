@@ -104,4 +104,15 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+
+    /*
+     * @covers Fracture\Http\Headers\ContentType::__construct
+     * @covers Fracture\Http\Headers\ContentType::getName
+     */
+    public function testGivenName()
+    {
+        $instance = new ContentType;
+        $this->assertSame('Content-Type', $instance->getName());
+    }
 }

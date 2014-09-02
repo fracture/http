@@ -5,7 +5,7 @@ namespace Fracture\Http\Headers;
 class Accept extends Common
 {
 
-    protected $fieldName = 'Accept';
+    protected $headerName = 'Accept';
 
 
     /**

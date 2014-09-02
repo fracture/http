@@ -235,4 +235,15 @@ class AcceptTest extends PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+
+    /*
+     * @covers Fracture\Http\Headers\Accept::__construct
+     * @covers Fracture\Http\Headers\Accept::getName
+     */
+    public function testGivenName()
+    {
+        $instance = new Accept;
+        $this->assertSame('Accept', $instance->getName());
+    }
 }

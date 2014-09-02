@@ -42,4 +42,15 @@ class ContentDispositionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('file', $instance->getAttribute('name'));
         $this->assertEquals('file-simple.png', $instance->getAttribute('filename'));
     }
+
+
+    /*
+     * @covers Fracture\Http\Headers\ContentDisposition::__construct
+     * @covers Fracture\Http\Headers\ContentDisposition::getName
+     */
+    public function testGivenName()
+    {
+        $instance = new ContentDisposition;
+        $this->assertSame('Content-Disposition', $instance->getName());
+    }
 }

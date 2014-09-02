@@ -5,7 +5,7 @@ namespace Fracture\Http\Headers;
 class ContentDisposition extends Common
 {
 
-    protected $fieldName = 'Content-Disposition';
+    protected $headerName = 'Content-Disposition';
 
 
     protected function extractData($header)
