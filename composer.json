@@ -45,8 +45,7 @@
     ],
     "require-dev": {
         "satooshi/php-coveralls": "0.7.*@dev",
-        "sebastianbergmann/phpcov": "1.1.0",
-        "codeclimate/php-test-reporter": "dev-master"
+        "sebastianbergmann/phpcov": "1.1.0"
     }
 
 }
