@@ -19,20 +19,9 @@ class ResponseBuilder
     {
         $instance = new Response;
 
-        $this->applyCookies($instance);
         $this->attemptSettingContentType($instance);
 
         return $instance;
-    }
-
-
-    private function applyCookies($instance)
-    {
-        $cookies = $this->request->getAllCookies();
-
-        foreach ($cookies as $cookie) {
-            $instance->addCookie($cookie);
-        }
     }
 
 
