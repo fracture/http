@@ -177,4 +177,31 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals([], $instance->getHeaders());
     }
+
+
+
+    /**
+     * @covers Fracture\Http\Response::addCookie
+     * @covers Fracture\Http\Response::getHeaders
+     */
+    public function testMultipleCookiesAsHeader()
+    {
+        $cookie = $this->getMock('Fracture\Http\Cookie', ['getName', 'getHeaderValue'], [], '', false);
+        $cookie->expects($this->any())
+               ->method('getName')
+               ->will($this->onConsecutiveCalls('alpha', 'beta'));
+        $cookie->expects($this->any())
+               ->method('getHeaderValue')
+               ->will($this->onConsecutiveCalls('alpha=1; HttpOnly', 'beta=2; HttpOnly'));
+
+        $instance = new Response;
+        $instance->addCookie($cookie);
+        $instance->addCookie($cookie);
+
+        $this->assertEquals([
+            'Set-Cookie: alpha=1; HttpOnly',
+            'Set-Cookie: beta=2; HttpOnly',
+        ], $instance->getHeaders());
+    }
+
 }
