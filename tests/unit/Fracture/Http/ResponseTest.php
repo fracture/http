@@ -94,7 +94,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $instance->addHeader($header);
 
         $this->assertEquals([
-            'Alpha: beta',
+            [
+                'value' => 'Alpha: beta',
+                'replace' => true,
+            ],
         ], $instance->getHeaders());
     }
 
@@ -130,7 +133,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 
         $this->assertEquals([
-            'Alpha: gamma',
+            [
+                'value' => 'Alpha: gamma',
+                'replace' => true,
+            ],
         ], $instance->getHeaders());
     }
 
@@ -153,7 +159,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $instance->addCookie($cookie);
 
         $this->assertEquals([
-            'Set-Cookie: alpha=omega; HttpOnly',
+            [
+                'value' => 'Set-Cookie: alpha=omega; HttpOnly',
+                'replace' => false,
+            ],
         ], $instance->getHeaders());
     }
 
@@ -199,8 +208,14 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $instance->addCookie($cookie);
 
         $this->assertEquals([
-            'Set-Cookie: alpha=1; HttpOnly',
-            'Set-Cookie: beta=2; HttpOnly',
+            [
+                'value' => 'Set-Cookie: alpha=1; HttpOnly',
+                'replace' => false,
+            ],
+            [
+                'value' => 'Set-Cookie: beta=2; HttpOnly',
+                'replace' => false,
+            ],
         ], $instance->getHeaders());
     }
 
