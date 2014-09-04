@@ -62,11 +62,17 @@ class Response
         $list = [];
 
         foreach ($this->headers as $header) {
-            $list[] = $header->getName() . ': ' . $header->getValue();
+            $list[] = [
+                'value' => $header->getName() . ': ' . $header->getValue(),
+                'replace' => true,
+            ];
         }
 
         foreach ($this->cookies as $cookie) {
-            $list[] = 'Set-Cookie: ' . $cookie->getHeaderValue();
+            $list[] = [
+                'value' => 'Set-Cookie: ' . $cookie->getHeaderValue(),
+                'replace' => false,
+            ];
         }
 
         return $list;
