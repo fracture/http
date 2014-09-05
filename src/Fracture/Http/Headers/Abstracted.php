@@ -9,4 +9,7 @@ interface Abstracted
 
     public function getName();
     public function getValue();
+
+
+    public function isFinal();
 }
