@@ -22,15 +22,6 @@ class Accept extends Common
 
 
     /**
-     * @return array[]
-     */
-    public function getPrioritizedList()
-    {
-        return  $this->list;
-    }
-
-
-    /**
      * @param array $elements
      */
     private function obtainGroupedElements($elements)
@@ -119,7 +110,7 @@ class Accept extends Common
         $expected = $this->obtainAssessedItem($type);
         unset($expected['q']);
 
-        foreach ($this->list as $item) {
+        foreach ($this->data as $item) {
             if ($this->isMatch($expected, $item)) {
                 return true;
             }
@@ -137,7 +128,7 @@ class Accept extends Common
     {
         $options = $this->extractData($options);
 
-        foreach ($this->list as $item) {
+        foreach ($this->data as $item) {
             $entry = $this->obtainEntryFromList($item, $options);
 
             if ($entry !== null) {
