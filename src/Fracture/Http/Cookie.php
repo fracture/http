@@ -32,7 +32,7 @@ class Cookie
         $options = $this->cleanOptions($options);
         $this->options = $options;
     }
-
+    
 
     private function hasInvalidOptions($options)
     {
@@ -78,28 +78,5 @@ class Cookie
     public function getOptions()
     {
         return $this->options;
-    }
-
-
-    public function getHeaderValue()
-    {
-        $value = urlencode($this->value);
-
-        $result = "{$this->name}={$value}";
-        $result = $result . $this->collectFormatedOptions();
-
-        return $result;
-    }
-
-
-    private function collectFormatedOptions()
-    {
-        $result = '';
-
-        if ($this->options['httpOnly']) {
-            $result .= '; HttpOnly';
-        }
-
-        return $result;
     }
 }

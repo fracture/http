@@ -37,18 +37,6 @@ class Response
     }
 
 
-    public function addCookie(Cookie $cookie)
-    {
-        $this->cookies[$cookie->getName()] = $cookie;
-    }
-
-
-    public function removeCookie($name)
-    {
-        unset($this->cookies[$name]);
-    }
-
-
     public function addHeader(Headers\Abstracted $header)
     {
         $name = $header->getName();
@@ -64,14 +52,7 @@ class Response
         foreach ($this->headers as $header) {
             $list[] = [
                 'value' => $header->getName() . ': ' . $header->getValue(),
-                'replace' => true,
-            ];
-        }
-
-        foreach ($this->cookies as $cookie) {
-            $list[] = [
-                'value' => 'Set-Cookie: ' . $cookie->getHeaderValue(),
-                'replace' => false,
+                'replace' => $header->isFinal() === false,
             ];
         }
 
