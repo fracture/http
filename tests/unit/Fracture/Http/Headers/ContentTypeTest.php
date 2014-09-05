@@ -10,16 +10,16 @@ use PHPUnit_Framework_TestCase;
 class ContentTypeTest extends PHPUnit_Framework_TestCase
 {
 
-
     /**
      * @covers Fracture\Http\Headers\ContentType::__construct
+     * @covers Fracture\Http\Headers\ContentType::prepare
      * @covers Fracture\Http\Headers\ContentType::getParsedData
      */
     public function testEmptyInstance()
     {
         $instance = new ContentType;
         $instance->prepare();
-        $this->assertEquals([], $instance->getParsedData());
+        $this->assertEquals(null, $instance->getParsedData());
     }
 
 
@@ -42,9 +42,9 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Fracture\Http\Headers\ContentType::__construct
+     * @covers Fracture\Http\Headers\ContentType::setValue
      * @covers Fracture\Http\Headers\ContentType::prepare
      * @covers Fracture\Http\Headers\ContentType::contains
-     * @covers Fracture\Http\Headers\ContentType::setValue
      *
      * @covers Fracture\Http\Headers\ContentType::extractData
      */
@@ -60,14 +60,14 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * @dataProvider provideVariousInputs
-     *
      * @covers Fracture\Http\Headers\ContentType::__construct
      * @covers Fracture\Http\Headers\ContentType::setValue
      * @covers Fracture\Http\Headers\ContentType::prepare
      * @covers Fracture\Http\Headers\ContentType::getParsedData
      *
      * @covers Fracture\Http\Headers\ContentType::extractData
+     *
+     * @dataProvider provideVariousInputs
      */
     public function testVariousInputs($expected, $parameter)
     {
@@ -106,7 +106,7 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
     }
 
 
-    /*
+    /**
      * @covers Fracture\Http\Headers\ContentType::__construct
      * @covers Fracture\Http\Headers\ContentType::getName
      */

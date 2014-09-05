@@ -38,6 +38,6 @@ class ContentType extends Common
      */
     public function contains($type)
     {
-        return array_key_exists('value', $this->list) && $this->list['value'] === $type;
+        return array_key_exists('value', $this->data) && $this->data['value'] === $type;
     }
 }
