@@ -13,9 +13,8 @@ class ContentDispositionTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\Headers\ContentDisposition::__construct
      * @covers Fracture\Http\Headers\ContentDisposition::prepare
-     * @covers Fracture\Http\Headers\ContentDisposition::getAttribute
-     *
      * @covers Fracture\Http\Headers\ContentDisposition::extractData
+     * @covers Fracture\Http\Headers\ContentDisposition::getAttribute
      */
     public function testParsingSimpleEntry()
     {
@@ -30,9 +29,8 @@ class ContentDispositionTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\Headers\ContentDisposition::__construct
      * @covers Fracture\Http\Headers\ContentDisposition::prepare
-     * @covers Fracture\Http\Headers\ContentDisposition::getAttribute
-     *
      * @covers Fracture\Http\Headers\ContentDisposition::extractData
+     * @covers Fracture\Http\Headers\ContentDisposition::getAttribute
      */
     public function testFileUploadEntry()
     {
@@ -44,7 +42,7 @@ class ContentDispositionTest extends PHPUnit_Framework_TestCase
     }
 
 
-    /*
+    /**
      * @covers Fracture\Http\Headers\ContentDisposition::__construct
      * @covers Fracture\Http\Headers\ContentDisposition::getName
      */

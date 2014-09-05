@@ -18,8 +18,8 @@ class ContentDisposition extends Common
 
     public function getAttribute($name)
     {
-        if (array_key_exists($name, $this->list)) {
-            return $this->list[$name];
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
         }
         return null;
     }
