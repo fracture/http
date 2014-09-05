@@ -12,39 +12,37 @@ class AcceptTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Fracture\Http\Headers\Accept::__construct
-     * @covers Fracture\Http\Headers\Accept::getPrioritizedList
-     *
-     * @covers Fracture\Http\Headers\Accept::obtainGroupedElements
-     * @covers Fracture\Http\Headers\Accept::obtainSortedQualityList
-     * @covers Fracture\Http\Headers\Accept::obtainAssessedItem
-     * @covers Fracture\Http\Headers\Accept::obtainSortedElements
+     * @covers Fracture\Http\Headers\Accept::prepare
+     * @covers Fracture\Http\Headers\Accept::getParsedData
      */
     public function testEmptyInstance()
     {
         $instance = new Accept;
         $instance->prepare();
 
-        $this->assertEquals([], $instance->getPrioritizedList());
+        $this->assertEquals(null, $instance->getParsedData());
     }
 
 
     /**
-     * @dataProvider provideSimpleAccepts
      * @covers Fracture\Http\Headers\Accept::__construct
      * @covers Fracture\Http\Headers\Accept::prepare
-     * @covers Fracture\Http\Headers\Accept::getPrioritizedList
+     * @covers Fracture\Http\Headers\Accept::getParsedData
+     * @covers Fracture\Http\Headers\Accept::extractData
      *
      * @covers Fracture\Http\Headers\Accept::obtainGroupedElements
      * @covers Fracture\Http\Headers\Accept::obtainSortedQualityList
-     * @covers Fracture\Http\Headers\Accept::obtainAssessedItem
      * @covers Fracture\Http\Headers\Accept::obtainSortedElements
+     * @covers Fracture\Http\Headers\Accept::obtainAssessedItem
+     *
+     * @dataProvider provideSimpleAccepts
      */
     public function testSimpleAccepts($input, $expected)
     {
         $instance = new Accept($input);
         $instance->prepare();
 
-        $this->assertEquals($expected, $instance->getPrioritizedList());
+        $this->assertEquals($expected, $instance->getParsedData());
     }
 
 
@@ -83,30 +81,30 @@ class AcceptTest extends PHPUnit_Framework_TestCase
 
     }
 
-
     /**
      * @covers Fracture\Http\Headers\Accept::__construct
      * @covers Fracture\Http\Headers\Accept::prepare
-     * @covers Fracture\Http\Headers\Accept::setValue
-     * @covers Fracture\Http\Headers\Accept::getPrioritizedList
+     * @covers Fracture\Http\Headers\Accept::getParsedData
+     * @covers Fracture\Http\Headers\Accept::extractData
      *
      * @covers Fracture\Http\Headers\Accept::obtainGroupedElements
      * @covers Fracture\Http\Headers\Accept::obtainSortedQualityList
-     * @covers Fracture\Http\Headers\Accept::obtainAssessedItem
      * @covers Fracture\Http\Headers\Accept::obtainSortedElements
+     * @covers Fracture\Http\Headers\Accept::obtainAssessedItem
      */
     public function testUseOfAlternativeValue()
     {
         $instance = new Accept('text/plain');
         $instance->prepare();
 
-        $this->assertEquals([['value' => 'text/plain']], $instance->getPrioritizedList());
+        $this->assertEquals([['value' => 'text/plain']], $instance->getParsedData());
 
         $instance->setValue('text/html');
         $instance->prepare();
 
-        $this->assertEquals([['value' => 'text/html']], $instance->getPrioritizedList());
+        $this->assertEquals([['value' => 'text/html']], $instance->getParsedData());
     }
+
 
     /**
      * @covers Fracture\Http\Headers\Accept::__construct
@@ -114,6 +112,8 @@ class AcceptTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Headers\Accept::contains
      *
      * @covers Fracture\Http\Headers\Accept::obtainAssessedItem
+     * @covers Fracture\Http\Headers\Accept::isMatch
+     * @covers Fracture\Http\Headers\Accept::replaceStars
      */
     public function testWhetherContainFindsExistingType()
     {
@@ -127,13 +127,15 @@ class AcceptTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * @dataProvider provideTypesForComputation
+     * @covers Fracture\Http\Headers\Accept::__construct
+     * @covers Fracture\Http\Headers\Accept::prepare
      * @covers Fracture\Http\Headers\Accept::getPreferred
-     * @covers Fracture\Http\Headers\Accept::extractData
+     *
      * @covers Fracture\Http\Headers\Accept::obtainEntryFromList
-     * @covers Fracture\Http\Headers\Accept::isMatch
+     * @covers Fracture\Http\Headers\Accept::getFormatedEntry
      * @covers Fracture\Http\Headers\Accept::replaceStars
      *
+     * @dataProvider provideTypesForComputation
      */
     public function testPreferredTypeCompution($header, $available, $expected)
     {
@@ -142,6 +144,7 @@ class AcceptTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $instance->getPreferred($available));
     }
+
 
     public function provideTypesForComputation()
     {
@@ -211,9 +214,10 @@ class AcceptTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * @dataProvider provideEntriesForFormating
      * @covers Fracture\Http\Headers\Accept::__construct
      * @covers Fracture\Http\Headers\Accept::getFormatedEntry
+     *
+     * @dataProvider provideEntriesForFormating
      */
     public function testFormatingofEntries($entry, $result)
     {
@@ -237,7 +241,7 @@ class AcceptTest extends PHPUnit_Framework_TestCase
     }
 
 
-    /*
+    /**
      * @covers Fracture\Http\Headers\Accept::__construct
      * @covers Fracture\Http\Headers\Accept::getName
      */
