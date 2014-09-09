@@ -112,6 +112,7 @@ class AcceptTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Headers\Accept::contains
      *
      * @covers Fracture\Http\Headers\Accept::obtainAssessedItem
+     * @covers Fracture\Http\Headers\Accept::matchFound
      * @covers Fracture\Http\Headers\Accept::isMatch
      * @covers Fracture\Http\Headers\Accept::replaceStars
      */
@@ -125,12 +126,26 @@ class AcceptTest extends PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * @covers Fracture\Http\Headers\Accept::__construct
+     * @covers Fracture\Http\Headers\Accept::prepare
+     * @covers Fracture\Http\Headers\Accept::contains
+     */
+    public function testContainsForEmptyValue()
+    {
+        $instance = new Accept('');
+        $instance->prepare();
+
+        $this->assertFalse($instance->contains('application/json'));
+    }
+
 
     /**
      * @covers Fracture\Http\Headers\Accept::__construct
      * @covers Fracture\Http\Headers\Accept::prepare
      * @covers Fracture\Http\Headers\Accept::getPreferred
      *
+     * @covers Fracture\Http\Headers\Accept::findFormatedEntry
      * @covers Fracture\Http\Headers\Accept::obtainEntryFromList
      * @covers Fracture\Http\Headers\Accept::getFormatedEntry
      * @covers Fracture\Http\Headers\Accept::replaceStars
@@ -212,6 +227,19 @@ class AcceptTest extends PHPUnit_Framework_TestCase
         ];
     }
 
+
+    /**
+     * @covers Fracture\Http\Headers\Accept::__construct
+     * @covers Fracture\Http\Headers\Accept::prepare
+     * @covers Fracture\Http\Headers\Accept::getPreferred
+     */
+    public function testPreferredTypeComputionForEmptyHeaderValue()
+    {
+        $instance = new Accept('');
+        $instance->prepare();
+
+        $this->assertNull($instance->getPreferred('application/json;version=2, application/json;version=3'));
+    }
 
     /**
      * @covers Fracture\Http\Headers\Accept::__construct
