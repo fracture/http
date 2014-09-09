@@ -10,6 +10,7 @@ class SetCookie implements Abstracted
     protected $headerValue = null;
     protected $headerName = 'Set-Cookie';
 
+    private $cookie = null;
     private $options = [];
 
     private $defaults = [

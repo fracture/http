@@ -30,9 +30,4 @@ class Cookie
     {
         return $this->name;
     }
-
-    public function getOptions()
-    {
-        return $this->options;
-    }
 }

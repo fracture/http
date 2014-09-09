@@ -110,7 +110,22 @@ class Accept extends Common
         $expected = $this->obtainAssessedItem($type);
         unset($expected['q']);
 
-        foreach ($this->data as $item) {
+        if ($this->data === null) {
+            return false;
+        }
+
+        return $this->matchFound($this->data, $expected);
+    }
+
+
+    /**
+     * @param array $data
+     * @param array $expected
+     * @return bool
+     */
+    private function matchFound($data, $expected)
+    {
+        foreach ($data as $item) {
             if ($this->isMatch($expected, $item)) {
                 return true;
             }
@@ -118,7 +133,6 @@ class Accept extends Common
 
         return false;
     }
-
 
     /**
      * @param string $options
@@ -128,7 +142,22 @@ class Accept extends Common
     {
         $options = $this->extractData($options);
 
-        foreach ($this->data as $item) {
+        if ($this->data === null) {
+            return null;
+        }
+
+        return $this->findFormatedEntry($this->data, $options);
+    }
+
+
+    /**
+     * @param array $data
+     * @param array $expected
+     * @return null|string
+     */
+    private function findFormatedEntry($data, $options)
+    {
+        foreach ($data as $item) {
             $entry = $this->obtainEntryFromList($item, $options);
 
             if ($entry !== null) {
