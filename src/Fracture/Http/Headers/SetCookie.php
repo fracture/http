@@ -10,7 +10,9 @@ class SetCookie implements Abstracted
     protected $headerValue = null;
     protected $headerName = 'Set-Cookie';
 
-    private $default = [
+    private $options = [];
+
+    private $defaults = [
         'expires' => null,
         'path' => '/',
         'domain' => '',
@@ -28,18 +30,11 @@ class SetCookie implements Abstracted
 
     public function prepare()
     {
-
-    }
-
-
-    public function setOptions($options)
-    {
-        if ($this->hasInvalidOptions($options)) {
+        if ($this->hasInvalidOptions($this->options)) {
             $message = 'Valid array keys for cookie options are: \'expires\', \'path\', \'domain\', \'secure\' and \'httpOnly\'';
             trigger_error($message, E_NOTICE);
         }
-        $options = $this->cleanOptions($options);
-        $this->options = $options;
+        $this->options = $this->cleanOptions($this->options);
     }
 
 
@@ -53,9 +48,11 @@ class SetCookie implements Abstracted
 
     private function cleanOptions($options)
     {
-        $options = $options + $this->options;
+        $options = $options + $this->defaults;
 
-        $options['expires'] = (int) $options['expires'];
+        if ($options['expires'] !== null) {
+            $options['expires'] = $this->convertTime($options['expires']);
+        }
 
         if ($options['path'] === null) {
             $options['path'] = '/';
@@ -67,6 +64,29 @@ class SetCookie implements Abstracted
 
         return $options;
     }
+
+
+    private function convertTime($time) {
+        if ($this->isDateTime($time)) {
+            $time->setTimeZone(new \DateTimeZone('GMT'));
+            return $time;
+        }
+
+        $time = (int) $time;
+
+        $dateTime = new \DateTime;
+        $dateTime->setTimestamp($time);
+        $dateTime->setTimeZone(new \DateTimeZone('GMT'));
+        return $dateTime;
+    }
+
+
+    private function isDateTime($time)
+    {
+        return is_object($time) && $time instanceof \DateTime;
+    }
+
+
 
 
     public function getName()
@@ -88,13 +108,51 @@ class SetCookie implements Abstracted
 
     private function collectFormatedOptions()
     {
+        $options  = $this->collectExpireTime($this->options);
+        $options .= $this->collectDomainPathValue($this->options);
+        $options .= $this->collectBooleanOptions($this->options);
+
+        return $options;
+    }
+
+
+    private function collectExpireTime($options)
+    {
+        $string = '';
+
+        if ($options['expires'] !== null) {
+            $string = $options['expires']->format(\DateTime::RFC1123);
+            $string =  str_replace('+0000', 'GMT', $string);
+            $string = '; Expires=' . $string;
+        }
+
+        return $string;
+    }
+
+
+    private function collectDomainPathValue($options)
+    {
+        $output = '';
+
+        if ($options['domain'] !== '') {
+            $output .= '; Domain=' . $options['domain'];
+        }
+
+        return $output . '; Path=' . $options['path'];
+    }
+
+
+    private function collectBooleanOptions($options)
+    {
         $result = '';
 
-        $options = $this->options;
+        if ($options['secure']) {
+            $result .= '; Secure';
+        }
 
-        // if ($options['httpOnly']) {
-        //     $result .= '; HttpOnly';
-        // }
+        if ($options['httpOnly']) {
+            $result .= '; HttpOnly';
+        }
 
         return $result;
     }
