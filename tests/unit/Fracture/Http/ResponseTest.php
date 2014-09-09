@@ -77,6 +77,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\Response::addHeader
      * @covers Fracture\Http\Response::getHeaders
+     *
+     * @covers Fracture\Http\Response::populateHeaderList
      */
     public function testSimpleHeader()
     {
@@ -105,6 +107,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\Response::addHeader
      * @covers Fracture\Http\Response::getHeaders
+     *
+     * @covers Fracture\Http\Response::populateHeaderList
      */
     public function testReplacingHeaderInstance()
     {
@@ -139,4 +143,71 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             ],
         ], $instance->getHeaders());
     }
+
+    /**
+     * @covers Fracture\Http\Response::removeCookie
+     * @covers Fracture\Http\Response::getHeaders
+     */
+    public function testSimpleRemoveCookie()
+    {
+        $instance = new Response;
+        $instance->removeCookie('name');
+
+        $this->assertEquals([
+            [
+                'value' => 'Set-Cookie: name=deleted; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/; HttpOnly',
+                'replace' => false,
+            ],
+        ], $instance->getHeaders());
+    }
+
+
+    /**
+     * @covers Fracture\Http\Response::removeCookie
+     * @covers Fracture\Http\Response::getHeaders
+     */
+    public function testMoreComplicatedSimpleRemoveCookie()
+    {
+        $instance = new Response;
+        $instance->removeCookie('name', [
+            'path' => '/test',
+            'expires' => 1,
+        ]);
+
+        $this->assertEquals([
+            [
+                'value' => 'Set-Cookie: name=deleted; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/test; HttpOnly',
+                'replace' => false,
+            ],
+        ], $instance->getHeaders());
+    }
+
+
+    /**
+     * @covers Fracture\Http\Response::addCookie
+     * @covers Fracture\Http\Response::getHeaders
+     */
+    public function testAddCookie()
+    {
+        $cookieMock = $this->getMock('Fracture\Http\Cookie', ['getName', 'getValue'], [], '', false);
+        $cookieMock->expects($this->exactly(2))
+                   ->method('getName')
+                   ->will($this->returnValue('alpha'));
+        $cookieMock->expects($this->once())
+                   ->method('getValue')
+                   ->will($this->returnValue('beta'));
+
+        $instance = new Response;
+        $instance->addCookie($cookieMock);
+
+        $this->assertEquals([
+            [
+                'value' => 'Set-Cookie: alpha=beta; Path=/; HttpOnly',
+                'replace' => false,
+            ],
+        ], $instance->getHeaders());
+    }
+
+
+
 }

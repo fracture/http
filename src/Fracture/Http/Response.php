@@ -37,6 +37,21 @@ class Response
     }
 
 
+    public function addCookie(Cookie $cookie, $options = [])
+    {
+        $header = new Headers\SetCookie($cookie, $options);
+        $header->prepare();
+        $this->cookies[$cookie->getName()] = $header;
+    }
+
+
+    public function removeCookie($name, $options = [])
+    {
+        $cookie = new Cookie($name, 'deleted');
+        $this->addCookie($cookie, ['expires' => 0] + $options);
+    }
+
+
     public function addHeader(Headers\Abstracted $header)
     {
         $name = $header->getName();
@@ -49,7 +64,16 @@ class Response
     {
         $list = [];
 
-        foreach ($this->headers as $header) {
+        $list = $this->populateHeaderList($list, $this->cookies);
+        $list = $this->populateHeaderList($list, $this->headers);
+
+        return $list;
+    }
+
+
+    private function populateHeaderList($list, $headers)
+    {
+        foreach ($headers as $header) {
             $list[] = [
                 'value' => $header->getName() . ': ' . $header->getValue(),
                 'replace' => $header->isFinal() === false,
