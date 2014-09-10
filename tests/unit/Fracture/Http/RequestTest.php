@@ -321,4 +321,50 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $request->setParameters(['_accept' => 'application/json']);
         $request->prepare();
     }
+
+
+    /**
+     * @covers Fracture\Http\Request::__construct
+     * @covers Fracture\Http\Request::getCookie
+     * @covers Fracture\Http\Request::addCookie
+     */
+    public function testAddedCookie()
+    {
+        $cookieMock = $this->getMock('Fracture\Http\Cookie', ['getName'], [], '', false);
+        $cookieMock->expects($this->any())
+                   ->method('getName')
+                   ->will($this->returnValue('alpha'));
+
+        $request = new Request;
+        $this->assertNull($request->getCookie('alpha'));
+
+        $request->addCookie($cookieMock);
+        $this->assertInstanceOf('Fracture\Http\Cookie', $request->getCookie('alpha'));
+    }
+
+    /**
+     * @covers Fracture\Http\Request::__construct
+     * @covers Fracture\Http\Request::addCookie
+     * @covers Fracture\Http\Request::getAllCookies
+     */
+    public function testAllCookiesReturned()
+    {
+        $first = $this->getMock('Fracture\Http\Cookie', ['getName'], [], '', false);
+        $first->expects($this->any())
+              ->method('getName')
+              ->will($this->returnValue('alpha'));
+
+        $second = $this->getMock('Fracture\Http\Cookie', ['getName'], [], '', false);
+        $second->expects($this->any())
+               ->method('getName')
+               ->will($this->returnValue('alpha'));
+
+        $request = new Request;
+        $this->assertEmpty($request->getAllCookies());
+
+        $request->addCookie($first);
+        $request->addCookie($second);
+
+        $this->assertContainsOnlyInstancesOf('Fracture\Http\Cookie', $request->getAllCookies());
+    }
 }

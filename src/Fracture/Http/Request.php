@@ -196,9 +196,9 @@ class Request implements \Fracture\Routing\Routable
     {
         if ($item === '..') {
             array_pop($list);
-        } else {
-            array_push($list, $item);
+            return $list;
         }
+        array_push($list, $item);
 
         return $list;
     }
