@@ -74,6 +74,10 @@ class HeaderFactoryTest extends PHPUnit_Framework_TestCase
     {
         return [
             [
+                'expected' => '\Fracture\Http\Headers\Location',
+                'parameter' => 'Location: /alpha/beta',
+            ],
+            [
                 'expected' => '\Fracture\Http\Headers\ContentType',
                 'parameter' => 'Content-Type: text/plain',
             ],

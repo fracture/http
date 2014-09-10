@@ -12,6 +12,17 @@ class Response
     private $code = 200;
     private $body = '';
 
+    private $hostname = '';
+
+    private $locationHeader = null;
+
+
+
+    public function setHostname($hostname)
+    {
+        $this->hostname = $hostname;
+    }
+
 
     public function setBody($content)
     {
@@ -56,6 +67,12 @@ class Response
     {
         $name = $header->getName();
         $name = strtolower($name);
+
+        if ($name === 'location') {
+            $this->locationHeader = $header;
+            return;
+        }
+
         $this->headers[$name] = $header;
     }
 
@@ -67,6 +84,18 @@ class Response
         $list = $this->populateHeaderList($list, $this->cookies);
         $list = $this->populateHeaderList($list, $this->headers);
 
+        if ($this->locationHeader !== null) {
+            $this->code = 302;
+            $location = $this->locationHeader;
+
+            $value = $this->adjustForHostname($location->getValue());
+
+            $list[] = [
+                'value' => $location->getName(). ': ' . $value,
+                'replace' => true,
+            ];
+        }
+
         return $list;
     }
 
@@ -74,13 +103,27 @@ class Response
     private function populateHeaderList($list, $headers)
     {
         foreach ($headers as $header) {
+
+            $name = $header->getName();
+            $value = $header->getValue();
+
             $list[] = [
-                'value' => $header->getName() . ': ' . $header->getValue(),
+                'value' => $name . ': ' . $value,
                 'replace' => $header->isFinal() === false,
             ];
         }
 
         return $list;
+    }
+
+
+    private function adjustForHostname($value)
+    {
+        if (preg_match('#^https?://*#', $value) === 0) {
+            $value = $this->hostname . $value;
+        }
+
+        return $value;
     }
 
 

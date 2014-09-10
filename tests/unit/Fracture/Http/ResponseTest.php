@@ -144,6 +144,95 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         ], $instance->getHeaders());
     }
 
+
+    /**
+     * @covers Fracture\Http\Response::addHeader
+     * @covers Fracture\Http\Response::getHeaders
+     *
+     * @covers Fracture\Http\Response::populateHeaderList
+     * @covers Fracture\Http\Response::adjustForHostname
+     */
+    public function testSimpleLocationHeaderAddition()
+    {
+        $headerMock = $this->getMock('Fracture\Http\Headers\Location', ['getName', 'getValue']);
+        $headerMock->expects($this->any())
+                   ->method('getName')
+                   ->will($this->returnValue('Location'));
+
+        $headerMock->expects($this->any())
+                   ->method('getValue')
+                   ->will($this->returnValue('beta'));
+
+        $instance = new Response;
+        $instance->addHeader($headerMock);
+
+        $this->assertEquals([
+            [
+                'value' => 'Location: beta',
+                'replace' => true,
+            ],
+        ], $instance->getHeaders());
+
+        $this->assertSame(302, $instance->getStatusCode());
+    }
+
+
+    /**
+     * @covers Fracture\Http\Response::addHeader
+     * @covers Fracture\Http\Response::getHeaders
+     * @covers Fracture\Http\Response::setHostname
+     *
+     * @covers Fracture\Http\Response::populateHeaderList
+     * @covers Fracture\Http\Response::adjustForHostname
+     *
+     * @dataProvider provideLocationHeaderAdditionWithHostnameSet
+     */
+    public function testLocationHeaderAdditionWithHostnameSet($host, $path, $expected)
+    {
+        $headerMock = $this->getMock('Fracture\Http\Headers\Location', ['getName', 'getValue']);
+        $headerMock->expects($this->any())
+                   ->method('getName')
+                   ->will($this->returnValue('Location'));
+
+        $headerMock->expects($this->any())
+                   ->method('getValue')
+                   ->will($this->returnValue($path));
+
+        $instance = new Response;
+        $instance->addHeader($headerMock);
+
+        $instance->setHostname($host);
+
+        $this->assertEquals([
+            [
+                'value' => $expected,
+                'replace' => true,
+            ],
+        ], $instance->getHeaders());
+    }
+
+
+    public function provideLocationHeaderAdditionWithHostnameSet()
+    {
+        return [
+            [
+                'host' => 'http://example.tld',
+                'path' => '/beta',
+                'expected' => 'Location: http://example.tld/beta',
+            ],
+            [
+                'host' => 'https://example.tld',
+                'path' => '/beta',
+                'expected' => 'Location: https://example.tld/beta',
+            ],
+            [
+                'host' => 'http://example.tld',
+                'path' => 'http://domain.tld/beta',
+                'expected' => 'Location: http://domain.tld/beta',
+            ],
+        ];
+    }
+
     /**
      * @covers Fracture\Http\Response::removeCookie
      * @covers Fracture\Http\Response::getHeaders
