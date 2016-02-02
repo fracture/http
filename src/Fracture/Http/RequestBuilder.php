@@ -102,13 +102,25 @@ class RequestBuilder
         $instance->setParameters($params['post']);
         $instance->setUploadedFiles($params['files']);
 
-        if (!$this->isCLI()) {
-            $instance->setMethod($params['server']['REQUEST_METHOD']);
-            $instance->setAddress($params['server']['REMOTE_ADDR']);
-        }
+        $this->applyWebContext($instance, $params['server']);
 
         foreach ($params['cookies'] as $name => $value) {
             $instance->addCookie(new Cookie($name, $value));
+        }
+    }
+
+
+    /**
+     * @param Request $instance
+     * @param array[] $params
+     */
+    protected function applyWebContext($instance, $params)
+    {
+        if (isset($params['REQUEST_METHOD'])) {
+            $instance->setMethod($params['REQUEST_METHOD']);
+        }
+        if (isset($params['REMOTE_ADDR'])) {
+            $instance->setAddress($params['REMOTE_ADDR']);
         }
     }
 
@@ -130,15 +142,5 @@ class RequestBuilder
             $header->prepare();
             $instance->setContentTypeHeader($header);
         }
-    }
-
-
-    /**
-     * @codeCoverageIgnore
-     * @return bool
-     */
-    protected function isCLI()
-    {
-        return php_sapi_name() === 'cli';
     }
 }

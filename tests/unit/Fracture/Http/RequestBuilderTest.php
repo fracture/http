@@ -60,59 +60,11 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * @dataProvider provideTestSharedSetup
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyParams
+     * @covers Fracture\Http\RequestBuilder::applyWebContext
      */
-    public function testMethodCallsOnInstance($builder, $request)
-    {
-
-        $request->expects($this->once())->method('setUploadedFiles');
-        $request->expects($this->once())->method('setAddress');
-
-        $builder->expects($this->once())
-                ->method('isCLI')
-                ->will($this->returnValue(false));
-
-        $instance = $builder->create([
-            'get'    => [],
-            'post'   => [],
-            'server' => [
-                'REQUEST_METHOD' => 'post',
-                'REMOTE_ADDR'    => '0.0.0.0',
-                'HTTP_ACCEPT'    => 'text/html',
-            ],
-            'files'  => [],
-        ]);
-        $this->assertInstanceOf('Fracture\Http\Request', $instance);
-    }
-
-
-    /**
-     * @dataProvider provideTestSharedSetup
-     * @covers Fracture\Http\RequestBuilder::create
-     * @covers Fracture\Http\RequestBuilder::applyParams
-     */
-    public function testMethodCallsOnInstanceForCLI($builder)
-    {
-
-
-        $builder->expects($this->once())
-                ->method('isCLI')
-                ->will($this->returnValue(true));
-
-
-        $instance = $builder->create([
-            'get'    => [],
-            'post'   => [],
-            'files'  => [],
-        ]);
-        $this->assertInstanceOf('Fracture\Http\Request', $instance);
-    }
-
-
-
-    public function provideTestSharedSetup()
+    public function testMethodCallsOnInstance()
     {
         $request = $this->getMock(
             'Fracture\Http\Request',
@@ -129,18 +81,45 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
         $request->expects($this->once())->method('setMethod');
         $request->expects($this->once())->method('prepare');
 
-
-
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['buildInstance', 'isCLI']);
+        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['buildInstance']);
 
         $builder->expects($this->once())
                 ->method('buildInstance')
                 ->will($this->returnValue($request));
 
-        return [[
-            'builder' => $builder,
-            'request' => $request,
-        ]];
+
+        $request->expects($this->once())->method('setUploadedFiles');
+        $request->expects($this->once())->method('setAddress');
+
+        $instance = $builder->create([
+            'get'    => [],
+            'post'   => [],
+            'server' => [
+                'REQUEST_METHOD' => 'post',
+                'REMOTE_ADDR'    => '0.0.0.0',
+                'HTTP_ACCEPT'    => 'text/html',
+            ],
+            'files'  => [],
+        ]);
+        $this->assertInstanceOf('Fracture\Http\Request', $instance);
+    }
+
+
+    /**
+     * @covers Fracture\Http\RequestBuilder::create
+     * @covers Fracture\Http\RequestBuilder::applyParams
+     */
+    public function testMethodCallsOnInstanceForCLI()
+    {
+        $builder = new RequestBuilder;
+
+
+        $instance = $builder->create([
+            'get'    => [],
+            'post'   => [],
+            'files'  => [],
+        ]);
+        $this->assertInstanceOf('Fracture\Http\Request', $instance);
     }
 
 
@@ -199,10 +178,6 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
         $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyContentParsers', 'isCLI']);
 
         $builder->expects($this->once())
-                ->method('isCLI')
-                ->will($this->returnValue(false));
-
-        $builder->expects($this->once())
                 ->method('applyContentParsers')
                 ->with($this->isInstanceOf('\Fracture\Http\Request'));
 
@@ -225,10 +200,6 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
         ];
 
         $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyContentParsers', 'isCLI']);
-
-        $builder->expects($this->once())
-                ->method('isCLI')
-                ->will($this->returnValue(false));
 
         $builder->expects($this->never())
                 ->method('applyContentParsers');
@@ -258,11 +229,6 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
         ];
 
         $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
-        $builder->expects($this->once())
-                ->method('isCLI')
-                ->will($this->returnValue(false));
-
 
         $builder->addContentParser('application/json', function () {
             return ['foo' => 'bar'];
@@ -296,11 +262,6 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
         ];
 
         $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
-        $builder->expects($this->once())
-                ->method('isCLI')
-                ->will($this->returnValue(false));
-
 
         $builder->addContentParser('application/json', function () {
             return ['foo' => 'different'];
@@ -337,11 +298,6 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
 
         $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
 
-        $builder->expects($this->once())
-                ->method('isCLI')
-                ->will($this->returnValue(false));
-
-
         $builder->addContentParser('application/json', function () {
             return null;
         });
@@ -369,11 +325,6 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
         ];
 
         $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
-        $builder->expects($this->once())
-                ->method('isCLI')
-                ->will($this->returnValue(false));
-
 
         $builder->addContentParser('application/json', function () {
             return ['foo' => 'bar'];
