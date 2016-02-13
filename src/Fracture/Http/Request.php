@@ -2,7 +2,7 @@
 
 namespace Fracture\Http;
 
-class Request implements \Fracture\Routing\Routable
+class Request implements Routable
 {
 
     private $acceptHeader = null;
