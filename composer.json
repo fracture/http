@@ -2,7 +2,7 @@
     "name": "fracture/http",
     "type": "library",
     "homepage": "https://github.com/fracture/http",
-    "description": "HTTP abstraction library from Fracture PHP framework for use with composer",
+    "description": "HTTP abstraction library, extracted dependency of fracture/router.",
     "license": "BSD",
 
     "authors": [
@@ -14,7 +14,7 @@
     ],
 
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.5.0"
     },
 
     "autoload": {
