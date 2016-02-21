@@ -91,13 +91,49 @@ class Accept extends Common
         $list = [];
 
         foreach ($keys as $key) {
-            foreach ($elements[$key] as $item) {
-                unset($item['q']);
+            $sorted = $this->sortBySpecificity($elements[$key]);
+            foreach ($sorted as $item) {
+                unset($item['q'], $item['specificity']);
                 $list[] = $item;
             }
         }
 
         return $list;
+    }
+
+
+    private function sortBySpecificity($list)
+    {
+        foreach ($list as $key => $item) {
+            $list[$key]['specificity'] = $this->computeSpecificity($item);
+        }
+
+        usort($list, function($a, $b) {
+            if ($a['specificity'] === $b['specificity']) {
+                return 0;
+            }
+
+            return $a['specificity'] > $b['specificity'] ? -1 : 1;
+        });
+
+        return $list;
+    }
+
+
+    private function computeSpecificity($entry)
+    {
+        list($type, $subtype) = explode('/', $entry['value'] . '/');
+        $specificity = count($entry) - 2;
+
+        if ($type !== '*') {
+            $specificity += 1000;
+        }
+
+        if ($subtype !== '*') {
+            $specificity += 100;
+        }
+
+        return $specificity;
     }
 
 
