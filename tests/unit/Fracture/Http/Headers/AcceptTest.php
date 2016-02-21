@@ -135,6 +135,7 @@ class AcceptTest extends PHPUnit_Framework_TestCase
                     ['value' => 'application/json', 'level' => '1', 'type' => '2'],
                     ['value' => 'application/json', 'type' => '1'],
                     ['value' => 'application/*'],
+                    ['value' => '*/*'],
                 ],
             ],
         ];
