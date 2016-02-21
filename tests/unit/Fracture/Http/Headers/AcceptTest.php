@@ -78,8 +78,68 @@ class AcceptTest extends PHPUnit_Framework_TestCase
                 ],
             ],
         ];
-
     }
+
+
+    /**
+     * @covers Fracture\Http\Headers\Accept::__construct
+     * @covers Fracture\Http\Headers\Accept::prepare
+     * @covers Fracture\Http\Headers\Accept::getParsedData
+     * @covers Fracture\Http\Headers\Accept::extractData
+     *
+     * @covers Fracture\Http\Headers\Accept::obtainGroupedElements
+     * @covers Fracture\Http\Headers\Accept::obtainSortedQualityList
+     * @covers Fracture\Http\Headers\Accept::obtainSortedElements
+     * @covers Fracture\Http\Headers\Accept::obtainAssessedItem
+     *
+     * @dataProvider provideAcceptPrecedence
+     */
+    public function testAcceptPrecedence($input, $expected)
+    {
+        $instance = new Accept($input);
+        $instance->prepare();
+
+        $this->assertEquals($expected, $instance->getParsedData());
+    }
+
+
+    public function provideAcceptPrecedence()
+    {
+        return [
+            [
+                'input' => 'type/subtype, type/subtype;param=1',
+                'expected' => [
+                    ['value' => 'type/subtype', 'param' => '1'],
+                    ['value' => 'type/subtype'],
+                ],
+            ],
+            [
+                'input' => 'type/subtype;param=1, type/subtype',
+                'expected' => [
+                    ['value' => 'type/subtype', 'param' => '1'],
+                    ['value' => 'type/subtype'],
+                ],
+            ],
+            [
+                'input' => 'text/*, text/html, text/html;level=1, */*',
+                'expected' => [
+                    ['value' => 'text/html', 'level' => '1'],
+                    ['value' => 'text/html'],
+                    ['value' => 'text/*'],
+                    ['value' => '*/*'],
+                ],
+            ],
+            [
+                'input' => 'application/*, application/json;type=1, application/json; level=1; type=2, */*',
+                'expected' => [
+                    ['value' => 'application/json', 'level' => '1', 'type' => '2'],
+                    ['value' => 'application/json', 'type' => '1'],
+                    ['value' => 'application/*'],
+                ],
+            ],
+        ];
+    }
+
 
     /**
      * @covers Fracture\Http\Headers\Accept::__construct
