@@ -18,7 +18,7 @@ class RequestBuilder
 
     /**
      * @param array[] $params
-     * @return \Fracture\Routing\Routable
+     * @return Routable
      */
     public function create($params)
     {
