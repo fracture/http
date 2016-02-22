@@ -93,7 +93,7 @@ class Accept extends Common
         foreach ($keys as $key) {
             $sorted = $this->sortBySpecificity($elements[$key]);
             foreach ($sorted as $item) {
-                unset($item['q'], $item[' spec '], $item[' index ']);
+                unset($item['q'], $item[' spec ']);
                 $list[] = $item;
             }
         }
@@ -104,23 +104,17 @@ class Accept extends Common
 
     private function sortBySpecificity($list)
     {
-        $i = 0;
 
         foreach ($list as $key => $item) {
             $list[$key][' spec '] = $this->computeSpecificity($item);
-            $list[$key][' index '] = $i++;
         }
 
-        usort($list, function($a, $b) {
-            if ($a[' spec '] !== $b[' spec ']) {
-                return $a[' spec '] > $b[' spec '] ? -1 : 1;
+        uksort($list, function($a, $b) use ($list) {
+            if ($list[$a][' spec '] === $list[$b][' spec ']) {
+                return $a > $b ? 1 : -1;
             }
 
-            if ($a[' index '] !== $b[' index ']) {
-                return $a[' index '] > $b[' index '] ? 1 : -1;
-            }
-
-            return 0;
+            return $list[$a][' spec '] > $list[$b][' spec '] ? -1 : 1;
         });
 
         return $list;
