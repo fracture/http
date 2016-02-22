@@ -335,6 +335,31 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
 
     }
 
+
+    /**
+     * @covers Fracture\Http\RequestBuilder::create
+     * @covers Fracture\Http\RequestBuilder::applyContentParsers
+     * @covers Fracture\Http\RequestBuilder::addContentParser
+     */
+    public function testAppliedContentParsersWithHeader()
+    {
+        $input = [
+            'server' => [
+                'CONTENT_TYPE'    => 'text/html;version=2',
+            ],
+        ];
+
+        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
+
+        $builder->addContentParser('text/html', function ($header) {
+            return ['foo' => $header->getParameter('version')];
+        });
+
+        $instance = $builder->create($input);
+        $this->assertEquals(2, $instance->getParameter('foo'));
+    }
+
+
     /**
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyContentParsers
