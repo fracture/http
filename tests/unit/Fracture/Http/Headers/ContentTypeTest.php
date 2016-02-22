@@ -42,6 +42,23 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Fracture\Http\Headers\ContentType::__construct
+     * @covers Fracture\Http\Headers\ContentType::prepare
+     * @covers Fracture\Http\Headers\ContentType::contains
+     *
+     * @covers Fracture\Http\Headers\ContentType::extractData
+     */
+    public function testPreparedCustomTypeResult()
+    {
+        $instance = new ContentType('application/json;version=3');
+        $instance->prepare();
+
+        $this->assertTrue($instance->contains('application/json'));
+        $this->assertFalse($instance->contains('application/json;version=3'));
+    }
+
+
+    /**
+     * @covers Fracture\Http\Headers\ContentType::__construct
      * @covers Fracture\Http\Headers\ContentType::setValue
      * @covers Fracture\Http\Headers\ContentType::prepare
      * @covers Fracture\Http\Headers\ContentType::contains

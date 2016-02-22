@@ -91,13 +91,50 @@ class Accept extends Common
         $list = [];
 
         foreach ($keys as $key) {
-            foreach ($elements[$key] as $item) {
-                unset($item['q']);
+            $sorted = $this->sortBySpecificity($elements[$key]);
+            foreach ($sorted as $item) {
+                unset($item['q'], $item[' spec ']);
                 $list[] = $item;
             }
         }
 
         return $list;
+    }
+
+
+    private function sortBySpecificity($list)
+    {
+
+        foreach ($list as $key => $item) {
+            $list[$key][' spec '] = $this->computeSpecificity($item);
+        }
+
+        uksort($list, function($a, $b) use ($list) {
+            if ($list[$a][' spec '] === $list[$b][' spec ']) {
+                return $a > $b ? 1 : -1;
+            }
+
+            return $list[$a][' spec '] > $list[$b][' spec '] ? -1 : 1;
+        });
+
+        return $list;
+    }
+
+
+    private function computeSpecificity($entry)
+    {
+        list($type, $subtype) = explode('/', $entry['value'] . '/');
+        $specificity = count($entry) - 2;
+
+        if ($type !== '*') {
+            $specificity += 1000;
+        }
+
+        if ($subtype !== '*') {
+            $specificity += 100;
+        }
+
+        return $specificity;
     }
 
 
@@ -140,13 +177,13 @@ class Accept extends Common
      */
     public function getPreferred($options)
     {
-        $options = $this->extractData($options);
+        $data = $this->extractData($options);
 
         if ($this->data === null) {
             return null;
         }
 
-        return $this->findFormatedEntry($this->data, $options);
+        return $this->findFormatedEntry($this->data, $data);
     }
 
 
