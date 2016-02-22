@@ -210,6 +210,8 @@ class AcceptTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Headers\Accept::obtainEntryFromList
      * @covers Fracture\Http\Headers\Accept::getFormatedEntry
      * @covers Fracture\Http\Headers\Accept::replaceStars
+     * @covers Fracture\Http\Headers\Accept::sortBySpecificity
+     * @covers Fracture\Http\Headers\Accept::computeSpecificity
      *
      * @dataProvider provideTypesForComputation
      */
@@ -232,6 +234,9 @@ class AcceptTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Headers\Accept::__construct
      * @covers Fracture\Http\Headers\Accept::prepare
      * @covers Fracture\Http\Headers\Accept::getPreferred
+     *
+     * @covers Fracture\Http\Headers\Accept::sortBySpecificity
+     * @covers Fracture\Http\Headers\Accept::computeSpecificity
      */
     public function testPreferredTypeComputionForEmptyHeaderValue()
     {
