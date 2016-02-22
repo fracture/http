@@ -189,7 +189,7 @@ class Accept extends Common
 
     /**
      * @param array $data
-     * @param array $expected
+     * @param array $options
      * @return null|string
      */
     private function findFormatedEntry($data, $options)
