@@ -64,4 +64,14 @@ abstract class Common implements Abstracted
     {
         return false;
     }
+
+
+    public function getParameter($name)
+    {
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        }
+
+        return null;
+    }
 }
