@@ -104,4 +104,22 @@ class CommonTest extends PHPUnit_Framework_TestCase
         $instance->prepare();
         $this->assertSame('beta', $instance->getParsedData());
     }
+
+
+    /**
+     * @covers Fracture\Http\Headers\Common::__construct
+     * @covers Fracture\Http\Headers\Common::prepare
+     * @covers Fracture\Http\Headers\Common::getParsedData
+     * @covers Fracture\Http\Headers\Common::getParameter
+     */
+    public function testValueRetrieval()
+    {
+        $instance = $this->getMockForAbstractClass('Fracture\Http\Headers\Common', ['type/subtype; name=4']);
+        $instance->expects($this->any())
+                 ->method('extractData')
+                 ->will($this->returnValue(['name' => 4]));
+
+        $instance->prepare();
+        $this->assertSame(4, $instance->getParameter('name'));
+    }
 }
