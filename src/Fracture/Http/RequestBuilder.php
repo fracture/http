@@ -128,7 +128,7 @@ class RequestBuilder
      * @param Request $instance
      * @param array $params
      */
-    public function applyHeaders($instance, $params)
+    protected function applyHeaders($instance, $params)
     {
         if (array_key_exists('HTTP_ACCEPT', $params)) {
             $header = new Headers\Accept($params['HTTP_ACCEPT']);
