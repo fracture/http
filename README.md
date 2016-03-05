@@ -45,7 +45,7 @@ Use of this code fragment is sufficient for any basic website and will produces 
 
 ###Requests and REST
 
-When creating a site, that provides REST API, a common practice is to implement API versioning via HTTP Accept and Content-Type headers.
+When creating a site, that provides REST API, a common practice is to implement API versioning via HTTP Accept and Content-Type headers. To retrieve data, which was sent with a custom Content-Type header, you define a parser, which, if the media type matches, is executed to supplement the `Request` instance with additional parameters.
 
 ```php
 <?php
@@ -65,4 +65,10 @@ $request = $builder->create([
     'server' => $_SERVER,
     'cookies'=> $_COOKIE,
 ]);
+```
+
+The parser itself is defined as an anonymous function, which will be called with `Fracture\Http\Headers\ContentType` as the parameter and is expected to return an array of `name => value` pairs for parameters.
+
+```php
+array function([Fracture\Http\Headers\ContentType $header])
 ```
