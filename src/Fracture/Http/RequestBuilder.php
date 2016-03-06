@@ -68,22 +68,26 @@ class RequestBuilder
             return;
         }
 
-        foreach ($this->parsers as $value => $parser) {
-            if ($header->contains($value)) {
-                $parameters += $this->alterParameters($parser, $value, $header);
+        foreach ($this->parsers as $type => $parser) {
+            if ($header->contains($type)) {
+                $parameters += $this->alterParameters($parser, $type, $header);
             }
         }
 
         $instance->setParameters($parameters, true);
     }
 
-
-    private function alterParameters($parser, $value, $header)
+    /**
+     * @param callable $Parser
+     * @param string $type
+     * @param Headers\ContentType $header
+     */
+    private function alterParameters($parser, $type, $header)
     {
         $result = call_user_func($parser, $header);
 
         if (false === is_array($result)) {
-            $message = "Parser for '$value' did not return a 'name => value' array of parameters";
+            $message = "Parser for '$type' did not return a 'name => value' array of parameters";
             trigger_error($message, \E_USER_WARNING);
         }
 
