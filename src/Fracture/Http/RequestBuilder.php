@@ -78,7 +78,7 @@ class RequestBuilder
     }
 
     /**
-     * @param callable $Parser
+     * @param callable $parser
      * @param string $type
      * @param Headers\ContentType $header
      */
