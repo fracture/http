@@ -16,9 +16,7 @@ class SetCookieTest extends PHPUnit_Framework_TestCase
      */
     public function testIsFinalResponse()
     {
-        $cookieMock = $this->getMock('Fracture\Http\Cookie', [], [], '', false);
-
-        $instance = new SetCookie($cookieMock);
+        $instance = new SetCookie(null, null);
         $this->assertTrue($instance->isFinal());
     }
 
@@ -29,9 +27,7 @@ class SetCookieTest extends PHPUnit_Framework_TestCase
      */
     public function testHeaderName()
     {
-        $cookieMock = $this->getMock('Fracture\Http\Cookie', [], [], '', false);
-
-        $instance = new SetCookie($cookieMock);
+        $instance = new SetCookie(null, null);
         $this->assertSame('Set-Cookie', $instance->getName());
     }
 
@@ -43,8 +39,7 @@ class SetCookieTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidOptions()
     {
-        $cookieMock = $this->getMock('Fracture\Http\Cookie', [], [], '', false);
-        $instance = new SetCookie($cookieMock, ['foo' => 'bar']);
+        $instance = new SetCookie(null, null, ['foo' => 'bar']);
         $instance->prepare();
     }
 
@@ -66,15 +61,7 @@ class SetCookieTest extends PHPUnit_Framework_TestCase
      */
     public function testHeaderValue($options, $expected)
     {
-        $cookieMock = $this->getMock('Fracture\Http\Cookie', ['getName', 'getValue'], [], '', false);
-        $cookieMock->expects($this->once())
-                   ->method('getName')
-                   ->will($this->returnValue('alpha'));
-        $cookieMock->expects($this->once())
-                   ->method('getValue')
-                   ->will($this->returnValue('beta'));
-
-       $instance = new SetCookie($cookieMock, $options);
+       $instance = new SetCookie('alpha', 'beta', $options);
        $instance->prepare();
 
        $this->assertSame($expected, $instance->getValue());
@@ -141,15 +128,7 @@ class SetCookieTest extends PHPUnit_Framework_TestCase
      */
     public function testHeaderExpireValue($options, $expected)
     {
-        $cookieMock = $this->getMock('Fracture\Http\Cookie', ['getName', 'getValue'], [], '', false);
-        $cookieMock->expects($this->once())
-                   ->method('getName')
-                   ->will($this->returnValue('alpha'));
-        $cookieMock->expects($this->once())
-                   ->method('getValue')
-                   ->will($this->returnValue('beta'));
-
-       $instance = new SetCookie($cookieMock, $options);
+       $instance = new SetCookie('alpha', 'beta', $options);
        $instance->prepare();
 
        $this->assertSame($expected, $instance->getValue());
@@ -183,15 +162,7 @@ class SetCookieTest extends PHPUnit_Framework_TestCase
      */
     public function testHeaderExpireValueAsDateTime($string, $expected)
     {
-        $cookieMock = $this->getMock('Fracture\Http\Cookie', ['getName', 'getValue'], [], '', false);
-        $cookieMock->expects($this->once())
-                   ->method('getName')
-                   ->will($this->returnValue('alpha'));
-        $cookieMock->expects($this->once())
-                   ->method('getValue')
-                   ->will($this->returnValue('beta'));
-
-       $instance = new SetCookie($cookieMock, [
+       $instance = new SetCookie('alpha', 'beta', [
            'expires' => new \DateTime($string),
        ]);
        $instance->prepare();

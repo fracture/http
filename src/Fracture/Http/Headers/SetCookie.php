@@ -10,7 +10,8 @@ class SetCookie implements Abstracted
     protected $headerValue = null;
     protected $headerName = 'Set-Cookie';
 
-    private $cookie = null;
+    private $cookieName = null;
+    private $cookieValue = null;
     private $options = [];
 
     private $defaults = [
@@ -22,9 +23,10 @@ class SetCookie implements Abstracted
     ];
 
 
-    public function __construct(Cookie $cookie, $options = [])
+    public function __construct($name, $value, $options = [])
     {
-        $this->cookie = $cookie;
+        $this->cookieName = $name;
+        $this->cookieValue = $value;
         $this->options = $options;
     }
 
@@ -98,8 +100,8 @@ class SetCookie implements Abstracted
 
     public function getValue()
     {
-        $name = urlencode($this->cookie->getName());
-        $value = urlencode($this->cookie->getValue());
+        $name = urlencode($this->cookieName);
+        $value = urlencode($this->cookieValue);
 
         $result = "{$name}={$value}" . $this->collectFormatedOptions();
 

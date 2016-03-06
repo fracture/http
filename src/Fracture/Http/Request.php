@@ -155,10 +155,9 @@ class Request implements Routable
     }
 
 
-    public function addCookie($cookie)
+    public function addCookie($name, $value)
     {
-        $name = $cookie->getName();
-        $this->cookies[$name] = $cookie;
+        $this->cookies[$name] = $value;
     }
 
 

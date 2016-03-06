@@ -424,6 +424,6 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
         $builder = new RequestBuilder;
         $instance = $builder->create($input);
 
-        $this->assertInstanceOf('Fracture\Http\Cookie', $instance->getCookie('name'));
+        $this->assertEquals('value', $instance->getCookie('name'));
     }
 }

@@ -278,16 +278,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
      */
     public function testAddCookie()
     {
-        $cookieMock = $this->getMock('Fracture\Http\Cookie', ['getName', 'getValue'], [], '', false);
-        $cookieMock->expects($this->exactly(2))
-                   ->method('getName')
-                   ->will($this->returnValue('alpha'));
-        $cookieMock->expects($this->once())
-                   ->method('getValue')
-                   ->will($this->returnValue('beta'));
-
         $instance = new Response;
-        $instance->addCookie($cookieMock);
+        $instance->addCookie('alpha', 'beta');
 
         $this->assertEquals([
             [

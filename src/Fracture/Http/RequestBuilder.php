@@ -104,7 +104,7 @@ class RequestBuilder
         $this->applyWebContext($instance, $params['server']);
 
         foreach ($params['cookies'] as $name => $value) {
-            $instance->addCookie(new Cookie($name, $value));
+            $instance->addCookie($name, $value);
         }
     }
 
