@@ -48,18 +48,17 @@ class Response
     }
 
 
-    public function addCookie(Cookie $cookie, $options = [])
+    public function addCookie($name, $value, $options = [])
     {
-        $header = new Headers\SetCookie($cookie, $options);
+        $header = new Headers\SetCookie($name, $value, $options);
         $header->prepare();
-        $this->cookies[$cookie->getName()] = $header;
+        $this->cookies[$name] = $header;
     }
 
 
     public function removeCookie($name, $options = [])
     {
-        $cookie = new Cookie($name, 'deleted');
-        $this->addCookie($cookie, ['expires' => 0] + $options);
+        $this->addCookie($name, 'deleted', ['expires' => 0] + $options);
     }
 
 

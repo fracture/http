@@ -264,7 +264,7 @@ class Accept extends Common
 
     /**
      * @param string $target
-     * @param string pattern
+     * @param string $pattern
      * @return string
      */
     private function replaceStars($target, $pattern)

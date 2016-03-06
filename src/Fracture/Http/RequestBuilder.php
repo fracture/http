@@ -18,7 +18,7 @@ class RequestBuilder
 
     /**
      * @param array[] $params
-     * @return \Fracture\Routing\Routable
+     * @return Routable
      */
     public function create($params)
     {
@@ -68,22 +68,26 @@ class RequestBuilder
             return;
         }
 
-        foreach ($this->parsers as $value => $parser) {
-            if ($header->contains($value)) {
-                $parameters += $this->alterParameters($parser, $value, $header);
+        foreach ($this->parsers as $type => $parser) {
+            if ($header->contains($type)) {
+                $parameters += $this->alterParameters($parser, $type, $header);
             }
         }
 
         $instance->setParameters($parameters, true);
     }
 
-
-    private function alterParameters($parser, $value, $header)
+    /**
+     * @param callable $parser
+     * @param string $type
+     * @param Headers\ContentType $header
+     */
+    private function alterParameters($parser, $type, $header)
     {
         $result = call_user_func($parser, $header);
 
         if (false === is_array($result)) {
-            $message = "Parser for '$value' did not return a 'name => value' array of parameters";
+            $message = "Parser for '$type' did not return a 'name => value' array of parameters";
             trigger_error($message, \E_USER_WARNING);
         }
 
@@ -104,7 +108,7 @@ class RequestBuilder
         $this->applyWebContext($instance, $params['server']);
 
         foreach ($params['cookies'] as $name => $value) {
-            $instance->addCookie(new Cookie($name, $value));
+            $instance->addCookie($name, $value);
         }
     }
 
@@ -128,7 +132,7 @@ class RequestBuilder
      * @param Request $instance
      * @param array $params
      */
-    public function applyHeaders($instance, $params)
+    protected function applyHeaders($instance, $params)
     {
         if (array_key_exists('HTTP_ACCEPT', $params)) {
             $header = new Headers\Accept($params['HTTP_ACCEPT']);
