@@ -69,7 +69,7 @@ class RequestBuilder
         }
 
         foreach ($this->parsers as $type => $parser) {
-            if ($header->contains($type)) {
+            if ($header->match($type)) {
                 $parameters += $this->alterParameters($parser, $type, $header, $instance);
             }
         }

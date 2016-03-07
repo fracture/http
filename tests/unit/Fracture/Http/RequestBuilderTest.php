@@ -412,6 +412,29 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyContentParsers
+     * @covers Fracture\Http\RequestBuilder::addContentParser
+     */
+    public function testAppliedParserForWildecard()
+    {
+        $input = [
+            'server' => [
+                'CONTENT_TYPE'    => 'text/html',
+            ],
+        ];
+
+        $builder = new RequestBuilder;
+        $builder->addContentParser('*/*', function ($header, $request) {
+            return ['called' => true];
+        });
+
+        $instance = $builder->create($input);
+        $this->assertTrue($instance->getParameter('called'));
+    }
+
+
+    /**
+     * @covers Fracture\Http\RequestBuilder::create
+     * @covers Fracture\Http\RequestBuilder::applyContentParsers
      * @covers Fracture\Http\RequestBuilder::applyHeaders
      */
     public function testIfAcceptHeaderApplied()

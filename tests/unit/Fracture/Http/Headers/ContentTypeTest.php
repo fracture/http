@@ -26,7 +26,7 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\Headers\ContentType::__construct
      * @covers Fracture\Http\Headers\ContentType::prepare
-     * @covers Fracture\Http\Headers\ContentType::contains
+     * @covers Fracture\Http\Headers\ContentType::match
      *
      * @covers Fracture\Http\Headers\ContentType::extractData
      */
@@ -35,15 +35,15 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
         $instance = new ContentType('text/html');
         $instance->prepare();
 
-        $this->assertTrue($instance->contains('text/html'));
-        $this->assertFalse($instance->contains('image/png'));
+        $this->assertTrue($instance->match('text/html'));
+        $this->assertFalse($instance->match('image/png'));
     }
 
 
     /**
      * @covers Fracture\Http\Headers\ContentType::__construct
      * @covers Fracture\Http\Headers\ContentType::prepare
-     * @covers Fracture\Http\Headers\ContentType::contains
+     * @covers Fracture\Http\Headers\ContentType::match
      *
      * @covers Fracture\Http\Headers\ContentType::extractData
      */
@@ -52,8 +52,8 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
         $instance = new ContentType('application/json;version=3');
         $instance->prepare();
 
-        $this->assertTrue($instance->contains('application/json'));
-        $this->assertFalse($instance->contains('application/json;version=3'));
+        $this->assertTrue($instance->match('application/json'));
+        $this->assertFalse($instance->match('application/json;version=3'));
     }
 
 
@@ -61,7 +61,7 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Headers\ContentType::__construct
      * @covers Fracture\Http\Headers\ContentType::setValue
      * @covers Fracture\Http\Headers\ContentType::prepare
-     * @covers Fracture\Http\Headers\ContentType::contains
+     * @covers Fracture\Http\Headers\ContentType::match
      *
      * @covers Fracture\Http\Headers\ContentType::extractData
      */
@@ -71,8 +71,8 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
         $instance->setValue('image/png');
         $instance->prepare();
 
-        $this->assertTrue($instance->contains('image/png'));
-        $this->assertFalse($instance->contains('text/html'));
+        $this->assertTrue($instance->match('image/png'));
+        $this->assertFalse($instance->match('text/html'));
     }
 
 
