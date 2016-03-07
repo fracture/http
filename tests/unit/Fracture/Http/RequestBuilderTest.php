@@ -384,6 +384,34 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyContentParsers
+     * @covers Fracture\Http\RequestBuilder::addContentParser
+     */
+    public function testOverrideRequestMethodWithParser()
+    {
+        $input = [
+            'get'    => [
+                '_mark' => 'put',
+            ],
+            'server' => [
+                'CONTENT_TYPE'    => 'text/html',
+            ],
+        ];
+
+        $builder = new RequestBuilder;
+        $builder->addContentParser('text/html', function ($header, $request) {
+            $method = $request->getParameter('_mark');
+            $request->setMethod($method);
+            return [];
+        });
+
+        $instance = $builder->create($input);
+        $this->assertEquals('put', $instance->getMethod());
+    }
+
+
+    /**
+     * @covers Fracture\Http\RequestBuilder::create
+     * @covers Fracture\Http\RequestBuilder::applyContentParsers
      * @covers Fracture\Http\RequestBuilder::applyHeaders
      */
     public function testIfAcceptHeaderApplied()
