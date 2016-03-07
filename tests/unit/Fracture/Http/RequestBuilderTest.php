@@ -175,7 +175,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyContentParsers', 'isCLI']);
+        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyContentParsers']);
 
         $builder->expects($this->once())
                 ->method('applyContentParsers')
@@ -199,7 +199,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyContentParsers', 'isCLI']);
+        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyContentParsers']);
 
         $builder->expects($this->never())
                 ->method('applyContentParsers');
@@ -228,8 +228,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
+        $builder = new RequestBuilder;
         $builder->addContentParser('application/json', function () {
             return ['foo' => 'bar'];
         });
@@ -261,8 +260,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
+        $builder = new RequestBuilder;
         $builder->addContentParser('application/json', function () {
             return ['foo' => 'different'];
         });
@@ -296,8 +294,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
+        $builder = new RequestBuilder;
         $builder->addContentParser('application/json', function () {
             return null;
         });
@@ -324,8 +321,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
+        $builder = new RequestBuilder;
         $builder->addContentParser('application/json', function () {
             return ['foo' => 'bar'];
         });
@@ -349,14 +345,90 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
+        $builder = new RequestBuilder;
         $builder->addContentParser('text/html', function ($header) {
             return ['foo' => $header->getParameter('version')];
         });
 
         $instance = $builder->create($input);
         $this->assertEquals(2, $instance->getParameter('foo'));
+    }
+
+
+    /**
+     * @covers Fracture\Http\RequestBuilder::create
+     * @covers Fracture\Http\RequestBuilder::applyContentParsers
+     * @covers Fracture\Http\RequestBuilder::addContentParser
+     */
+    public function testAppliedContentParsersWithRequest()
+    {
+        $input = [
+            'get'    => [
+                'test' => 'value',
+            ],
+            'server' => [
+                'CONTENT_TYPE'    => 'text/html',
+            ],
+        ];
+
+        $builder = new RequestBuilder;
+        $builder->addContentParser('text/html', function ($header, $request) {
+            return ['duplicate' => $request->getParameter('test')];
+        });
+
+        $instance = $builder->create($input);
+        $this->assertEquals('value', $instance->getParameter('duplicate'));
+    }
+
+
+    /**
+     * @covers Fracture\Http\RequestBuilder::create
+     * @covers Fracture\Http\RequestBuilder::applyContentParsers
+     * @covers Fracture\Http\RequestBuilder::addContentParser
+     */
+    public function testOverrideRequestMethodWithParser()
+    {
+        $input = [
+            'get'    => [
+                '_mark' => 'put',
+            ],
+            'server' => [
+                'CONTENT_TYPE'    => 'text/html',
+            ],
+        ];
+
+        $builder = new RequestBuilder;
+        $builder->addContentParser('text/html', function ($header, $request) {
+            $method = $request->getParameter('_mark');
+            $request->setMethod($method);
+            return [];
+        });
+
+        $instance = $builder->create($input);
+        $this->assertEquals('put', $instance->getMethod());
+    }
+
+
+    /**
+     * @covers Fracture\Http\RequestBuilder::create
+     * @covers Fracture\Http\RequestBuilder::applyContentParsers
+     * @covers Fracture\Http\RequestBuilder::addContentParser
+     */
+    public function testAppliedParserForWildecard()
+    {
+        $input = [
+            'server' => [
+                'CONTENT_TYPE'    => 'text/html',
+            ],
+        ];
+
+        $builder = new RequestBuilder;
+        $builder->addContentParser('*/*', function ($header, $request) {
+            return ['called' => true];
+        });
+
+        $instance = $builder->create($input);
+        $this->assertTrue($instance->getParameter('called'));
     }
 
 

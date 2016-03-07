@@ -30,26 +30,6 @@ class Request implements Routable
     }
 
 
-    private function getResolvedMethod()
-    {
-        $method = $this->method;
-
-        // to mimic RESTlike API this lets you define override
-        // for request method in form element with name '_method'
-        if (array_key_exists('_method', $this->parameters)) {
-            $replacement = strtolower($this->parameters['_method']);
-
-            if (in_array($replacement, ['post', 'put', 'delete'])) {
-                $method = $replacement;
-            }
-
-            unset($this->parameters['_method']);
-        }
-
-        return $method;
-    }
-
-
     private function getResolvedAcceptHeader()
     {
         $header = $this->acceptHeader;
@@ -69,7 +49,6 @@ class Request implements Routable
 
     public function prepare()
     {
-        $this->method = $this->getResolvedMethod();
         $this->acceptHeader = $this->getResolvedAcceptHeader();
     }
 
@@ -101,7 +80,9 @@ class Request implements Routable
     public function setMethod($value)
     {
         $method = strtolower($value);
-        $this->method = $method;
+        if (in_array($method, ['get', 'post', 'put', 'delete', 'head', 'options', 'trace'])) {
+            $this->method = $method;
+        }
     }
 
 
