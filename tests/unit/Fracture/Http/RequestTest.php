@@ -28,8 +28,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Request::getMethod
      * @covers Fracture\Http\Request::prepare
      *
-     * @covers Fracture\Http\Request::getResolvedMethod
-     *
      * @depends testMethodGetterForUnpreparedRequest
      */
     public function testMethodGetterForPreparedRequest()
@@ -52,28 +50,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $request->setParameters(['_method' => 'PUT']);
 
         $this->assertNull($request->getMethod());
-    }
-
-
-
-
-    /**
-     * @covers Fracture\Http\Request::setParameters
-     * @covers Fracture\Http\Request::setMethod
-     * @covers Fracture\Http\Request::getMethod
-     * @covers Fracture\Http\Request::prepare
-     *
-     * @covers Fracture\Http\Request::getResolvedMethod
-     *
-     * @depends testMethodGetterForPreparedRequest
-     */
-    public function testMethodGetterForPreparedRequestWithCustomMethodAndOverride()
-    {
-        $request = new Request;
-        $request->setParameters(['_method' => 'PUT']);
-        $request->prepare();
-
-        $this->assertEquals('put', $request->getMethod());
     }
 
 
@@ -108,26 +84,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $request = new Request;
         $request->setParameters(['param' => 'value']);
         $this->assertNull($request->getParameter('different'));
-    }
-
-
-    /**
-     * @covers Fracture\Http\Request::setParameters
-     * @covers Fracture\Http\Request::setMethod
-     * @covers Fracture\Http\Request::getMethod
-     * @covers Fracture\Http\Request::prepare
-     * @covers Fracture\Http\Request::getParameter
-     *
-     * @covers Fracture\Http\Request::getResolvedMethod
-     */
-    public function testgetMethodForPreparedRequestUnsetsCustomMethod()
-    {
-        $request = new Request;
-        $request->setMethod('POST');
-        $request->setParameters(['_method' => 'PUT']);
-        $request->prepare();
-
-        $this->assertNull($request->getParameter('_method'));
     }
 
 
