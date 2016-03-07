@@ -36,8 +36,16 @@ class ContentType extends Common
      * @param string $type
      * @return bool
      */
-    public function match($type)
+    public function contains($type)
     {
         return array_key_exists('value', $this->data) && $this->data['value'] === $type;
+    }
+
+
+    public function match($type)
+    {
+        if ($this->contains($type)) {
+            return true;
+        }
     }
 }
