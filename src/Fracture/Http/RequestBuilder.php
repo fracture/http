@@ -70,7 +70,7 @@ class RequestBuilder
 
         foreach ($this->parsers as $type => $parser) {
             if ($header->contains($type)) {
-                $parameters += $this->alterParameters($parser, $type, $header);
+                $parameters += $this->alterParameters($parser, $type, $header, $instance);
             }
         }
 
@@ -81,10 +81,11 @@ class RequestBuilder
      * @param callable $parser
      * @param string $type
      * @param Headers\ContentType $header
+     * @param Request $instance
      */
-    private function alterParameters($parser, $type, $header)
+    private function alterParameters($parser, $type, $header, $instance)
     {
-        $result = call_user_func($parser, $header);
+        $result = call_user_func($parser, $header, $instance);
 
         if (false === is_array($result)) {
             $message = "Parser for '$type' did not return a 'name => value' array of parameters";
