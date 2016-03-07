@@ -132,4 +132,55 @@ class ContentTypeTest extends PHPUnit_Framework_TestCase
         $instance = new ContentType;
         $this->assertSame('Content-Type', $instance->getName());
     }
+
+
+    /**
+     * @covers Fracture\Http\Headers\ContentType::__construct
+     * @covers Fracture\Http\Headers\ContentType::prepare
+     * @covers Fracture\Http\Headers\ContentType::match
+     *
+     * @covers Fracture\Http\Headers\ContentType::isCompatible
+     * @covers Fracture\Http\Headers\ContentType::replaceStars
+     *
+     * @dataProvider provideMimeMatches
+     */
+    public function testMimeMatches($expected, $value, $match)
+    {
+        $instance = new ContentType;
+        $instance->setValue($value);
+        $instance->prepare();
+        $this->assertEquals($expected, $instance->match($match));
+    }
+
+
+    public function provideMimeMatches()
+    {
+        return [
+            [
+                'expected' => true,
+                'value' => 'text/html',
+                'match' => 'text/html',
+            ],
+            [
+                'expected' => false,
+                'value' => 'text/html',
+                'match' => 'text/plain',
+            ],
+            [
+                'expected' => true,
+                'value' => 'text/html',
+                'match' => 'text/*',
+            ],
+            [
+                'expected' => false,
+                'value' => 'text/html',
+                'match' => 'application/*',
+            ],
+            [
+                'expected' => true,
+                'value' => 'application/json',
+                'match' => '*/*',
+            ],
+        ];
+    }
 }
