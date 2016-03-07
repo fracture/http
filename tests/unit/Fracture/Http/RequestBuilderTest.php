@@ -175,7 +175,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyContentParsers', 'isCLI']);
+        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyContentParsers']);
 
         $builder->expects($this->once())
                 ->method('applyContentParsers')
@@ -199,7 +199,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyContentParsers', 'isCLI']);
+        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['applyContentParsers']);
 
         $builder->expects($this->never())
                 ->method('applyContentParsers');
@@ -228,8 +228,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
+        $builder = new RequestBuilder;
         $builder->addContentParser('application/json', function () {
             return ['foo' => 'bar'];
         });
@@ -261,8 +260,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
+        $builder = new RequestBuilder;
         $builder->addContentParser('application/json', function () {
             return ['foo' => 'different'];
         });
@@ -296,8 +294,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
+        $builder = new RequestBuilder;
         $builder->addContentParser('application/json', function () {
             return null;
         });
@@ -324,8 +321,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
+        $builder = new RequestBuilder;
         $builder->addContentParser('application/json', function () {
             return ['foo' => 'bar'];
         });
@@ -349,8 +345,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $builder = $this->getMock('Fracture\Http\RequestBuilder', ['isCLI']);
-
+        $builder = new RequestBuilder;
         $builder->addContentParser('text/html', function ($header) {
             return ['foo' => $header->getParameter('version')];
         });
