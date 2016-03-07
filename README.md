@@ -15,7 +15,7 @@ A simple abstraction for handling the HTTP request and responses. Library is mad
 You can add the library to your project using composer with following command:
 
 ```sh
-    composer require fracture/http
+composer require fracture/http
 ```
 
 
@@ -67,8 +67,41 @@ $request = $builder->create([
 ]);
 ```
 
-The parser itself is defined as an anonymous function, which will be called with `Fracture\Http\Headers\ContentType` as the parameter and is expected to return an array of `name => value` pairs for parameters.
+Also the `RequestBuilder` instance can have multiple content parsers added.
+
+####Content parsers
+
+A parser is defined as an anonymous function, which will be called with `Fracture\Http\Headers\ContentType` and `Fracture\Http\Request` instances as parameters and is expected to return an array of `name => value` pairs for parameters.
+
+```
+array function([ Fracture\Http\Headers\ContentType $header [, Fracture\Http\Request $request]])
+```
+
+You can also use content parsers to override `Request` attributes. For example, if you want to alter the request method, when submitting for with "magic" parameter like `<input type="hidden" name="_my_method" value="PUT" />` (which is a common approach for making more RESTful and bypass the limitations of standard webpage):
 
 ```php
-array function([Fracture\Http\Headers\ContentType $header])
+<?php
+// -- unimportant code above --
+
+$builder->addContentParser('*/*', function ($header, $request) {
+    $override = $request->getParameter('_my_method');
+    if ($override) {
+        $request->setMethod($override);
+    }
+    return [];
+});
 ```
+
+
+###Accessing data in the request
+
+When the instance of `Request` has been fully initialized (using `RequestBuilder`), you gain ability to extract several types of information from this abstraction:
+
+####Parameters
+
+
+
+####Cookies
+####File uploads
+####Request method
+####Headers
