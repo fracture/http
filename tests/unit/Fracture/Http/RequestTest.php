@@ -236,23 +236,4 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $request->addCookie('alpha', 'value');
         $this->assertEquals('value', $request->getCookie('alpha'));
     }
-
-    /**
-     * @covers Fracture\Http\Request::__construct
-     * @covers Fracture\Http\Request::addCookie
-     * @covers Fracture\Http\Request::getAllCookies
-     */
-    public function testAllCookiesReturned()
-    {
-        $request = new Request;
-        $this->assertEmpty($request->getAllCookies());
-
-        $request->addCookie('first', 'foo');
-        $request->addCookie('second', 'bar');
-
-        $this->assertEquals([
-            'first' => 'foo',
-            'second' => 'bar',
-        ], $request->getAllCookies());
-    }
 }

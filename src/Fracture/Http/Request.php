@@ -133,12 +133,6 @@ class Request implements Routable
     }
 
 
-    public function getAllCookies()
-    {
-        return $this->cookies;
-    }
-
-
     protected function resolveUri($uri)
     {
         $parts = explode('/', $uri);
