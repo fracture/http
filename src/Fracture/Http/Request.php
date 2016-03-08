@@ -67,6 +67,10 @@ class Request implements Routable
     }
 
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
     public function getParameter($name)
     {
         if (array_key_exists($name, $this->parameters)) {

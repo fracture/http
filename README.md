@@ -8,7 +8,7 @@
 
 ## Introduction
 
-A simple abstraction for handling the HTTP request and responses. Library is made for interacting with [Fracture\Routing](https://github.com/fracture/http) and provides simple object-oriented abstractions.
+A simple abstraction for handling the HTTP requests and responses. Library is made for interacting with [Fracture\Routing](https://github.com/fracture/routing) and provides simple object-oriented interface.
 
 ## Installation
 
@@ -25,7 +25,7 @@ All of the following code will assume that the Composer's autoloader has already
 
 ###Basic request initialization
 
-While initializing a new `Request` instance manually is possible, for the instance to be fully prepared, it require several additional steps. For this reason it's better to use the `RequestBuider`, that will those steps:
+While initializing a new `Request` instance manually is possible, for said instance to be fully prepared, it require several additional steps. To simplify this process, you should use `RequestBuider`, which will perform all of those steps:
 
 ```php
 <?php
@@ -45,7 +45,9 @@ Use of this code fragment is sufficient for any basic website and will produces 
 
 ###Requests and REST
 
-When creating a site, that provides REST API, a common practice is to implement API versioning via HTTP Accept and Content-Type headers. To retrieve data, which was sent with a custom Content-Type header, you define a parser, which, if the media type matches, is executed to supplement the `Request` instance with additional parameters.
+When creating a site, that provides REST API, a common practice is to implement API versioning via HTTP Accept and Content-Type headers. But, if you send a `POST` query with custom Content-Type header, PHP will not populate `$_POST` with the information, that you sent to the server. And there are no `$_PUT` and `$_DETETE` superglobals in PHP.
+
+To retrieve data information in a usable form, you have define a content parser, which, if the media type matches, is executed to supplement the `Request` instance with additional parameters.
 
 ```php
 <?php
@@ -67,11 +69,11 @@ $request = $builder->create([
 ]);
 ```
 
-Also the `RequestBuilder` instance can have multiple content parsers added.
+It is possible for `RequestBuilder` instance to have multiple content parsers added.
 
 ####Content parsers
 
-A parser is defined as an anonymous function, which will be called with `Fracture\Http\Headers\ContentType` and `Fracture\Http\Request` instances as parameters and is expected to return an array of `name => value` pairs for parameters.
+A content parser is defined as an anonymous function, which will be executed with `Fracture\Http\Headers\ContentType` and `Fracture\Http\Request` instances as parameters and is expected to return an array of `name => value` pairs for parameters.
 
 ```
 array function([ Fracture\Http\Headers\ContentType $header [, Fracture\Http\Request $request]])
@@ -99,7 +101,14 @@ When the instance of `Request` has been fully initialized (using `RequestBuilder
 
 ####Parameters
 
+Hmm ... 
 
+```
+mixed Request::getParameter( string $name );
+```
+
+> **Important!**  
+> If your HTTP request contains two parameters in GET and POST with same name, it will trigger a warning
 
 ####Cookies
 ####File uploads
