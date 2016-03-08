@@ -30,29 +30,6 @@ class Request implements Routable
     }
 
 
-    private function getResolvedAcceptHeader()
-    {
-        $header = $this->acceptHeader;
-
-        // lets you override the accept header value,
-        // but probably will get removed in a foreseeable future
-        if (array_key_exists('_accept', $this->parameters)) {
-            $value = strtolower($this->parameters['_accept']);
-            $header->setValue($value);
-            $header->prepare();
-            unset( $this->parameters['_accept']);
-        }
-
-        return $header;
-    }
-
-
-    public function prepare()
-    {
-        $this->acceptHeader = $this->getResolvedAcceptHeader();
-    }
-
-
     public function setParameters(array $list, $override = false)
     {
         $duplicates = array_intersect_key($list, $this->parameters);

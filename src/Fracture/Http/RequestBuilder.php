@@ -27,10 +27,10 @@ class RequestBuilder
         $instance = $this->buildInstance();
         $this->applyHeaders($instance, $params['server']);
         $this->applyParams($instance, $params);
+
         if ($instance->getMethod() !== 'get') {
             $this->applyContentParsers($instance);
         }
-        $instance->prepare();
 
         return $instance;
     }

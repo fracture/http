@@ -73,13 +73,11 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
                 'setMethod',
                 'setUploadedFiles',
                 'setAddress',
-                'prepare',
             ]
         );
 
         $request->expects($this->exactly(2))->method('setParameters');
         $request->expects($this->once())->method('setMethod');
-        $request->expects($this->once())->method('prepare');
 
         $builder = $this->getMock('Fracture\Http\RequestBuilder', ['buildInstance']);
 
