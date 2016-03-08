@@ -97,18 +97,32 @@ $builder->addContentParser('*/*', function ($header, $request) {
 
 ###Accessing data in the request
 
-When the instance of `Request` has been fully initialized (using `RequestBuilder`), you gain ability to extract several types of information from this abstraction:
+When the instance of `Request` has been fully initialized (preferably, using `RequestBuilder`), you gain ability to extract several types of information from this abstraction.
 
 ####Parameters
 
-Hmm ... 
+To retrieve a parameter from an initialized `Request` instance you use `getParameter()` method:
+
+```php
+<?php
+// -- unimportant code above --
+
+$id = $request->getParameter('id');
+```
+
+When instance has been produced using `RequestBuilder`, it will contain parameter values from `$_GET`, `$_POST` and the data from content parsers.
+
+> **Important!**  
+> If your code contains two parameters in `$_GET` and `$_POST` with same name, it will trigger a warning. Same warning will also be triggered, if one of the content parsers returned parameter, which already existed in `$_GET` or `$_POST`. The library is designed with an assumption, that having such overlap is an unintentional mistake.
+
+
+The `getParameter()` method has the following signature:
 
 ```
 mixed Request::getParameter( string $name );
 ```
 
-> **Important!**  
-> If your HTTP request contains two parameters in GET and POST with same name, it will trigger a warning
+If parameter with the provided name does not exist, the method will return `null`.
 
 ####Cookies
 ####File uploads
