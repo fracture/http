@@ -125,6 +125,23 @@ mixed Request::getParameter( string $name );
 If parameter with the provided name does not exist, the method will return `null`.
 
 ####Cookies
+
+Retrieval of cookies is done using  `getCookies()` method.
+
+```php
+<?php
+// -- unimportant code above --
+
+$token = $request->getCookie('token');
+```
+The `getCookie()` method has the following signature:
+
+```
+mixed Request::getCookie( string $name );
+```
+
+If parameter with the provided name does not exist, the method will return `null`.
+
 ####File uploads
 ####Request method
 ####Headers
