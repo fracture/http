@@ -3,8 +3,6 @@
 
 namespace Fracture\Http;
 
-use Exception;
-use ReflectionClass;
 use PHPUnit_Framework_TestCase;
 
 class RequestBuilderTest extends PHPUnit_Framework_TestCase
