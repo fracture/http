@@ -116,7 +116,7 @@ class RequestBuilder
 
     /**
      * @param Request $instance
-     * @param array[] $params
+     * @param array $params
      */
     protected function applyWebContext($instance, $params)
     {
