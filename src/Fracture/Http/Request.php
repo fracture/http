@@ -24,7 +24,7 @@ class Request implements Routable
     private $uri = null;
 
 
-    public function __construct($fileBagBuilder = null)
+    public function __construct(FileBagBuilder $fileBagBuilder = null)
     {
         $this->fileBagBuilder = $fileBagBuilder;
     }
