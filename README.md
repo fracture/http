@@ -8,7 +8,7 @@
 
 ## Introduction
 
-A simple abstraction for handling the HTTP requests and responses. Library is made for interacting with [Fracture\Routing](https://github.com/fracture/routing) and provides simple object-oriented interface.
+A simple abstraction for handling the HTTP requests and responses. Library is made for interacting with [**fracture\routing**](https://github.com/fracture/routing) and provides simple object-oriented interface.
 
 ## Installation
 
@@ -143,5 +143,28 @@ mixed Request::getCookie( string $name );
 If parameter with the provided name does not exist, the method will return `null`.
 
 ####File uploads
+
+The method for retrieving uploaded files from `Request` instance is `getUpload()`:
+
+```php
+<?php
+// -- unimportant code above --
+
+$file = $request->getUpload('attachment');
+```
+
+This method is called with the input's name as parameter. Depending on the structure of your upload form, it will return either an instance of `UploadedFile`, if your HTML had `name="attachment"`, or `FileBag` instance, if form element had `name="attachment[]"`.
+
+If no file has been uploaded with the given field name, then the method will return `null`.
+
+The method signature is:
+
+```
+mixed Request::getUpload( string $name );
+```
+
 ####Request method
+
+
+
 ####Headers
