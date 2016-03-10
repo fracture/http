@@ -24,32 +24,9 @@ class Request implements Routable
     private $uri = null;
 
 
-    public function __construct($fileBagBuilder = null)
+    public function __construct(FileBagBuilder $fileBagBuilder = null)
     {
         $this->fileBagBuilder = $fileBagBuilder;
-    }
-
-
-    private function getResolvedAcceptHeader()
-    {
-        $header = $this->acceptHeader;
-
-        // lets you override the accept header value,
-        // but probably will get removed in a foreseeable future
-        if (array_key_exists('_accept', $this->parameters)) {
-            $value = strtolower($this->parameters['_accept']);
-            $header->setValue($value);
-            $header->prepare();
-            unset( $this->parameters['_accept']);
-        }
-
-        return $header;
-    }
-
-
-    public function prepare()
-    {
-        $this->acceptHeader = $this->getResolvedAcceptHeader();
     }
 
 
@@ -67,6 +44,10 @@ class Request implements Routable
     }
 
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
     public function getParameter($name)
     {
         if (array_key_exists($name, $this->parameters)) {
@@ -149,12 +130,6 @@ class Request implements Routable
         }
 
         return null;
-    }
-
-
-    public function getAllCookies()
-    {
-        return $this->cookies;
     }
 
 

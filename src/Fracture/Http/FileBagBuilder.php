@@ -8,7 +8,7 @@ class FileBagBuilder
     private $uploadedFileBuilder = null;
 
 
-    public function __construct($builder)
+    public function __construct(UploadedFileBuilder $builder)
     {
         $this->uploadedFileBuilder = $builder;
     }

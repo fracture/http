@@ -14,42 +14,12 @@ class RequestTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\Request::setMethod
      * @covers Fracture\Http\Request::getMethod
      */
-    public function testMethodGetterForUnpreparedRequest()
+    public function testMethodGetterForRequest()
     {
         $request = new Request;
         $request->setMethod('GET');
 
         $this->assertEquals('get', $request->getMethod());
-    }
-
-
-    /**
-     * @covers Fracture\Http\Request::setMethod
-     * @covers Fracture\Http\Request::getMethod
-     * @covers Fracture\Http\Request::prepare
-     *
-     * @depends testMethodGetterForUnpreparedRequest
-     */
-    public function testMethodGetterForPreparedRequest()
-    {
-        $request = new Request;
-        $request->setMethod('GET');
-        $request->prepare();
-
-        $this->assertEquals('get', $request->getMethod());
-    }
-
-
-    /**
-     * @covers Fracture\Http\Request::setParameters
-     * @covers Fracture\Http\Request::getMethod
-     */
-    public function testMethodGetterForUnpreparedRequestWithCustomMethod()
-    {
-        $request = new Request;
-        $request->setParameters(['_method' => 'PUT']);
-
-        $this->assertNull($request->getMethod());
     }
 
 
@@ -255,32 +225,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Fracture\Http\Request::__construct
-     * @covers Fracture\Http\Request::setAcceptHeader
-     * @covers Fracture\Http\Request::getAcceptHeader
-     * @covers Fracture\Http\Request::getResolvedAcceptHeader
-     */
-    public function testGetterAndSetterForAcceptHeaderWithManualAcceotValue()
-    {
-        $request = new Request;
-        $header = $this->getMock('Fracture\Http\Headers\Accept', ['prepare', 'setValue']);
-
-        $header->expects($this->once())
-               ->method('prepare');
-
-        $header->expects($this->once())
-               ->method('setValue')
-               ->with($this->equalTo('application/json'));
-
-
-        $request->setAcceptHeader($header);
-
-        $request->setParameters(['_accept' => 'application/json']);
-        $request->prepare();
-    }
-
-
-    /**
-     * @covers Fracture\Http\Request::__construct
      * @covers Fracture\Http\Request::getCookie
      * @covers Fracture\Http\Request::addCookie
      */
@@ -291,24 +235,5 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
         $request->addCookie('alpha', 'value');
         $this->assertEquals('value', $request->getCookie('alpha'));
-    }
-
-    /**
-     * @covers Fracture\Http\Request::__construct
-     * @covers Fracture\Http\Request::addCookie
-     * @covers Fracture\Http\Request::getAllCookies
-     */
-    public function testAllCookiesReturned()
-    {
-        $request = new Request;
-        $this->assertEmpty($request->getAllCookies());
-
-        $request->addCookie('first', 'foo');
-        $request->addCookie('second', 'bar');
-
-        $this->assertEquals([
-            'first' => 'foo',
-            'second' => 'bar',
-        ], $request->getAllCookies());
     }
 }

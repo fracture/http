@@ -17,7 +17,9 @@ class FileBagBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function testCreatedDummyElement()
     {
-        $instance = new FileBagBuilder(null);
+        $builder = $this->getMock('Fracture\Http\UploadedFileBuilder');
+
+        $instance = new FileBagBuilder($builder);
         $object = $instance->create([]);
 
         $this->assertInstanceOf('Fracture\Http\FileBag', $object);
