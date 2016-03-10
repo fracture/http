@@ -101,7 +101,7 @@ When the instance of `Request` has been fully initialized (preferably, using `Re
 
 ####Parameters
 
-To retrieve a parameter from an initialized `Request` instance you use `getParameter()` method:
+To retrieve a parameter from an initialized `Request` instance you have to use `getParameter()` method:
 
 ```php
 <?php
@@ -165,6 +165,30 @@ mixed Request::getUpload( string $name );
 
 ####Request method
 
+To retrieve the HTTP request method, you have to use `getMethod()` method.
+
+```php
+<?php
+// -- unimportant code above --
+
+$method = $request->getMethod();
+```
+
+It has the following signature:
+
+```
+string Request::getMethod( void );
+```
 
 
 ####Headers
+
+Currently the `Request` instance lets you access abstractions for Accept and Content-Type HTTP headers.  It can be done using  `getAcceptHeader()` and `getContentTypeHeader()` methods. These methods have the following signatures:
+
+```
+Fracture\Http\Headers\Accept Request::getAcceptHeader( void )
+```
+and
+```
+Fracture\Http\Headers\ContentType Request::getContentTypeHeader( void )
+```
