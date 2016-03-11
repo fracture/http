@@ -210,7 +210,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\RequestBuilder::applyContentParsers
      * @covers Fracture\Http\RequestBuilder::addContentParser
      *
-     * @covers Fracture\Http\RequestBuilder::alterParameters
+     * @covers Fracture\Http\RequestBuilder::executeParser
      */
     public function testAppliedContentParsers()
     {
@@ -240,7 +240,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\RequestBuilder::applyContentParsers
      * @covers Fracture\Http\RequestBuilder::addContentParser
      *
-     * @covers Fracture\Http\RequestBuilder::alterParameters
+     * @covers Fracture\Http\RequestBuilder::executeParser
      */
     public function testAppliedContentParsersOverridesPameters()
     {
@@ -272,9 +272,9 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\RequestBuilder::applyContentParsers
      * @covers Fracture\Http\RequestBuilder::addContentParser
      *
-     * @covers Fracture\Http\RequestBuilder::alterParameters
+     * @covers Fracture\Http\RequestBuilder::executeParser
      *
-     * @expectedException PHPUnit_Framework_Error_Warning
+     * @expectedException Fracture\Http\InvalidParser
      */
     public function testAppliedContentParsersWithBadReturn()
     {
@@ -479,7 +479,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
      * @covers Fracture\Http\RequestBuilder::create
      * @covers Fracture\Http\RequestBuilder::applyParams
      *
-     * @covers Fracture\Http\RequestBuilder::alterParameters
+     * @covers Fracture\Http\RequestBuilder::executeParser
      */
     public function testWithCookieAddition()
     {
