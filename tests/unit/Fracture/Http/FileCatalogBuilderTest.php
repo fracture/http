@@ -7,29 +7,29 @@ use Exception;
 use ReflectionClass;
 use PHPUnit_Framework_TestCase;
 
-class FileBagBuilderTest extends PHPUnit_Framework_TestCase
+class FileCatalogBuilderTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers Fracture\Http\FileBagBuilder::__construct
-     * @covers Fracture\Http\FileBagBuilder::create
-     * @covers Fracture\Http\FileBagBuilder::createItem
+     * @covers Fracture\Http\FileCatalogBuilder::__construct
+     * @covers Fracture\Http\FileCatalogBuilder::create
+     * @covers Fracture\Http\FileCatalogBuilder::createItem
      */
     public function testCreatedDummyElement()
     {
         $builder = $this->getMock('Fracture\Http\UploadedFileBuilder');
 
-        $instance = new FileBagBuilder($builder);
+        $instance = new FileCatalogBuilder($builder);
         $object = $instance->create([]);
 
-        $this->assertInstanceOf('Fracture\Http\FileBag', $object);
+        $this->assertInstanceOf('Fracture\Http\FileCatalog', $object);
     }
 
 
     /**
-     * @covers Fracture\Http\FileBagBuilder::__construct
-     * @covers Fracture\Http\FileBagBuilder::create
-     * @covers Fracture\Http\FileBagBuilder::createItem
+     * @covers Fracture\Http\FileCatalogBuilder::__construct
+     * @covers Fracture\Http\FileCatalogBuilder::create
+     * @covers Fracture\Http\FileCatalogBuilder::createItem
      */
     public function testWithInvalidInput()
     {
@@ -47,17 +47,17 @@ class FileBagBuilderTest extends PHPUnit_Framework_TestCase
                 ->will($this->returnValue($response));
 
 
-        $instance = new FileBagBuilder($builder);
+        $instance = new FileCatalogBuilder($builder);
 
         $object = $instance->create($input);
-        $this->assertInstanceOf('Fracture\Http\FileBag', $object);
+        $this->assertInstanceOf('Fracture\Http\FileCatalog', $object);
     }
 
 
     /**
-     * @covers Fracture\Http\FileBagBuilder::__construct
-     * @covers Fracture\Http\FileBagBuilder::create
-     * @covers Fracture\Http\FileBagBuilder::createItem
+     * @covers Fracture\Http\FileCatalogBuilder::__construct
+     * @covers Fracture\Http\FileCatalogBuilder::create
+     * @covers Fracture\Http\FileCatalogBuilder::createItem
      */
     public function testWithInvalidMalformedUpload()
     {
@@ -75,16 +75,16 @@ class FileBagBuilderTest extends PHPUnit_Framework_TestCase
                 ->with($this->equalTo($input['foo']))
                 ->will($this->returnValue($response));
 
-        $instance = new FileBagBuilder($builder);
+        $instance = new FileCatalogBuilder($builder);
 
         $object = $instance->create($input);
-        $this->assertInstanceOf('Fracture\Http\FileBag', $object);
+        $this->assertInstanceOf('Fracture\Http\FileCatalog', $object);
     }
 
     /**
-     * @covers Fracture\Http\FileBagBuilder::__construct
-     * @covers Fracture\Http\FileBagBuilder::create
-     * @covers Fracture\Http\FileBagBuilder::createItem
+     * @covers Fracture\Http\FileCatalogBuilder::__construct
+     * @covers Fracture\Http\FileCatalogBuilder::create
+     * @covers Fracture\Http\FileCatalogBuilder::createItem
      */
     public function testSingleFileUpload()
     {
@@ -110,18 +110,18 @@ class FileBagBuilderTest extends PHPUnit_Framework_TestCase
                 ->with($this->equalTo($input['alpha']))
                 ->will($this->returnValue($response));
 
-        $instance = new FileBagBuilder($builder);
+        $instance = new FileCatalogBuilder($builder);
         $object = $instance->create($input);
 
-        $this->assertInstanceOf('Fracture\Http\FileBag', $object);
+        $this->assertInstanceOf('Fracture\Http\FileCatalog', $object);
         $this->assertInstanceOf('Fracture\Http\UploadedFile', $object['alpha']);
     }
 
 
     /**
-     * @covers Fracture\Http\FileBagBuilder::__construct
-     * @covers Fracture\Http\FileBagBuilder::create
-     * @covers Fracture\Http\FileBagBuilder::createItem
+     * @covers Fracture\Http\FileCatalogBuilder::__construct
+     * @covers Fracture\Http\FileCatalogBuilder::create
+     * @covers Fracture\Http\FileCatalogBuilder::createItem
      */
     public function testTwoFilesUploadedFromDiffrentInputs()
     {
@@ -157,18 +157,18 @@ class FileBagBuilderTest extends PHPUnit_Framework_TestCase
                 ->method('create')
                 ->will($this->onConsecutiveCalls($alpha, $beta));
 
-        $instance = new FileBagBuilder($builder);
+        $instance = new FileCatalogBuilder($builder);
         $object = $instance->create($input);
 
-        $this->assertInstanceOf('Fracture\Http\FileBag', $object);
+        $this->assertInstanceOf('Fracture\Http\FileCatalog', $object);
     }
 
 
     /**
-     * @covers Fracture\Http\FileBagBuilder::__construct
-     * @covers Fracture\Http\FileBagBuilder::create
-     * @covers Fracture\Http\FileBagBuilder::createItem
-     * @covers Fracture\Http\FileBagBuilder::createFromList
+     * @covers Fracture\Http\FileCatalogBuilder::__construct
+     * @covers Fracture\Http\FileCatalogBuilder::create
+     * @covers Fracture\Http\FileCatalogBuilder::createItem
+     * @covers Fracture\Http\FileCatalogBuilder::createFromList
      */
     public function testTwoFilesUploadedFromInputWithSameName()
     {
@@ -193,11 +193,11 @@ class FileBagBuilderTest extends PHPUnit_Framework_TestCase
                 ->method('create')
                 ->will($this->returnValue($response));
 
-        $instance = new FileBagBuilder($builder);
+        $instance = new FileCatalogBuilder($builder);
         $object = $instance->create($input);
 
-        $this->assertInstanceOf('Fracture\Http\FileBag', $object);
-        $this->assertInstanceOf('Fracture\Http\FileBag', $object['alpha']);
+        $this->assertInstanceOf('Fracture\Http\FileCatalog', $object);
+        $this->assertInstanceOf('Fracture\Http\FileCatalog', $object['alpha']);
         $this->assertInstanceOf('Fracture\Http\UploadedFile', $object['alpha'][0]);
         $this->assertInstanceOf('Fracture\Http\UploadedFile', $object['alpha'][1]);
     }

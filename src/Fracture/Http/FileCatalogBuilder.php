@@ -2,7 +2,7 @@
 
 namespace Fracture\Http;
 
-class FileBagBuilder
+class FileCatalogBuilder
 {
 
     private $uploadedFileBuilder = null;
@@ -15,14 +15,14 @@ class FileBagBuilder
 
 
     /**
-     * Used for producinf a FileBag instance from standard $_FILES values
+     * Used for producinf a FileCatalog instance from standard $_FILES values
      *
      * @param array $list
-     * @return FileBag
+     * @return FileCatalog
      */
     public function create($list)
     {
-        $instance = new FileBag;
+        $instance = new FileCatalog;
 
         foreach ($list as $key => $value) {
             $item = $this->createItem($value);
@@ -51,7 +51,7 @@ class FileBagBuilder
      */
     private function createFromList($list)
     {
-        $instance = new FileBag;
+        $instance = new FileCatalog;
 
         foreach (array_keys($list['name']) as $key) {
             $params = [

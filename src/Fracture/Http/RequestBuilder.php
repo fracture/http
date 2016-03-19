@@ -49,7 +49,7 @@ class RequestBuilder
     protected function buildInstance()
     {
         $fileBuilder = new UploadedFileBuilder;
-        $fileBagBuilder = new FileBagBuilder($fileBuilder);
+        $fileBagBuilder = new FileCatalogBuilder($fileBuilder);
 
         return new Request($fileBagBuilder);
     }
@@ -70,7 +70,7 @@ class RequestBuilder
 
         foreach ($this->parsers as $type => $parser) {
             if ($header->match($type)) {
-                $parameters += $this->alterParameters($parser, $type, $header, $instance);
+                $parameters += $this->executeParser($parser, $type, $header, $instance);
             }
         }
 
@@ -83,13 +83,13 @@ class RequestBuilder
      * @param Headers\ContentType $header
      * @param Request $instance
      */
-    private function alterParameters($parser, $type, $header, $instance)
+    private function executeParser($parser, $type, $header, $instance)
     {
         $result = call_user_func($parser, $header, $instance);
 
         if (false === is_array($result)) {
             $message = "Parser for '$type' did not return a 'name => value' array of parameters";
-            trigger_error($message, \E_USER_WARNING);
+            throw new InvalidParser($message);
         }
 
         return $result;

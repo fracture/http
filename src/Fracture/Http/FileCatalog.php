@@ -2,7 +2,7 @@
 
 namespace Fracture\Http;
 
-class FileBag implements \Iterator, \ArrayAccess
+class FileCatalog implements \Iterator, \ArrayAccess
 {
 
     private $entries = [];
@@ -50,7 +50,7 @@ class FileBag implements \Iterator, \ArrayAccess
 
     public function offsetSet($offset, $value)
     {
-        // attempts to add invalid file in a filebag er ignored
+        // attempts to add invalid file in a filebag are ignored
         if (is_a($value, 'Fracture\Http\UploadedFile') === true &&
             $value->isValid() === false) {
             return;
