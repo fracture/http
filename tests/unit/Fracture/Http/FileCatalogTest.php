@@ -7,18 +7,18 @@ use Exception;
 use ReflectionClass;
 use PHPUnit_Framework_TestCase;
 
-class FileBagTest extends PHPUnit_Framework_TestCase
+class FileCatalogTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers Fracture\Http\FileBag::offsetExists
-     * @covers Fracture\Http\FileBag::offsetSet
-     * @covers Fracture\Http\FileBag::offsetGet
-     * @covers Fracture\Http\FileBag::offsetUnset
+     * @covers Fracture\Http\FileCatalog::offsetExists
+     * @covers Fracture\Http\FileCatalog::offsetSet
+     * @covers Fracture\Http\FileCatalog::offsetGet
+     * @covers Fracture\Http\FileCatalog::offsetUnset
      */
     public function testArrayAccessForOneValidItem()
     {
-        $instance = new FileBag;
+        $instance = new FileCatalog;
 
 
         $item  = $this->getMock('Fracture\Http\UploadedFile', ['isValid'], ['foo' => 'bar']);
@@ -36,12 +36,12 @@ class FileBagTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * @covers Fracture\Http\FileBag::offsetExists
-     * @covers Fracture\Http\FileBag::offsetSet
+     * @covers Fracture\Http\FileCatalog::offsetExists
+     * @covers Fracture\Http\FileCatalog::offsetSet
      */
     public function testArrayAccessForOneValidItemwithoutKey()
     {
-        $instance = new FileBag;
+        $instance = new FileCatalog;
 
 
         $item  = $this->getMock('Fracture\Http\UploadedFile', ['isValid'], ['foo' => 'bar']);
@@ -55,14 +55,14 @@ class FileBagTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Fracture\Http\FileBag::offsetExists
-     * @covers Fracture\Http\FileBag::offsetSet
-     * @covers Fracture\Http\FileBag::offsetGet
-     * @covers Fracture\Http\FileBag::offsetUnset
+     * @covers Fracture\Http\FileCatalog::offsetExists
+     * @covers Fracture\Http\FileCatalog::offsetSet
+     * @covers Fracture\Http\FileCatalog::offsetGet
+     * @covers Fracture\Http\FileCatalog::offsetUnset
      */
     public function testArrayAccessForOneInalidItem()
     {
-        $instance = new FileBag;
+        $instance = new FileCatalog;
 
 
         $item  = $this->getMock('Fracture\Http\UploadedFile', ['isValid'], ['foo' => 'bar']);
@@ -82,15 +82,15 @@ class FileBagTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideListOfUploadedFileInstances
      *
-     * @covers Fracture\Http\FileBag::current
-     * @covers Fracture\Http\FileBag::key
-     * @covers Fracture\Http\FileBag::next
-     * @covers Fracture\Http\FileBag::rewind
-     * @covers Fracture\Http\FileBag::valid
+     * @covers Fracture\Http\FileCatalog::current
+     * @covers Fracture\Http\FileCatalog::key
+     * @covers Fracture\Http\FileCatalog::next
+     * @covers Fracture\Http\FileCatalog::rewind
+     * @covers Fracture\Http\FileCatalog::valid
      */
     public function testIteratorWithForeachLoop($first, $second, $third)
     {
-        $instance = new FileBag;
+        $instance = new FileCatalog;
 
         $instance['a'] = $first;
         $instance['b'] = $second;
@@ -110,15 +110,15 @@ class FileBagTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideListOfUploadedFileInstances
      *
-     * @covers Fracture\Http\FileBag::current
-     * @covers Fracture\Http\FileBag::key
-     * @covers Fracture\Http\FileBag::next
-     * @covers Fracture\Http\FileBag::rewind
-     * @covers Fracture\Http\FileBag::valid
+     * @covers Fracture\Http\FileCatalog::current
+     * @covers Fracture\Http\FileCatalog::key
+     * @covers Fracture\Http\FileCatalog::next
+     * @covers Fracture\Http\FileCatalog::rewind
+     * @covers Fracture\Http\FileCatalog::valid
      */
     public function testIteratorDirectlyWithNumericKeys($first, $second, $third)
     {
-        $instance = new FileBag;
+        $instance = new FileCatalog;
 
         $instance[] = $first;
         $instance[] = $second;

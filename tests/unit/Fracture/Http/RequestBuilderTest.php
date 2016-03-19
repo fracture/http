@@ -27,7 +27,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase
     public function testInternalManipulationsofInstance()
     {
         $request = new Request(
-            new FileBagBuilder(
+            new FileCatalogBuilder(
                 new UploadedFileBuilder
             )
         );

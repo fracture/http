@@ -179,7 +179,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
         ];
 
         $builder = $this->getMock(
-            'Fracture\Http\FileBagBuilder',
+            'Fracture\Http\FileCatalogBuilder',
             ['create'],
             [
                 'uploadedFileBuilder' => $this->getMock('Fracture\Http\UploadedFileBuilder')

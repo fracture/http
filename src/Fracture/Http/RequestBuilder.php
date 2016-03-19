@@ -49,7 +49,7 @@ class RequestBuilder
     protected function buildInstance()
     {
         $fileBuilder = new UploadedFileBuilder;
-        $fileBagBuilder = new FileBagBuilder($fileBuilder);
+        $fileBagBuilder = new FileCatalogBuilder($fileBuilder);
 
         return new Request($fileBagBuilder);
     }

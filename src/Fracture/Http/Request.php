@@ -17,16 +17,16 @@ class Request implements Routable
 
     private $cookies = [];
 
-    private $fileBagBuilder = null;
+    private $fileCatalogBuilder = null;
 
     private $address = null;
 
     private $uri = null;
 
 
-    public function __construct(FileBagBuilder $fileBagBuilder = null)
+    public function __construct(FileCatalogBuilder $fileCatalogBuilder = null)
     {
-        $this->fileBagBuilder = $fileBagBuilder;
+        $this->fileCatalogBuilder = $fileCatalogBuilder;
     }
 
 
@@ -99,8 +99,8 @@ class Request implements Routable
 
     public function setUploadedFiles($list)
     {
-        if ($this->fileBagBuilder !== null) {
-            $list = $this->fileBagBuilder->create($list);
+        if ($this->fileCatalogBuilder !== null) {
+            $list = $this->fileCatalogBuilder->create($list);
         }
 
         $this->files = $list;
@@ -132,7 +132,9 @@ class Request implements Routable
         return null;
     }
 
-
+    /**
+     * Cleans the URI - removes extra slashes and ../
+     */
     protected function resolveUri($uri)
     {
         $parts = explode('/', $uri);
